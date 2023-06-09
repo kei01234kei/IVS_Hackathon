@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "competition_id": "1",
+    "problem_number": 1,
+    "name": "Problem 1",
+    "level": 1,
+    "score": 100,
+    "problem_type_id": "2",
+    "content": "This is a test problem.",
+    "input_example": "2 2",
+    "output_example": "4"
+  }
+]

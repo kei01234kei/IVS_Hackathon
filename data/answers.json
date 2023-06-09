@@ -1,0 +1,9 @@
+[
+  {
+    "id": "1",
+    "problem_id": "1",
+    "content": "4",
+    "description": "This is the explanation of the solution.",
+    "chat_gpt_grade_prompt": null
+  }
+]
