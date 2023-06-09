@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "type": "pattern"
+  },
+  {
+    "id": "2",
+    "type": "gradedOneCaseByChatGPT"
+  },
+  {
+    "id": "2",
+    "type": "gradedMultipleCaseByChatGPT"
+  }
+]
