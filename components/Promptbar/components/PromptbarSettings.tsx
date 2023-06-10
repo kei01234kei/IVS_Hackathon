@@ -12,12 +12,12 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import { Score } from './Score';
 
-import { PrompthonClient } from '@/lib/prompthonClient';
+import { ClientFactory } from '@/lib/clientFactory';
 
 interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
-  const prompthonClient = new PrompthonClient('MOCK');
+  const prompthonClient = ClientFactory.getPrompthonClient();
   const { state, competitionId, problemId } = useContext(HomeContext);
 
   const [problem, setProblem] = useState<Problem | null>(null);
