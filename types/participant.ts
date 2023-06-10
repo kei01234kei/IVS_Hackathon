@@ -30,6 +30,15 @@ export interface GetParticipantResponse {
   registered_at: string;
 }
 
+// example CreateParticipantRequest
+// {
+//     "competitionId": 1
+//     "username": "新規ユーザーネーム"
+// }
+export interface CreateParticipantRequest {
+  competitionId: number;
+  username: string;
+}
 
 // example CreateParticipantResponse
 // {
@@ -45,9 +54,24 @@ export interface CreateParticipantResponse {
   registered_at: string;
 }
 
+
+// example UpdateParticipantRequest
+// {
+//     "competitionId": 1
+//     "id": "参加者ID",
+//     "username": "ユーザーネーム"
+//     "registerd_at": "登録時間"
+// }
+export interface UpdateParticipantRequest {
+  competitionId: number;
+  id: number;
+  username: string;
+  registered_at: string;
+}
+
 // example UpdateParticipantResponse
 // {
-//   "id": "新規参加者ID",
+//   "id": "参加者ID",
 //   "username": "新規ユーザーネーム",
 //   "registerd_at": "登録時間"
 // }

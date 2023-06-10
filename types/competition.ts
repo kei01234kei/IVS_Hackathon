@@ -31,6 +31,20 @@ export interface GetCompetitionResponse {
   end_date: string;
 }
 
+// example CreateCompetitionsRequest
+// {
+//     "name": "コンペティション名",
+//     "description": "コンペティション説明",
+//     "start_date": "開始日",
+//     "end_date": "終了日"
+// }
+export interface CreateCompetitionsRequest {
+  name: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+}
+
 // example CreateCompetitionsResponse
 // {
 //     "id": "コンペティションID",
@@ -40,6 +54,23 @@ export interface GetCompetitionResponse {
 //     "end_date": "更新後の終了日"
 // }
 export interface CreateCompetitionsResponse {
+  id: number;
+  name: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+}
+
+
+// example UpdateCompetitionsRequest
+// {
+//     "id": "コンペティションID",
+//     "name": "コンペティション名",
+//     "description": "コンペティション説明",
+//     "start_date": "開始日",
+//     "end_date": "終了日"
+// }
+export interface UpdateCompetitionsRequest {
   id: number;
   name: string;
   description: string;

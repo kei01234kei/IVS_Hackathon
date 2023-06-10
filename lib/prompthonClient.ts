@@ -71,7 +71,7 @@ export class PrompthonClient {
       id: 1,
       user_id: 1,
       problem_id: problemId,
-      problem_type: 'problemType',
+      problem_type_id: 1,
       content: JSON.stringify(promptHistory),
       score: 5,
       submitted_at: new Date().toISOString(),
