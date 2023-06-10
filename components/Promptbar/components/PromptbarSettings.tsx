@@ -12,11 +12,12 @@ import HomeContext from '@/pages/api/home/home.context';
 
 import { Score } from './Score';
 
-import { evaluate, getProblem, submit } from '@/lib/clientApi';
+import { PrompthonClient } from '@/lib/prompthonClient';
 
 interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
+  const prompthonClient = new PrompthonClient('MOCK');
   const homeContext = useContext(HomeContext);
   const competitionId = homeContext.competitionId;
   const problemId = homeContext.problemId;
@@ -29,7 +30,7 @@ export const PromptbarSettings: FC<Props> = () => {
 
   useEffect(() => {
     const fetchProblem = async (competitionId: number, problemId: number) => {
-      const result = await getProblem(competitionId, problemId);
+      const result = await prompthonClient.getProblem(competitionId, problemId);
       setProblem(result);
     };
     fetchProblem(competitionId, problemId);
@@ -45,7 +46,7 @@ export const PromptbarSettings: FC<Props> = () => {
 
   const handleEvaluate = async () => {
     setLoading(true);
-    const newScore = await evaluate(
+    const newScore = await prompthonClient.evaluate(
       homeContext.competitionId,
       homeContext.problemId,
       promptHistory,
@@ -60,7 +61,7 @@ export const PromptbarSettings: FC<Props> = () => {
   };
 
   const handleSubmit = async () => {
-    const submission = await submit(
+    const submission = await prompthonClient.submit(
       homeContext.competitionId,
       homeContext.problemId,
       promptHistory,
