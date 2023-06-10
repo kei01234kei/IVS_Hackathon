@@ -1,4 +1,4 @@
-// example competitionsResponse
+// example GetCompetitionsResponse
 // {
 //     "competitions": [
 //         {
@@ -11,11 +11,11 @@
 //         ...
 //     ]
 // }
-export interface CompetitionsResponse {
-  competitions: CompetitionResponse[];
+export interface GetCompetitionsResponse {
+  competitions: GetCompetitionResponse[];
 }
 
-// example competitionResponse
+// example GetCompetitionResponse
 // {
 //     "id": "コンペティションID",
 //     "name": "コンペティション名",
@@ -23,7 +23,7 @@ export interface CompetitionsResponse {
 //     "start_date": "開始日",
 //     "end_date": "終了日"
 // }
-export interface CompetitionResponse {
+export interface GetCompetitionResponse {
   id: number;
   name: string;
   description: string;
@@ -40,6 +40,22 @@ export interface CompetitionResponse {
 //     "end_date": "更新後の終了日"
 // }
 export interface CreateCompetitionsResponse {
+  id: number;
+  name: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+}
+
+// example UpdateCompetitionsResponse
+// {
+//     "id": "コンペティションID",
+//     "name": "更新後のコンペティション名",
+//     "description": "更新後のコンペティション説明",
+//     "start_date": "更新後の開始日",
+//     "end_date": "更新後の終了日"
+// }
+export interface UpdateCompetitionsResponse {
   id: number;
   name: string;
   description: string;

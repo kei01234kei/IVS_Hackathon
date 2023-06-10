@@ -1,4 +1,31 @@
-// example SubmissionResponse
+// example GetSubmissionsResponse
+// {
+//   "submissions": [
+//     {
+//       "id": "提出ID",
+//       "user_id": "ユーザーID",
+//       "problem_id": "問題ID",
+//       "content": "提出内容",
+//       "score": "スコア",
+//       "submitted_at": "提出時間"
+//     },
+//     ...
+//   ]
+// }
+// todo: gen
+
+// example GetSubmissionResponse
+// {
+//   "id": "提出ID",
+//   "user_id": "ユーザーID",
+//   "problem_id": "問題ID",
+//   "content": "提出内容",
+//   "score": "スコア",
+//   "submitted_at": "提出時間"
+// }
+// todo: gen
+
+// example CreateSubmissionResponse
 // {
 //     "id": "新規提出ID",
 //     "user_id": "ユーザーID",
@@ -8,7 +35,7 @@
 //     "score": "スコア",
 //     "submitted_at": "提出時間"
 // }
-export interface SubmissionResponse {
+export interface CreateSubmissionResponse {
   id: number;
   user_id: number;
   problem_id: number;
