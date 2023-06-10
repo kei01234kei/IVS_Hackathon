@@ -23,6 +23,7 @@ import {
 } from '@/utils/app/conversation';
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
+import { saveScore } from '@/utils/app/score';
 import { getSettings } from '@/utils/app/settings';
 import {
   initialConversations,
@@ -361,6 +362,11 @@ const Home = ({
         },
       });
     }
+
+    const score = localStorage.getItem('score');
+    if (score) {
+      dispatch({ field: 'score', value: Number(score) });
+    }
   }, [
     defaultModelId,
     dispatch,
@@ -370,12 +376,18 @@ const Home = ({
 
   // コンペIDと問題ID  --------------------------------------------
 
+  // propsかなんかでもらう
   const [competitionId, setCompetitionId] = useState(1);
   const [problemId, setProblemId] = useState(1);
 
   const handleUpdateIds = (newCompetitionId: number, newProblemId: number) => {
     setCompetitionId(newCompetitionId);
     setProblemId(newProblemId);
+  };
+
+  const handleUpdateScore = (newScore: number) => {
+    dispatch({ field: 'score', value: newScore });
+    saveScore(newScore);
   };
 
   return (
@@ -391,6 +403,7 @@ const Home = ({
         competitionId,
         problemId,
         handleUpdateIds,
+        handleUpdateScore,
       }}
     >
       <Head>

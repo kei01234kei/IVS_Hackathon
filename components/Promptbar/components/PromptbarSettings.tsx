@@ -18,10 +18,10 @@ interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
   const prompthonClient = new PrompthonClient('MOCK');
-  const { state, competitionId, problemId } = useContext(HomeContext);
-
+  const { state, competitionId, problemId, handleUpdateScore } =
+    useContext(HomeContext);
+  const score = state.score;
   const [problem, setProblem] = useState<Problem | null>(null);
-  const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -46,7 +46,7 @@ export const PromptbarSettings: FC<Props> = () => {
         problemId,
         selectedConversation,
       );
-      setScore(newScore);
+      handleUpdateScore(newScore);
       if (newScore > bestScore) {
         setBestScore(newScore);
         setShowConfetti(true);
