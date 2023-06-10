@@ -22,3 +22,5 @@ const defaultModelId =
 export const initialFolders: FolderInterface[] = [];
 
 export const initialConversations: Conversation[] = [];
+
+export const initialPrompts: Prompt[] = [];
