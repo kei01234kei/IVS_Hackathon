@@ -1,30 +1,27 @@
+import { Conversation } from '@/types/chat';
 import { Problem } from '@/types/problem';
 import { SubmissionResponse } from '@/types/submission';
 
 export class PrompthonClient {
   constructor(type: string) {}
 
-  async createUser(){}  
-  async updateUser(){}
-  async getUser(){}
-  async deleteUser(){}
-  async getCompetitions(){}
-  async getCompetition(){}
+  async createUser() {}
+  async updateUser() {}
+  async getUser() {}
+  async deleteUser() {}
+  async getCompetitions() {}
+  async getCompetition() {}
 
-  async createCompetition(){}
-  async updateCompetition(){}
-  async deleteCompetition(){}
+  async createCompetition() {}
+  async updateCompetition() {}
+  async deleteCompetition() {}
 
+  async completeCompetition() {}
+  async getCompetitionStandings() {}
 
-  async completeCompetition(){}
-  async getCompetitionStandings(){}
-
-  async getProblems(){}
+  async getProblems() {}
   // 問題の詳細を取得
-  async getProblem(
-    competitionId: number,
-    problemId: number,
-  ): Promise<Problem> {
+  async getProblem(competitionId: number, problemId: number): Promise<Problem> {
     // リアルなAPIを叩く処理は後ほど実装
     return {
       id: problemId,
@@ -40,19 +37,19 @@ export class PrompthonClient {
       output_example: '整数のみ (小数の場合は繰り上げ)',
     };
   }
-  async createProblem(){}
-  async updateProblem(){}
-  async deleteProblem(){}
-  async getSubmissions(){}
-  async getSubmission(){}
-  async createSubmission(){}
-  async updateSubmission(){}
-  
+  async createProblem() {}
+  async updateProblem() {}
+  async deleteProblem() {}
+  async getSubmissions() {}
+  async getSubmission() {}
+  async createSubmission() {}
+  async updateSubmission() {}
+
   // 採点
   async evaluate(
     competitionId: number,
     problemId: number,
-    promptHistory: any,
+    promptHistory: Conversation,
   ): Promise<number> {
     // とりあえずランダムな点数を返す
     return new Promise((resolve) => {
@@ -66,7 +63,7 @@ export class PrompthonClient {
   async submit(
     competitionId: number,
     problemId: number,
-    promptHistory: any,
+    promptHistory: Conversation,
   ): Promise<SubmissionResponse> {
     // とりあえずランダムな値を返す
     // 提出すれば満点
@@ -80,10 +77,9 @@ export class PrompthonClient {
       submitted_at: new Date().toISOString(),
     });
   }
-  async getParticipants(){}
-  async getParticipant(){}
-  async createParticipant(){}
-  async updateParticipant(){}
-  async deleteParticipant(){}
-  
+  async getParticipants() {}
+  async getParticipant() {}
+  async createParticipant() {}
+  async updateParticipant() {}
+  async deleteParticipant() {}
 }
