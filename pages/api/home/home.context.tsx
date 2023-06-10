@@ -24,6 +24,7 @@ export interface HomeContextProps {
   problemId: number;
   handleUpdateIds: (competitionId: number, problemId: number) => void; // コンペIDと問題IDを更新する
   handleUpdateScore: (score: number) => void; // スコアを更新する
+  handleUpdateBestScore: (bestScore: number) => void; // 最高スコアを更新する
 }
 
 const HomeContext = createContext<HomeContextProps>(undefined!);

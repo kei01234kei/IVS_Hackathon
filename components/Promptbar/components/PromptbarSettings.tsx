@@ -18,11 +18,11 @@ interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
   const prompthonClient = new PrompthonClient('MOCK');
-  const { state, competitionId, problemId, handleUpdateScore } =
+  const { state, competitionId, problemId, handleUpdateScore, handleUpdateBestScore } =
     useContext(HomeContext);
   const score = state.score;
+  const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
-  const [bestScore, setBestScore] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -48,7 +48,7 @@ export const PromptbarSettings: FC<Props> = () => {
       );
       handleUpdateScore(newScore);
       if (newScore > bestScore) {
-        setBestScore(newScore);
+        handleUpdateBestScore(newScore);
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000); // Hide after 5 seconds
       }

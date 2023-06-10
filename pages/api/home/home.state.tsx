@@ -36,6 +36,7 @@ export interface HomeInitialState {
   competitionId: number;
   problemId: number;
   score: number;
+  bestScore: number;
 }
 
 export const initialState: HomeInitialState = {
@@ -63,4 +64,5 @@ export const initialState: HomeInitialState = {
   competitionId: 0,
   problemId: 0,
   score: 0,
+  bestScore: 0,
 };
