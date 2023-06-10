@@ -11,12 +11,13 @@ interface Props<T> {
   side: 'left' | 'right';
   items: T[];
   itemComponent: ReactNode;
-  chatItems?: T[];
+  chatItems?: any[];
   chatItemComponent?: ReactNode;
   folderComponent: ReactNode;
   footerComponent?: ReactNode;
   problemDescriptionComponent?: ReactNode;
   searchTerm: string;
+  searchChatTerm?: string;
   handleSearchTerm: (searchTerm: string) => void;
   toggleOpen: () => void;
   handleCreateItem: () => void;
@@ -24,6 +25,7 @@ interface Props<T> {
   handleCreateFolder: () => void;
   handleChatCreateFolder: () => void;
   handleDrop: (e: any) => void;
+  handleChatDrop?: (e: any) => void;
 }
 
 const Sidebar = <T,>({
@@ -39,6 +41,7 @@ const Sidebar = <T,>({
   footerComponent,
   problemDescriptionComponent,
   searchTerm,
+  searchChatTerm,
   handleSearchTerm,
   toggleOpen,
   handleCreateItem,
@@ -46,6 +49,7 @@ const Sidebar = <T,>({
   handleCreateFolder,
   handleChatCreateFolder,
   handleDrop,
+  handleChatDrop,
 }: Props<T>) => {
   const { t } = useTranslation('promptbar');
 
@@ -64,95 +68,109 @@ const Sidebar = <T,>({
   return isOpen ? (
     <div>
       <div
-        className={`fixed top-0 ${side}-0 z-40 flex h-full w-[260px] flex-none flex-col space-y-2 bg-[#202123] p-2 text-[14px] transition-all sm:relative sm:top-0`}
+        className={`fixed top-0 ${side}-0 z-40 flex h-full w-[260px] flex-col flex-col space-y-2 bg-[#202123] p-2 text-[14px] transition-all sm:relative sm:top-0`}
       >
-        <div className="flex items-center">
-          {/* <button
-            className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border border-white/20 p-3 text-sm text-white transition-colors duration-200 hover:bg-gray-500/10"
-            onClick={handleCreateFolder}
-          >
-            <IconFolderPlus size={16} />
-          </button> */}
-        </div>
-        {/* <Search
-          placeholder={t('Search...') || ''}
-          searchTerm={searchTerm}
-          onSearch={handleSearchTerm}
-        /> */}
+        <div className="flex items-center"></div>
 
         <div className="flex-grow overflow-auto">
-          <div className="flex border-b border-white/20 pb-2">
-            {problemDescriptionComponent}
-          </div>
+          <div className="flex pb-2">{problemDescriptionComponent}</div>
 
-          {/* {items?.length > 0 && (
-            <div className="flex border-b border-white/20 pb-2">
-              {folderComponent}
+          {side === 'right' ? (
+            <div>
+              {chatItems ? (
+                <button
+                  className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+                  onClick={() => {
+                    handleChatCreateItem();
+                    handleSearchTerm('');
+                  }}
+                >
+                  <IconPlus size={16} />
+                  {addChatItemButtonTitle}
+                </button>
+              ) : null}
+
+              {chatItems && chatItems.length > 0 ? (
+                <div
+                  style={{
+                    height:
+                      'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
+                    overflowY: 'auto',
+                  }}
+                >
+                  <div
+                    className="pt-2 pb-2"
+                    onDrop={handleChatDrop}
+                    onDragOver={allowDrop}
+                    onDragEnter={highlightDrop}
+                    onDragLeave={removeHighlight}
+                  >
+                    {chatItemComponent}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    height:
+                      'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
+                    overflowY: 'auto',
+                  }}
+                >
+                  <div className="mt-8 mb-10 select-none text-center text-white opacity-50">
+                    <IconMistOff className="mx-auto mb-3" />
+                    <span className="text-[14px] leading-normal">
+                      {t('No data.')}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-5 pt-5 border-t border-white/20">
+                <button
+                  className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+                  onClick={() => {
+                    handleCreateItem();
+                    handleSearchTerm('');
+                  }}
+                >
+                  <IconPlus size={16} />
+                  {'新規プロンプト'}
+                </button>
+
+                {items?.length > 0 ? (
+                  <div
+                    style={{
+                      minHeight:
+                        'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
+                      overflowY: 'auto',
+                    }}
+                  >
+                    <div
+                      className="pt-2 pb-2"
+                      onDrop={handleDrop}
+                      onDragOver={allowDrop}
+                      onDragEnter={highlightDrop}
+                      onDragLeave={removeHighlight}
+                      style={{
+                        minHeight:
+                          'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
+                        overflowY: 'auto',
+                      }}
+                    >
+                      {itemComponent}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-8 mb-10 select-none text-center text-white opacity-50">
+                    <IconMistOff className="mx-auto mb-3" />
+                    <span className="text-[14px] leading-normal">
+                      {t('No data.')}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
-          )} */}
-
-          <button
-            className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
-            onClick={() => {
-              handleCreateItem();
-              handleSearchTerm('');
-            }}
-          >
-            <IconPlus size={16} />
-            {addItemButtonTitle}
-          </button>
-
-          {items?.length > 0 ? (
-            <div
-              className="pt-2"
-              onDrop={handleDrop}
-              onDragOver={allowDrop}
-              onDragEnter={highlightDrop}
-              onDragLeave={removeHighlight}
-            >
-              {itemComponent}
-            </div>
-          ) : (
-            <div className="mt-8 select-none text-center text-white opacity-50">
-              <IconMistOff className="mx-auto mb-3" />
-              <span className="text-[14px] leading-normal">
-                {t('No data.')}
-              </span>
-            </div>
-          )}
-
-          {chatItems ? (
-            <button
-              className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
-              onClick={() => {
-                handleChatCreateItem();
-                handleSearchTerm('');
-              }}
-            >
-              <IconPlus size={16} />
-              {addChatItemButtonTitle}
-            </button>
           ) : null}
-
-          {chatItems && chatItems.length > 0 ? (
-            <div
-              className="pt-2"
-              onDrop={handleDrop}
-              onDragOver={allowDrop}
-              onDragEnter={highlightDrop}
-              onDragLeave={removeHighlight}
-            >
-              {chatItemComponent}
-            </div>
-          ) : (
-            // <div className="mt-8 select-none text-center text-white opacity-50">
-            //   <IconMistOff className="mx-auto mb-3" />
-            //   <span className="text-[14px] leading-normal">
-            //     {t('No data.')}
-            //   </span>
-            // </div>
-            null
-          )}
         </div>
         {footerComponent}
       </div>
