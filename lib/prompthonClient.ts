@@ -1,6 +1,6 @@
 import { Conversation } from '@/types/chat';
 import { Problem } from '@/types/problem';
-import { SubmissionResponse } from '@/types/submission';
+import { CreateSubmissionResponse } from '@/types/submission';
 
 export class PrompthonClient {
   constructor(type: string) {}
@@ -64,7 +64,7 @@ export class PrompthonClient {
     competitionId: number,
     problemId: number,
     promptHistory: Conversation,
-  ): Promise<SubmissionResponse> {
+  ): Promise<CreateSubmissionResponse> {
     // とりあえずランダムな値を返す
     // 提出すれば満点
     return Promise.resolve({

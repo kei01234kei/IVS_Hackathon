@@ -9,7 +9,9 @@
 //   },
 //   ...
 // ]
-// todo: gen
+export interface GetParticipantsResponse {
+  participants: GetParticipantResponse[];
+}
 
 
 // example GetParticipantResponse
@@ -18,9 +20,15 @@
 //   "username": "ユーザーネーム",
 //   "competition_id": "コンペティションID",
 //   "score": "コンペティションの総合スコア",
-//   "registerd_at": "登録時間"
+//   "registered_at": "登録時間"
 // },
-// todo: gen
+export interface GetParticipantResponse {
+  id: number;
+  username: string;
+  competition_id: number;
+  score: number;
+  registered_at: string;
+}
 
 
 // example CreateParticipantResponse
@@ -30,7 +38,12 @@
 //   "competition_id": "コンペティションID",
 //   "registered_at": "登録時間"
 // }
-// todo: gen
+export interface CreateParticipantResponse {
+  id: number;
+  username: string;
+  competition_id: number;
+  registered_at: string;
+}
 
 // example UpdateParticipantResponse
 // {
@@ -38,10 +51,16 @@
 //   "username": "新規ユーザーネーム",
 //   "registerd_at": "登録時間"
 // }
-// todo: gen
+export interface UpdateParticipantResponse {
+  id: number;
+  username: string;
+  registered_at: string;
+}
 
 // example DeleteParticipantResponse
 // {
 //   "code": 0,
 // }
-// todo: gen
+export interface DeleteParticipantResponse {
+  code: number;
+}

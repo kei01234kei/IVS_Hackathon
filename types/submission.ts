@@ -12,7 +12,9 @@
 //     ...
 //   ]
 // }
-// todo: gen
+export interface GetSubmissionsResponse {
+  submissions: GetSubmissionResponse[];
+}
 
 // example GetSubmissionResponse
 // {
@@ -23,7 +25,14 @@
 //   "score": "スコア",
 //   "submitted_at": "提出時間"
 // }
-// todo: gen
+export interface GetSubmissionResponse {
+  id: number;
+  user_id: number;
+  problem_id: number;
+  content: string;
+  score: number;
+  submitted_at: string;
+}
 
 // example CreateSubmissionResponse
 // {
