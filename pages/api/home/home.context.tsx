@@ -20,6 +20,9 @@ export interface HomeContextProps {
     conversation: Conversation,
     data: KeyValuePair,
   ) => void;
+  competitionId: number;
+  problemId: number;
+  handleUpdateIds: (competitionId: number, problemId: number) => void; // コンペIDと問題IDを更新する
 }
 
 const HomeContext = createContext<HomeContextProps>(undefined!);

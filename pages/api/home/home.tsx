@@ -368,6 +368,16 @@ const Home = ({
     serverSidePluginKeysSet,
   ]);
 
+  // コンペIDと問題ID  --------------------------------------------
+
+  const [competitionId, setCompetitionId] = useState(1);
+  const [problemId, setProblemId] = useState(1);
+
+  const handleUpdateIds = (newCompetitionId: number, newProblemId: number) => {
+    setCompetitionId(newCompetitionId);
+    setProblemId(newProblemId);
+  };
+
   return (
     <HomeContext.Provider
       value={{
@@ -378,10 +388,13 @@ const Home = ({
         handleUpdateFolder,
         handleSelectConversation,
         handleUpdateConversation,
+        competitionId,
+        problemId,
+        handleUpdateIds,
       }}
     >
       <Head>
-        <title>LangCore Chat</title>
+        <title>Prompthon Chat</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
@@ -401,7 +414,7 @@ const Home = ({
           </div>
 
           <div className="flex h-full w-full pt-[48px] sm:pt-0">
-            <Chatbar />
+            <Chatbar competitionId={1} problemId={1} />
 
             <div className="flex flex-1">
               <Chat stopConversationRef={stopConversationRef} />

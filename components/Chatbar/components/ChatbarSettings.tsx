@@ -51,13 +51,13 @@ export const ChatbarSettings = () => {
         <ClearConversations onClearConversations={handleClearConversations} />
       ) : null}
 
-      <Import onImport={handleImportConversations} />
+      {/* <Import onImport={handleImportConversations} /> */}
 
-      <SidebarButton
+      {/* <SidebarButton
         text={t('Export data')}
         icon={<IconFileExport size={18} />}
         onClick={() => handleExportData()}
-      />
+      /> */}
 
       <SidebarButton
         text={t('Settings')}
@@ -71,11 +71,11 @@ export const ChatbarSettings = () => {
 
       {/* {!serverSidePluginKeysSet ? <PluginKeys /> : null} */}
 
-      <SidebarButton
+      {/* <SidebarButton
         text={t('Signout')}
         icon={<IconLogout size={18} />}
         onClick={() => onClickLogout()}
-      />
+      /> */}
 
       <SettingDialog
         open={isSettingDialogOpen}

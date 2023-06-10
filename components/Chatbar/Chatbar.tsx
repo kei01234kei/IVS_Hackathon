@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
@@ -17,20 +17,30 @@ import { Conversation } from '@/types/chat';
 import { LatestExportFormat, SupportedExportFormats } from '@/types/export';
 import { OpenAIModels } from '@/types/openai';
 import { PluginKey } from '@/types/plugin';
+import { Problem } from '@/types/problem';
 
 import HomeContext from '@/pages/api/home/home.context';
 
 import { ChatFolders } from './components/ChatFolders';
 import { ChatbarSettings } from './components/ChatbarSettings';
 import { Conversations } from './components/Conversations';
+import { ProblemDescription } from './components/ProblemDescription';
 
 import Sidebar from '../Sidebar';
 import ChatbarContext from './Chatbar.context';
 import { ChatbarInitialState, initialState } from './Chatbar.state';
 
+import { getProblem } from '@/lib/clientApi';
 import { v4 as uuidv4 } from 'uuid';
 
-export const Chatbar = () => {
+interface Props {
+  competitionId: number;
+  problemId: number;
+}
+
+export const Chatbar = (props: Props) => {
+  const { competitionId, problemId } = props;
+
   const { t } = useTranslation('sidebar');
 
   const chatBarContextValue = useCreateReducer<ChatbarInitialState>({
@@ -216,6 +226,16 @@ export const Chatbar = () => {
     }
   }, [searchTerm, conversations]);
 
+  const [problem, setProblem] = useState<Problem | null>(null);
+
+  useEffect(() => {
+    const fetchProblem = async (competitionId: number, problemId: number) => {
+      const result = await getProblem(competitionId, problemId);
+      setProblem(result);
+    };
+    fetchProblem(competitionId, problemId);
+  }, [competitionId, problemId]);
+
   return (
     <ChatbarContext.Provider
       value={{
@@ -235,6 +255,7 @@ export const Chatbar = () => {
         addItemButtonTitle={t('New chat')}
         itemComponent={<Conversations conversations={filteredConversations} />}
         folderComponent={<ChatFolders searchTerm={searchTerm} />}
+        problemDescriptionComponent={<ProblemDescription problem={problem} />}
         items={filteredConversations}
         searchTerm={searchTerm}
         handleSearchTerm={(searchTerm: string) =>
