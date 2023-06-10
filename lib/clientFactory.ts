@@ -1,7 +1,7 @@
 import { PrompthonClient } from '@/lib/prompthonClient';
 import { MemoryRepository } from '@/repository/memoryRepository';
 
-export class Factory {
+export class ClientFactory {
   private static prompthonClient: PrompthonClient;
   private constructor() { }
   static getPrompthonClient(): PrompthonClient {
