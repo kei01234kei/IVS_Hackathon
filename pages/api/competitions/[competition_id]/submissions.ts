@@ -10,15 +10,8 @@ type Score = {
   score: number;
 }
 
-// 現時点では chat gpt のモデルは gpt-3.5-turbo のみを使用します
-const chatGPTModel = 'gpt-3.5-turbo';
-
-const systemPrompt = `
-    Given a document from a user, try to extract the following metadata:
-    - score: number
-
-    Respond with a JSON containing the extracted metadata in key value pairs.
-    `;
+// 現時点では chat gpt のモデルは gpt-4 のみを使用します
+const chatGPTModel = 'gpt-4';
 
 const filePaths = {
   submissions: path.join(process.cwd(), 'data', 'submissions.json'),
