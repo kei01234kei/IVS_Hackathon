@@ -51,7 +51,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         score = problem.score;
       }
     } else if (problem_type.type === 'gradedOneCaseByChatGPT') {
-      score = await gradeUsingChatGPT(content, problem, answer);
+      try {
+        score = await gradeUsingChatGPT(content, problem, answer);
+      } catch (error) {
+        // chat gpt による採点がうまくいかなかった場合はエラーを返します
+        res.status(500).json({ error: error });
+      }
     } else if (problem_type.type === 'gradedMultipleCaseByChatGPT') {
       // chat gpt に採点させるコードをかく
       res.status(500).json({ error: '準備中' });
@@ -87,27 +92,45 @@ const gradeUsingChatGPT = async (submission: string, problem: any, answer: any):
     const ChatGPTResponse = await ChatGPT.create(
       chatGPTModel,
       [
-        new ChatGPTMessage('system', `
-          ${systemPrompt}
-          Score on a ${problem.score}-point scale.
-
-          - problem: ${problem.content}
-          - criterion: ${chat_gpt_grade_prompt}
-        `),
-        new ChatGPTMessage('user', submission),
+        new ChatGPTMessage(
+          'user',
+          `# Role
+          ${chat_gpt_grade_prompt}
+          
+          # Scoring Criteria
+          1. Relevance to the Prompt: This measures how well the submitted content relates and adapts to the given prompt.
+          2. Creativity: This evaluates how original and creative the submitted content is.
+          3. Essence of Humor: This assesses how effectively the submitted content uses universal humorous elements.
+          
+          # Output Format
+          {
+          "reason":  string (in Japanese),
+          "score" : number (0-${problem.score})
+          }
+          
+          # Prompt
+          ${problem.content}
+          
+          # User Response
+          ${submission}`
+        ),
       ]
     );
-    // 以下2行、デバッグ用です
-    console.log('ChatGPTResponseを表示します');
+    console.log('ChatGPT からのレスポンスです');
     console.log(ChatGPTResponse);
     if (!ChatGPTResponse) throw new Error('ChatGPTResponse is undefined');
     try {
       const score = extractScoreFromJSON(ChatGPTResponse?.utterances[0].content);
       scores.push(score.score);
     } catch (error) {
+      // chat gpt のレスポンスから score を抽出できなかった場合は continue します
       console.error(error);
-      throw error;
+      continue;
     }
+  }
+  // chat gpt のレスポンスから1つも score を抽出できなかった場合はエラーを投げます
+  if (scores.length === 0) {
+    throw new Error('No scores were extracted from ChatGPTResponse');
   }
   const averageScore = scores.reduce((a, b) => a + b) / scores.length;
   return Math.round(averageScore);
