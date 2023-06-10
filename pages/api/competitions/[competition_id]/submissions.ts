@@ -81,19 +81,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const gradeUsingChatGPT = async (submission: string, problem: any, answer: any): Promise<number> => {
   const scores: number[] = [];
-  for (const chat_gpt_grade_prompt of answer.chat_gpt_grade_prompts) {
+  for (const chat_gpt_roles of answer.chat_gpt_roles) {
     const ChatGPTResponse = await ChatGPT.create(
       chatGPTModel,
       [
         new ChatGPTMessage(
           'user',
           `# Role
-          ${chat_gpt_grade_prompt}
+          ${chat_gpt_roles}
           
           # Scoring Criteria
-          1. Relevance to the Prompt: This measures how well the submitted content relates and adapts to the given prompt.
-          2. Creativity: This evaluates how original and creative the submitted content is.
-          3. Essence of Humor: This assesses how effectively the submitted content uses universal humorous elements.
+          ${answer.scoring_criteria}
           
           # Output Format
           {
@@ -101,7 +99,7 @@ const gradeUsingChatGPT = async (submission: string, problem: any, answer: any):
           "score" : number (0-${problem.score})
           }
           
-          # Prompt
+          # Problem statement
           ${problem.content}
           
           # User Response
