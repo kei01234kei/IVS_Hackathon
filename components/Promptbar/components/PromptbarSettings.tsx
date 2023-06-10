@@ -18,9 +18,7 @@ interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
   const prompthonClient = new PrompthonClient('MOCK');
-  const homeContext = useContext(HomeContext);
-  const competitionId = homeContext.competitionId;
-  const problemId = homeContext.problemId;
+  const { state, competitionId, problemId } = useContext(HomeContext);
 
   const [problem, setProblem] = useState<Problem | null>(null);
   const [score, setScore] = useState(0);
@@ -36,37 +34,42 @@ export const PromptbarSettings: FC<Props> = () => {
     fetchProblem(competitionId, problemId);
   }, [competitionId, problemId]);
 
-  // モック
-  const promptHistory = [
-    {
-      user: 'Hello GPT!',
-      gpt: 'Hello User!',
-    },
-  ];
-
   const handleEvaluate = async () => {
     setLoading(true);
-    const newScore = await prompthonClient.evaluate(
-      homeContext.competitionId,
-      homeContext.problemId,
-      promptHistory,
-    );
-    setScore(newScore);
-    if (newScore > bestScore) {
-      setBestScore(newScore);
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 5000); // Hide after 5 seconds
+    const selectedConversation = state.selectedConversation;
+    if (!selectedConversation) {
+      alert('会話を選択してください');
+      return;
+    } else {
+      const newScore = await prompthonClient.evaluate(
+        competitionId,
+        problemId,
+        selectedConversation,
+      );
+      setScore(newScore);
+      if (newScore > bestScore) {
+        setBestScore(newScore);
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 5000); // Hide after 5 seconds
+      }
     }
     setLoading(false);
   };
 
   const handleSubmit = async () => {
-    const submission = await prompthonClient.submit(
-      homeContext.competitionId,
-      homeContext.problemId,
-      promptHistory,
-    );
-    console.log(submission.score);
+    const selectedConversation = state.selectedConversation;
+    if (!selectedConversation) {
+      alert('会話を選択してください');
+      return;
+    } else {
+      const submission = await prompthonClient.submit(
+        competitionId,
+        problemId,
+        selectedConversation,
+      );
+      console.log(submission.score);
+      console.log(submission.content);
+    }
   };
 
   return (
