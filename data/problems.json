@@ -3,12 +3,24 @@
     "id": "1",
     "competition_id": "1",
     "problem_number": 1,
-    "name": "Problem 1",
+    "name": "問1",
+    "level": 1,
+    "score": 100,
+    "problem_type_id": "1",
+    "content": "1 + 1 の答えを出力させてください。なお、数字のみを出力させるようにしてください。",
+    "input_example": null,
+    "output_example": "2"
+  },
+  {
+    "id": "2",
+    "competition_id": "1",
+    "problem_number": 2,
+    "name": "問1",
     "level": 1,
     "score": 100,
     "problem_type_id": "2",
-    "content": "This is a test problem.",
-    "input_example": "2 2",
-    "output_example": "4"
+    "content": "店員への態度が悪い男性に一言",
+    "input_example": null,
+    "output_example": "2"
   }
 ]

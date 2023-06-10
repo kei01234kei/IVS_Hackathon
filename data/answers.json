@@ -2,8 +2,20 @@
   {
     "id": "1",
     "problem_id": "1",
-    "content": "4",
-    "description": "This is the explanation of the solution.",
-    "chat_gpt_grade_prompt": null
+    "content": "2",
+    "description": "1 + 1 を計算します。2になります。",
+    "chat_gpt_roles": [],
+    "scoring_criteria": null
+  },
+  {
+    "id": "2",
+    "problem_id": "2",
+    "content": null,
+    "description": "few shot を使うと良きです。temperature をあげて何度も出力させてみるのも良いかもしれません。",
+    "chat_gpt_roles": [
+      "Pretend to be a comedy judge and score the entries.",
+      "Grade as if you are a member of the general public."
+    ],
+    "scoring_criteria": "1. Relevance to the Problem statement: This measures how well the submitted content relates and adapts to the given problem statement.\n 2. Creativity: This evaluates how original and creative the submitted content is.\n 3. Essence of Humor: This assesses how effectively the submitted content uses universal humorous elements."
   }
 ]
