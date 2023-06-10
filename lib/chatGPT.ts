@@ -170,6 +170,7 @@ export class ChatGPT {
   ): Promise<ChatGPTResponse | undefined> {
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
+      basePath: "https://oai.langcore.org/v1",
     });
     const openai = new OpenAIApi(configuration);
     let completion: any;
