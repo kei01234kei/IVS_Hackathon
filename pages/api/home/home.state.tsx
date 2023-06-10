@@ -1,6 +1,8 @@
-import { initialConversations, initialFolders, initialPrompts } from '@/utils/data/setIntialPrompt';
-
-
+import {
+  initialConversations,
+  initialFolders,
+  initialPrompts,
+} from '@/utils/data/setIntialPrompt';
 
 import { Conversation, Message } from '@/types/chat';
 import { ErrorMessage } from '@/types/error';
@@ -8,7 +10,6 @@ import { FolderInterface } from '@/types/folder';
 import { OpenAIModel, OpenAIModelID } from '@/types/openai';
 import { PluginKey } from '@/types/plugin';
 import { Prompt } from '@/types/prompt';
-
 
 export interface HomeInitialState {
   apiKey: string;

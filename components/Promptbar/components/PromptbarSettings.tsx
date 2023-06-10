@@ -69,7 +69,7 @@ export const PromptbarSettings: FC<Props> = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-0 border-t border-white/0 pt-1 text-sm font-bold">
+    <div className="flex flex-col items-center space-y-0 border-t border-white/20 pt-2 text-sm font-bold">
       {showConfetti && <Confetti />}
       {problem && <Score maxScore={problem.score} score={score} />}
       <button
