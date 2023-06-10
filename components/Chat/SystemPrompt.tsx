@@ -40,9 +40,10 @@ export const SystemPrompt: FC<Props> = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const promptListRef = useRef<HTMLUListElement | null>(null);
 
-  const filteredPrompts = prompts.filter((prompt) =>
-    prompt.name.toLowerCase().includes(promptInputValue.toLowerCase()),
-  );
+  const filteredPrompts =
+    prompts?.filter((prompt) =>
+      prompt.name.toLowerCase().includes(promptInputValue.toLowerCase()),
+    ) ?? [];
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
