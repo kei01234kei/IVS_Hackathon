@@ -80,4 +80,10 @@ export class PrompthonClient {
       submitted_at: new Date().toISOString(),
     });
   }
+  async getParticipants(){}
+  async getParticipant(){}
+  async createParticipant(){}
+  async updateParticipant(){}
+  async deleteParticipant(){}
+  
 }
