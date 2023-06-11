@@ -1,89 +1,116 @@
-import { Problem } from '@/types/problem';
-import { SubmissionResponse } from '@/types/submission';
+import { Conversation } from '@/types/chat';
+import {
+  GetProblemsResponse, GetProblemResponse, CreateProblemResponse, UpdateProblemResponse, DeleteProblemResponse,
+  CreateProblemRequest, UpdateProblemRequest
+} from '@/types/problem';
+import { GetSubmissionResponse, GetSubmissionsResponse, CreateSubmissionResponse,
+  CreateSubmissionRequest,
+} from '@/types/submission';
+import { CreateUserResponse, UpdateUerResponse, GetUserResponse, DeleteUerResponse } from '@/types/user';
+import {
+  GetCompetitionsResponse, GetCompetitionResponse,
+  CreateCompetitionsResponse, UpdateCompetitionsResponse,
+  DeleteCompetitionsResponse, CompleteCompetitionsResponse,
+  CreateCompetitionsRequest, UpdateCompetitionsRequest
+} from '@/types/competition';
+import { GetParticipantsResponse, GetParticipantResponse, CreateParticipantResponse, UpdateParticipantResponse, DeleteParticipantResponse } from '@/types/participant';
+import { CreateParticipantRequest, UpdateParticipantRequest } from '../types/participant';
+import { AbstractRepository } from '@/repository/abstractRepository';
 
 export class PrompthonClient {
-  constructor(type: string) {}
-
-  async createUser(){}  
-  async updateUser(){}
-  async getUser(){}
-  async deleteUser(){}
-  async getCompetitions(){}
-  async getCompetition(){}
-
-  async createCompetition(){}
-  async updateCompetition(){}
-  async deleteCompetition(){}
-
-
-  async completeCompetition(){}
-  async getCompetitionStandings(){}
-
-  async getProblems(){}
-  // 問題の詳細を取得
-  async getProblem(
-    competitionId: number,
-    problemId: number,
-  ): Promise<Problem> {
-    // リアルなAPIを叩く処理は後ほど実装
-    return {
-      id: problemId,
-      competition_id: competitionId,
-      problem_number: 1,
-      name: '算数の問題',
-      level: 1,
-      score: 5,
-      problem_type_id: 1,
-      content:
-        'A君が16日、B君が20日で終わらせられる仕事がある。この仕事を2人で行ったとき、終わるのは何日後？',
-      input_example: '入力例',
-      output_example: '整数のみ (小数の場合は繰り上げ)',
-    };
+  private repo: AbstractRepository;
+  constructor(repo: AbstractRepository) {
+    this.repo = repo;
   }
-  async createProblem(){}
-  async updateProblem(){}
-  async deleteProblem(){}
-  async getSubmissions(){}
-  async getSubmission(){}
-  async createSubmission(){}
-  async updateSubmission(){}
-  
+
+  async createUser(userName: string): Promise<CreateUserResponse>{
+    return this.repo.createUser(userName);
+  }
+  async updateUser(userId: number, userName: string): Promise<UpdateUerResponse>{
+    return this.repo.updateUser(userId, userName);
+  }
+  async(userId: number): Promise<GetUserResponse>{
+    return this.repo.getUser(userId);
+  }
+  async deleteUser(userId: number): Promise<DeleteUerResponse>{
+    return this.repo.deleteUser(userId);
+  }
+
+  async getCompetitions(): Promise<GetCompetitionsResponse>{
+    return this.repo.getCompetitions();
+  }
+  async getCompetition(competitionId: number): Promise<GetCompetitionResponse>{
+    return this.repo.getCompetition(competitionId);
+  }
+  async createCompetition(createCompetitionsRequest: CreateCompetitionsRequest): Promise<CreateCompetitionsResponse>{
+    return this.repo.createCompetition(createCompetitionsRequest);
+  }
+  async updateCompetition(UpdateCompetitionsRequest: UpdateCompetitionsRequest): Promise<UpdateCompetitionsResponse>{
+    return this.repo.updateCompetition(UpdateCompetitionsRequest);
+  }
+  async deleteCompetition(competitionId: number): Promise<DeleteCompetitionsResponse>{
+    return this.repo.deleteCompetition(competitionId);
+  }
+  async completeCompetition(competitionId: number): Promise<CompleteCompetitionsResponse>{
+    return this.repo.completeCompetition(competitionId);
+  }
+  async getCompetitionStandings() {}
+
+  async getProblems(): Promise<GetProblemsResponse>{
+    return this.repo.getProblems();
+  }
+  // 問題の詳細を取得
+  async getProblem(competitionId: number, problemId: number): Promise<GetProblemResponse> {
+    return this.repo.getProblem(competitionId, problemId);
+  }
+  async createProblem(createProblemRequest: CreateProblemRequest): Promise<CreateProblemResponse>{
+    return this.repo.createProblem(createProblemRequest);
+  }
+  async updateProblem(updateProblemRequest: UpdateProblemRequest): Promise<UpdateProblemResponse>{
+    return this.repo.updateProblem(updateProblemRequest);
+  }
+  async deleteProblem(competitionId: number, problemId: number): Promise<DeleteProblemResponse>{
+    return this.repo.deleteProblem(competitionId, problemId);
+  }
+
+  async getSubmissions(): Promise<GetSubmissionsResponse>{
+    return this.repo.getSubmissions();
+  }
+  async getSubmission(competitionId: number, submissionId: number): Promise<GetSubmissionResponse>{
+    return this.repo.getSubmission(competitionId, submissionId);
+  }
+  async createSubmission(createSubmissionRequest: CreateSubmissionRequest): Promise<CreateSubmissionResponse>{
+    return this.repo.createSubmission(createSubmissionRequest);
+  }
+
   // 採点
   async evaluate(
     competitionId: number,
     problemId: number,
-    promptHistory: any,
+    promptHistory: Conversation,
   ): Promise<number> {
-    // とりあえずランダムな点数を返す
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(Math.floor(Math.random() * 6));
-      }, 1000); // 1秒後にresolve
-    });
+    return this.repo.evaluate(competitionId, problemId, promptHistory);
   }
 
   // 提出
   async submit(
     competitionId: number,
     problemId: number,
-    promptHistory: any,
-  ): Promise<SubmissionResponse> {
-    // とりあえずランダムな値を返す
-    // 提出すれば満点
-    return Promise.resolve({
-      id: 1,
-      user_id: 1,
-      problem_id: problemId,
-      problem_type: 'problemType',
-      content: JSON.stringify(promptHistory),
-      score: 5,
-      submitted_at: new Date().toISOString(),
-    });
+    promptHistory: Conversation,
+  ): Promise<CreateSubmissionResponse> {
+    return this.repo.submit(competitionId, problemId, promptHistory);
   }
-  async getParticipants(){}
-  async getParticipant(){}
-  async createParticipant(){}
-  async updateParticipant(){}
-  async deleteParticipant(){}
-  
+
+  async getParticipants(competitionId: number): Promise<GetParticipantsResponse>{
+    return this.repo.getParticipants(competitionId);
+  }
+  async createParticipant(createParticipantRequest: CreateParticipantRequest): Promise<CreateParticipantResponse>{
+    return this.repo.createParticipant(createParticipantRequest);
+  }
+  async updateParticipant(updateParticipantRequest: UpdateParticipantRequest): Promise<UpdateParticipantResponse>{
+    return this.repo.updateParticipant(updateParticipantRequest);
+  }
+  async deleteParticipant(competitionId: number, participantId: number): Promise<DeleteParticipantResponse>{
+    return this.repo.deleteParticipant(competitionId, participantId);
+  }
 }
