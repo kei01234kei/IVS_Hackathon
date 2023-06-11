@@ -21,7 +21,7 @@ export interface GetSubmissionsResponse {
 //   "id": "提出ID",
 //   "user_id": "ユーザーID",
 //   "problem_id": "問題ID",
-//   "content": "提出内容",
+//   "content": '{"id":"c5465594-f720-4184-b32b-ce32b7a4288e","name":"こんにちは","messages":[{"role":"user","content":"こんにちは"},{"role":"assistant","content":"こんにちは！お元気ですか？"},{"role":"user","content":"はい"},{"role":"assistant","content":"良かったです！何かお手伝いできることがありますか？"}],"model":{"id":"gpt-3.5-turbo","name":"GPT-3.5","maxLength":12000,"tokenLimit":4000},"prompt":"システムのプロンプト","temperature":0,"folderId":null}',
 //   "score": "スコア",
 //   "submitted_at": "提出時間"
 // }

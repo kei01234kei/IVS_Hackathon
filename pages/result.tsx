@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Conversation } from '@/types/chat';
 import { Problem } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
 
@@ -61,40 +60,6 @@ const Result: React.FC = () => {
     </tr>
   ));
 
-  const dummyConversation: Conversation = {
-    id: 'dummy1',
-    name: 'Dummy conversation',
-    messages: [
-      {
-        role: 'user',
-        content: 'こんにちは、ChatGPT。今日の天気はどうですか？',
-      },
-      {
-        role: 'assistant',
-        content:
-          'こんにちは、ユーザーさん。私はAIなので、天気情報を直接知ることはできません。しかし、インターネットを通じて最新の天気情報を取得することが可能です。',
-      },
-      {
-        role: 'user',
-        content: 'それは面白いですね。では、最新のニュースを教えてください。',
-      },
-      {
-        role: 'assistant',
-        content:
-          'すみません、私はリアルタイムのインターネットアクセス能力を持っていません。そのため、最新のニュースを提供することはできません。ただし、あなたが特定のトピックについて情報を求めるなら、私が知っている範囲で答えることができます。',
-      },
-    ],
-    model: {
-      id: '1',
-      name: 'Default (GPT-3.5)',
-      maxLength: 128,
-      tokenLimit: 128,
-    },
-    prompt: 'これはプロンプトのサンプルです',
-    temperature: 0.5,
-    folderId: null,
-  };
-
   return (
     <div className="min-h-screen mx-auto px-[384px] py-32 bg-white">
       <div className="space-y-8">
@@ -111,10 +76,8 @@ const Result: React.FC = () => {
             <tbody>{rows}</tbody>
           </Table>
         </div>
-        <div className="space-y-4">
-          <PromptHistory prompt={dummyConversation} />
-        </div>
-        <ChatHistory conversation={dummyConversation} />
+        <PromptHistory prompt={JSON.parse(submissionData.content)} />
+        <ChatHistory conversation={JSON.parse(submissionData.content)} />
       </div>
 
       <div className="fixed bottom-8 right-8 space-x-4">
