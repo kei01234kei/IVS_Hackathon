@@ -18,7 +18,6 @@ export interface GetUserResponse {
   username: string;
 }
 
-
 // example UpdateUerResponse
 // {
 //     "id": "ユーザid (uid)"

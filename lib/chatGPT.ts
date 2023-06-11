@@ -1,20 +1,20 @@
-import { Configuration, OpenAIApi } from "openai";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError } from 'axios';
+import { Configuration, OpenAIApi } from 'openai';
 
 // Role型を enum 形式で定義
 const ROLE = {
-  USER: "user",
-  SYSTEM: "system",
-  ASSISTANT: "assistant",
+  USER: 'user',
+  SYSTEM: 'system',
+  ASSISTANT: 'assistant',
 } as const;
-export type Role = typeof ROLE[keyof typeof ROLE];
+export type Role = (typeof ROLE)[keyof typeof ROLE];
 
 // Role型を enum 形式で定義
 const MODEL = {
-  gpt3_5: "gpt-3.5-turbo",
-  gpt4: "gpt-4",
+  gpt3_5: 'gpt-3.5-turbo',
+  gpt4: 'gpt-4',
 } as const;
-export type MODEL = typeof MODEL[keyof typeof MODEL];
+export type MODEL = (typeof MODEL)[keyof typeof MODEL];
 
 /**
  * ChatGPT APIのレスポンスデータの整形に使用。
@@ -30,7 +30,7 @@ export class Utterance {
     _content: string,
     _role: Role,
     _isFinishedByStop: boolean,
-    _index: number
+    _index: number,
   ) {
     this.content = _content;
     this.role = _role;
@@ -46,7 +46,7 @@ export class Utterance {
   public static fromChatGPTResponse(response: any): Utterance {
     const content = response.message.content;
     const role: Role = response.message.role;
-    const isFinishedByStop = response.finish_reason === "stop";
+    const isFinishedByStop = response.finish_reason === 'stop';
     const index = Number(response.index);
     return new Utterance(content, role, isFinishedByStop, index);
   }
@@ -64,7 +64,7 @@ export class Usage {
   constructor(
     _completionTokens: number,
     _promptTokens: number,
-    _totalTokens: number
+    _totalTokens: number,
   ) {
     this.completionTokens = _completionTokens;
     this.promptTokens = _promptTokens;
@@ -101,7 +101,7 @@ export class ChatGPTResponse {
     _id: string,
     _model: string,
     _object: string,
-    _usage: Usage
+    _usage: Usage,
   ) {
     this.utterances = _utterances;
     this.created = _created;
@@ -118,7 +118,7 @@ export class ChatGPTResponse {
    */
   public static fromChatGPTResponse(response: any): ChatGPTResponse {
     const utterances = response.choices.map((choice: any) =>
-      Utterance.fromChatGPTResponse(choice)
+      Utterance.fromChatGPTResponse(choice),
     );
     const created = response.created;
     const id = response.id;
@@ -166,11 +166,11 @@ export class ChatGPT {
   public static async create(
     model: MODEL,
     messages: ChatGPTMessage[],
-    timeout?: number
+    timeout?: number,
   ): Promise<ChatGPTResponse | undefined> {
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
-      basePath: "https://oai.langcore.org/v1",
+      basePath: 'https://oai.langcore.org/v1',
     });
     const openai = new OpenAIApi(configuration);
     let completion: any;
@@ -182,13 +182,13 @@ export class ChatGPT {
         },
         {
           timeout,
-        }
+        },
       );
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
-        if (axiosError.code === "ECONNABORTED") {
-          console.error("ChatGPT APIの呼び出しがタイムアウトしました。");
+        if (axiosError.code === 'ECONNABORTED') {
+          console.error('ChatGPT APIの呼び出しがタイムアウトしました。');
           return undefined;
         }
       }

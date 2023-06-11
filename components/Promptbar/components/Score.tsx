@@ -15,7 +15,7 @@ export const Score = (props: Props) => {
           </p>
         </div> */}
         <div className="flex items-end space-x-6">
-        <p className="font-medium text-base">スコア:</p>
+          <p className="font-medium text-base">スコア:</p>
           <p className="font-medium text-5xl">{`${score}`}</p>
           <p className="font-medium text-lg">/{`${maxScore}`}pt</p>
         </div>

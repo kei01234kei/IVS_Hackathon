@@ -3,11 +3,11 @@ import { MemoryRepository } from '@/repository/memoryRepository';
 
 export class ClientFactory {
   private static prompthonClient: PrompthonClient;
-  private constructor() { }
+  private constructor() {}
   static getPrompthonClient(): PrompthonClient {
     if (this.prompthonClient == null) {
-      this.prompthonClient = new PrompthonClient(new MemoryRepository);
+      this.prompthonClient = new PrompthonClient(new MemoryRepository());
     }
-    return this.prompthonClient
+    return this.prompthonClient;
   }
 }

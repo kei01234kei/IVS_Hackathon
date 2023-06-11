@@ -23,7 +23,6 @@ function App(props: AppProps) {
   // Create a new supabase browser client on every first render.
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
-
   return (
     <div className={inter.className}>
       <SessionContextProvider
