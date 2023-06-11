@@ -44,6 +44,7 @@ import Promptbar from '@/components/Promptbar';
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
+import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -362,16 +363,6 @@ const Home = ({
         },
       });
     }
-
-    const score = localStorage.getItem('score');
-    if (score) {
-      dispatch({ field: 'score', value: Number(score) });
-    }
-
-    const bestScore = localStorage.getItem('bestScore');
-    if (bestScore) {
-      dispatch({ field: 'bestScore', value: Number(bestScore) });
-    }
   }, [
     defaultModelId,
     dispatch,
@@ -389,6 +380,20 @@ const Home = ({
     setCompetitionId(newCompetitionId);
     setProblemId(newProblemId);
   };
+
+  const prompthonClient = ClientFactory.getPrompthonClient();
+
+  prompthonClient.getScore().then((score) => {
+    if (score) {
+      dispatch({ field: 'score', value: Number(score) });
+    }
+  });
+
+  prompthonClient.getBestScore().then((bestScore) => {
+    if (bestScore) {
+      dispatch({ field: 'bestScore', value: Number(bestScore) });
+    }
+  });
 
   const handleUpdateScore = (newScore: number) => {
     dispatch({ field: 'score', value: newScore });
