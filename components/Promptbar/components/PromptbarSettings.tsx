@@ -12,6 +12,8 @@ import { Problem } from '@/types/problem';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import ChatbarContext from '@/components/Chatbar/Chatbar.context';
+
 import { Score } from './Score';
 
 import { ClientFactory } from '@/lib/clientFactory';
@@ -27,6 +29,7 @@ export const PromptbarSettings: FC<Props> = () => {
     handleUpdateScore,
     handleUpdateBestScore,
   } = useContext(HomeContext);
+  const { handleClearConversations } = useContext(ChatbarContext);
   const score = state.score;
   const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
@@ -78,6 +81,7 @@ export const PromptbarSettings: FC<Props> = () => {
       );
       console.log(submission.score);
       console.log(submission.content);
+      handleClearConversations();
       router.push({
         pathname: '/result',
         query: {
