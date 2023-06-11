@@ -216,7 +216,8 @@ export class MemoryRepository extends AbstractRepository {
       id: 1,
       user_id: 1,
       problem_id: 1,
-      content: '提出内容',
+      content:
+        '{"id":"c5465594-f720-4184-b32b-ce32b7a4288e","name":"こんにちは","messages":[{"role":"user","content":"こんにちは"},{"role":"assistant","content":"こんにちは！お元気ですか？"},{"role":"user","content":"はい"},{"role":"assistant","content":"良かったです！何かお手伝いできることがありますか？"}],"model":{"id":"gpt-3.5-turbo","name":"GPT-3.5","maxLength":12000,"tokenLimit":4000},"prompt":"システムのプロンプト","temperature":0.5,"folderId":null}',
       score: 10,
       submitted_at: '2020-01-01 00:00:00',
     });

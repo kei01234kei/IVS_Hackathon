@@ -6,9 +6,13 @@ import {
 import { FC, useContext, useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 
+import { useRouter } from 'next/router';
+
 import { Problem } from '@/types/problem';
 
 import HomeContext from '@/pages/api/home/home.context';
+
+import ChatbarContext from '@/components/Chatbar/Chatbar.context';
 
 import { Score } from './Score';
 
@@ -25,6 +29,7 @@ export const PromptbarSettings: FC<Props> = () => {
     handleUpdateScore,
     handleUpdateBestScore,
   } = useContext(HomeContext);
+  const { handleClearConversations } = useContext(ChatbarContext);
   const score = state.score;
   const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
@@ -61,6 +66,8 @@ export const PromptbarSettings: FC<Props> = () => {
     setLoading(false);
   };
 
+  const router = useRouter();
+
   const handleSubmit = async () => {
     const selectedConversation = state.selectedConversation;
     if (!selectedConversation) {
@@ -74,6 +81,16 @@ export const PromptbarSettings: FC<Props> = () => {
       );
       console.log(submission.score);
       console.log(submission.content);
+      handleClearConversations();
+      router.push({
+        pathname: '/result',
+        query: {
+          userId: 1,
+          problemId,
+          competitionId,
+          submissionId: submission.id,
+        },
+      });
     }
   };
 

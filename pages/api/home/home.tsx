@@ -5,6 +5,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import { useCreateReducer } from '@/hooks/useCreateReducer';
 
@@ -59,6 +60,13 @@ const Home = ({
   serverSidePluginKeysSet,
   defaultModelId,
 }: Props) => {
+  const router = useRouter();
+  const {
+    competitionId: rawCompetitionId = '1',
+    problemId: rawProblemId = '1',
+  } = router.query;
+  const competitionId = Number(rawCompetitionId);
+  const problemId = Number(rawProblemId);
   const { t } = useTranslation('chat');
   const { getModels } = useApiService();
   const { getModelsError } = useErrorService();
@@ -372,15 +380,6 @@ const Home = ({
 
   // コンペIDと問題IDとスコア  --------------------------------------------
 
-  // propsかなんかでもらう
-  const [competitionId, setCompetitionId] = useState(1);
-  const [problemId, setProblemId] = useState(1);
-
-  const handleUpdateIds = (newCompetitionId: number, newProblemId: number) => {
-    setCompetitionId(newCompetitionId);
-    setProblemId(newProblemId);
-  };
-
   const prompthonClient = ClientFactory.getPrompthonClient();
 
   prompthonClient.getScore().then((score) => {
@@ -417,7 +416,6 @@ const Home = ({
         handleUpdateConversation,
         competitionId,
         problemId,
-        handleUpdateIds,
         handleUpdateScore,
         handleUpdateBestScore,
       }}
