@@ -82,4 +82,6 @@ export class PrompthonClient {
   async createParticipant() {}
   async updateParticipant() {}
   async deleteParticipant() {}
+  async saveBestScore(bestScore: Number) {}
+  async saveScore(score: Number) {}
 }
