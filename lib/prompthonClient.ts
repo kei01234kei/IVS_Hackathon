@@ -182,7 +182,4 @@ export class PrompthonClient {
   async getBestScore(): Promise<Number> {
     return Promise.resolve(0);
   }
-  async getNextProblemId(currentProblemId: number): Promise<number> {
-    return Promise.resolve(1);
-  }
 }
