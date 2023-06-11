@@ -71,7 +71,7 @@ export function LoginPaper() {
         }}
       >
         <div />
-        <Anchor<'a'>  weight={700} onClick={resetHandler}>
+        <Anchor<'a'> weight={700} onClick={resetHandler}>
           Forgot your password?
         </Anchor>
       </div>
@@ -91,7 +91,7 @@ export function LoginPaper() {
       refreshUserSettings();
       router.push('/');
     };
-    
+
     const GoogleIcon = () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"

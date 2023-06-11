@@ -13,7 +13,6 @@ export interface GetParticipantsResponse {
   participants: GetParticipantResponse[];
 }
 
-
 // example GetParticipantResponse
 // {
 //   "id": "参加者ID",
@@ -53,7 +52,6 @@ export interface CreateParticipantResponse {
   competition_id: number;
   registered_at: string;
 }
-
 
 // example UpdateParticipantRequest
 // {

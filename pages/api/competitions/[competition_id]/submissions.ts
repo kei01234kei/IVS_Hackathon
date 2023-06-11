@@ -1,14 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { nanoid } from 'nanoid';
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ChatGPT, ChatGPTMessage } from '@/lib/chatGPT';
-
+import fs from 'fs';
+import { nanoid } from 'nanoid';
+import path from 'path';
 
 type Score = {
   score: number;
-}
+};
 
 // 現時点では chat gpt のモデルは gpt-4 のみを使用します
 const chatGPTModel = 'gpt-4';
@@ -25,17 +24,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { user_id, problem_id, content } = req.body;
 
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
-    const submissions = JSON.parse(fs.readFileSync(filePaths.submissions, 'utf8'));
+    const submissions = JSON.parse(
+      fs.readFileSync(filePaths.submissions, 'utf8'),
+    );
     const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
     const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
-    const problem_types = JSON.parse(fs.readFileSync(filePaths.problem_types, 'utf8'));
+    const problem_types = JSON.parse(
+      fs.readFileSync(filePaths.problem_types, 'utf8'),
+    );
 
     // 問題の正解を探す
     const answer = answers.find((a: any) => a.problem_id === problem_id);
 
     // 問題とその種類を見つける
     const problem = problems.find((p: any) => p.id === problem_id);
-    const problem_type = problem_types.find((pt: any) => pt.id === problem.problem_type_id);
+    const problem_type = problem_types.find(
+      (pt: any) => pt.id === problem.problem_type_id,
+    );
 
     // スコアを算出します
     let score = 0;
@@ -69,7 +74,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // 新しい submission をリストに追加して保存する
     submissions.push(newSubmission);
-    fs.writeFileSync(filePaths.submissions, JSON.stringify(submissions, null, 2));
+    fs.writeFileSync(
+      filePaths.submissions,
+      JSON.stringify(submissions, null, 2),
+    );
 
     // レスポンスを返します
     res.status(200).json(newSubmission);
@@ -77,17 +85,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}
+};
 
-const gradeUsingChatGPT = async (submission: string, problem: any, answer: any): Promise<number> => {
+const gradeUsingChatGPT = async (
+  submission: string,
+  problem: any,
+  answer: any,
+): Promise<number> => {
   const scores: number[] = [];
   for (const chat_gpt_roles of answer.chat_gpt_roles) {
-    const ChatGPTResponse = await ChatGPT.create(
-      chatGPTModel,
-      [
-        new ChatGPTMessage(
-          'user',
-          `# Role
+    const ChatGPTResponse = await ChatGPT.create(chatGPTModel, [
+      new ChatGPTMessage(
+        'user',
+        `# Role
           ${chat_gpt_roles}
           
           # Scoring Criteria
@@ -103,15 +113,16 @@ const gradeUsingChatGPT = async (submission: string, problem: any, answer: any):
           ${problem.content}
           
           # User Response
-          ${submission}`
-        ),
-      ]
-    );
+          ${submission}`,
+      ),
+    ]);
     console.log('ChatGPT からのレスポンスです');
     console.log(ChatGPTResponse);
     if (!ChatGPTResponse) throw new Error('ChatGPTResponse is undefined');
     try {
-      const score = extractScoreFromJSON(ChatGPTResponse?.utterances[0].content);
+      const score = extractScoreFromJSON(
+        ChatGPTResponse?.utterances[0].content,
+      );
       scores.push(score.score);
     } catch (error) {
       // chat gpt のレスポンスから score を抽出できなかった場合は continue します
@@ -125,11 +136,11 @@ const gradeUsingChatGPT = async (submission: string, problem: any, answer: any):
   }
   const averageScore = scores.reduce((a, b) => a + b) / scores.length;
   return Math.round(averageScore);
-}
+};
 
 /**
  * json 文字列から score を抽出します。
- * @param jsonString 
+ * @param jsonString
  * @returns Score
  */
 const extractScoreFromJSON = (jsonString: string): Score => {
@@ -137,11 +148,11 @@ const extractScoreFromJSON = (jsonString: string): Score => {
   const matches = jsonString.match(regex);
 
   if (!matches) {
-    throw new Error("No JSON object found in the jsonString string.");
+    throw new Error('No JSON object found in the jsonString string.');
   }
 
   if (matches.length > 1) {
-    throw new Error("jsonString string contains more than one JSON object.");
+    throw new Error('jsonString string contains more than one JSON object.');
   }
 
   try {
@@ -149,11 +160,11 @@ const extractScoreFromJSON = (jsonString: string): Score => {
     if ('score' in json && typeof json.score === 'number') {
       return json as Score;
     } else {
-      throw new Error("JSON object is not of type Score.");
+      throw new Error('JSON object is not of type Score.');
     }
   } catch (error) {
     throw new Error(`Invalid JSON: ${matches[0]}`);
   }
-}
+};
 
 export default handler;

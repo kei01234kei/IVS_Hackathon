@@ -5,16 +5,12 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-  "baseUrl": "./",
-  "paths": {
+    "baseUrl": "./",
+    "paths": {
       "@/lib/*": ["lib/*"],
       "@/repository/*": ["repository/*"]
-  }
+    }
   },
-  "include": [
-    "lib/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["lib/*.ts"],
+  "exclude": ["node_modules"]
 }

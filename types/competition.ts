@@ -61,7 +61,6 @@ export interface CreateCompetitionsResponse {
   end_date: string;
 }
 
-
 // example UpdateCompetitionsRequest
 // {
 //     "id": "コンペティションID",
@@ -102,7 +101,6 @@ export interface DeleteCompetitionsResponse {
   code: number;
 }
 
-
 // example CompleteCompetitionsResponse
 // {
 //     "code": 0
@@ -110,4 +108,3 @@ export interface DeleteCompetitionsResponse {
 export interface CompleteCompetitionsResponse {
   code: number;
 }
-

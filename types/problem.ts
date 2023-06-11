@@ -46,7 +46,6 @@ export interface GetProblemResponse {
   output_example: string;
 }
 
-
 // example CreateProblemRequest
 // {
 //     "competition_id": "コンペティションID",
@@ -94,7 +93,6 @@ export interface CreateProblemResponse {
   input_example: string;
   output_example: string;
 }
-
 
 export interface Problem {
   id: number;
@@ -156,7 +154,6 @@ export interface UpdateProblemResponse {
   input_example: string;
   output_example: string;
 }
-
 
 // example DeleteProblemResponse
 // {

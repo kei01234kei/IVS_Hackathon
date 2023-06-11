@@ -17,10 +17,14 @@ import { ClientFactory } from '@/lib/clientFactory';
 interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
-
   const prompthonClient = ClientFactory.getPrompthonClient();
-  const { state, competitionId, problemId, handleUpdateScore, handleUpdateBestScore } =
-    useContext(HomeContext);
+  const {
+    state,
+    competitionId,
+    problemId,
+    handleUpdateScore,
+    handleUpdateBestScore,
+  } = useContext(HomeContext);
   const score = state.score;
   const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
