@@ -4,7 +4,7 @@ import {
   IconSquareCheck,
 } from '@tabler/icons-react';
 import { FC, useContext, useEffect, useState } from 'react';
-import Confetti from 'react-confetti';
+import { useReward } from 'react-rewards';
 
 import { useRouter } from 'next/router';
 
@@ -34,7 +34,9 @@ export const PromptbarSettings: FC<Props> = () => {
   const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const { reward, isAnimating } = useReward('rewardId', 'confetti', {
+    angle: 130,
+  });
 
   useEffect(() => {
     const fetchProblem = async (competitionId: number, problemId: number) => {
@@ -49,21 +51,19 @@ export const PromptbarSettings: FC<Props> = () => {
     const selectedConversation = state.selectedConversation;
     if (!selectedConversation) {
       alert('会話を選択してください');
-      return;
+      setLoading(false);
     } else {
-      const newScore = await prompthonClient.evaluate(
-        competitionId,
-        problemId,
-        selectedConversation,
-      );
-      handleUpdateScore(newScore);
-      if (newScore > bestScore) {
-        handleUpdateBestScore(newScore);
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 5000); // Hide after 5 seconds
-      }
+      prompthonClient
+        .evaluate(competitionId, problemId, selectedConversation)
+        .then((newScore) => {
+          handleUpdateScore(newScore);
+          if (newScore > bestScore) {
+            handleUpdateBestScore(newScore);
+            reward();
+          }
+          setLoading(false);
+        });
     }
-    setLoading(false);
   };
 
   const router = useRouter();
@@ -96,8 +96,10 @@ export const PromptbarSettings: FC<Props> = () => {
 
   return (
     <div className="flex flex-col items-center space-y-0 border-t border-white/20 pt-2 text-sm font-bold">
-      {showConfetti && <Confetti />}
       {problem && <Score maxScore={problem.score} score={score} />}
+      <div>
+        <span id="rewardId" />
+      </div>
       <button
         className="text-white flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-white hover:text-black"
         onClick={handleEvaluate}

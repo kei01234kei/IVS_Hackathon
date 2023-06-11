@@ -239,8 +239,13 @@ export class MemoryRepository extends AbstractRepository {
     problemId: number,
     promptHistory: Conversation,
   ) {
-    return Promise.resolve(evaluateScore++);
+    return new Promise<number>((resolve) => {
+      setTimeout(() => {
+        resolve(evaluateScore++);
+      }, 500);
+    });
   }
+
   submit(
     competitionId: number,
     problemId: number,
