@@ -79,7 +79,7 @@ const Sidebar = <T,>({
             <div>
               {chatItems ? (
                 <button
-                  className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+                  className="text-sidebar flex w-full flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
                   onClick={() => {
                     handleChatCreateItem();
                     handleSearchTerm('');
@@ -93,8 +93,6 @@ const Sidebar = <T,>({
               {chatItems && chatItems.length > 0 ? (
                 <div
                   style={{
-                    height:
-                      'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
                     overflowY: 'auto',
                   }}
                 >
@@ -111,8 +109,6 @@ const Sidebar = <T,>({
               ) : (
                 <div
                   style={{
-                    height:
-                      'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
                     overflowY: 'auto',
                   }}
                 >
