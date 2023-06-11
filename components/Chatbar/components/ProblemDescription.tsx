@@ -1,6 +1,6 @@
 import { Problem } from '@/types/problem';
 
-import { Badge } from '@mantine/core';
+import { LevelBadge } from '@/components/LevelBadge';
 
 enum Level {
   Beginner = 1,
@@ -37,9 +37,7 @@ export const ProblemDescription = (props: Props) => {
           <div className="p-1 flex flex-col gap-2">
             <div className="flex items-center space-x-3">
               <p className="font-semibold text-2xl">{problem.name}</p>
-              <Badge color="green" size="md" radius="sm" variant="filled">
-                {levelLabel}
-              </Badge>
+              <LevelBadge level={problem.level} />
             </div>
           </div>
           <div className="p-1 flex flex-col gap-2">
