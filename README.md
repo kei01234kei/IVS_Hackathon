@@ -17,6 +17,8 @@ Prompthon は OpenAI の GPT モデルを活用した高度なチャットアプ
 - Yarn
 - OpenAI API キー
 
+また、`.env.local.templete` をコピーして `.env.local` にリネームして、適切な内容を記入してください。
+
 ## インストール
 
 プロジェクトのクローンを作成後、次のコマンドを実行します:
