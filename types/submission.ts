@@ -11,6 +11,8 @@
 //     },
 //     ...
 //   ]
+import { Conversation } from './chat';
+
 // }
 export interface GetSubmissionsResponse {
   submissions: GetSubmissionResponse[];
@@ -29,7 +31,7 @@ export interface GetSubmissionResponse {
   id: number;
   user_id: number;
   problem_id: number;
-  content: string;
+  content: Conversation;
   score: number;
   submitted_at: string;
 }
@@ -45,7 +47,7 @@ export interface CreateSubmissionRequest {
   user_id: number;
   competition_id: number;
   problem_id: number;
-  content: string;
+  content: Conversation;
 }
 
 // example CreateSubmissionResponse
@@ -63,7 +65,7 @@ export interface CreateSubmissionResponse {
   user_id: number;
   problem_id: number;
   problem_type_id: number;
-  content: string;
+  content: Conversation;
   score: number;
   submitted_at: string;
 }
