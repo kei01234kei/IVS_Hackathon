@@ -79,7 +79,7 @@ const Sidebar = <T,>({
             <div>
               {chatItems ? (
                 <button
-                  className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+                  className="text-sidebar flex w-full flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
                   onClick={() => {
                     handleChatCreateItem();
                     handleSearchTerm('');
@@ -93,8 +93,6 @@ const Sidebar = <T,>({
               {chatItems && chatItems.length > 0 ? (
                 <div
                   style={{
-                    height:
-                      'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
                     overflowY: 'auto',
                   }}
                 >
@@ -111,8 +109,6 @@ const Sidebar = <T,>({
               ) : (
                 <div
                   style={{
-                    height:
-                      'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
                     overflowY: 'auto',
                   }}
                 >
@@ -124,51 +120,6 @@ const Sidebar = <T,>({
                   </div>
                 </div>
               )}
-
-              <div className="mt-5 pt-5 border-t border-white/20">
-                <button
-                  className="text-sidebar flex w-[240px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
-                  onClick={() => {
-                    handleCreateItem();
-                    handleSearchTerm('');
-                  }}
-                >
-                  <IconPlus size={16} />
-                  {'新規プロンプト'}
-                </button>
-
-                {items?.length > 0 ? (
-                  <div
-                    style={{
-                      minHeight:
-                        'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
-                      overflowY: 'auto',
-                    }}
-                  >
-                    <div
-                      className="pt-2 pb-2"
-                      onDrop={handleDrop}
-                      onDragOver={allowDrop}
-                      onDragEnter={highlightDrop}
-                      onDragLeave={removeHighlight}
-                      style={{
-                        minHeight:
-                          'calc((100vh - 24px - 40px - 40px  - 236px - 20px ) / 2)',
-                        overflowY: 'auto',
-                      }}
-                    >
-                      {itemComponent}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mt-8 mb-10 select-none text-center text-white opacity-50">
-                    <IconMistOff className="mx-auto mb-3" />
-                    <span className="text-[14px] leading-normal">
-                      {t('No data.')}
-                    </span>
-                  </div>
-                )}
-              </div>
             </div>
           ) : null}
         </div>

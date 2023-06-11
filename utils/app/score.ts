@@ -1,6 +1,6 @@
-import { PrompthonClient } from '@/lib/prompthonClient';
+import { ClientFactory } from '@/lib/clientFactory';
 
-const prompthonClient = new PrompthonClient('MOCK');
+const prompthonClient = ClientFactory.getPrompthonClient();
 
 export const saveScore = async (score: Number) => {
   await prompthonClient.saveScore(score);
