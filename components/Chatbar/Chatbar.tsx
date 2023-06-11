@@ -30,7 +30,7 @@ import Sidebar from '../Sidebar';
 import ChatbarContext from './Chatbar.context';
 import { ChatbarInitialState, initialState } from './Chatbar.state';
 
-import { PrompthonClient } from '@/lib/prompthonClient';
+import { ClientFactory } from '@/lib/clientFactory';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
@@ -39,7 +39,7 @@ interface Props {
 }
 
 export const Chatbar = (props: Props) => {
-  const prompthonClient = new PrompthonClient('MOCK');
+  const prompthonClient = ClientFactory.getPrompthonClient();
   const { competitionId, problemId } = props;
 
   const { t } = useTranslation('sidebar');

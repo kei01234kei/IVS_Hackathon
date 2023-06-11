@@ -7,7 +7,8 @@
     "moduleResolution": "node",
   "baseUrl": "./",
   "paths": {
-      "@/lib/*": ["lib/*"]
+      "@/lib/*": ["lib/*"],
+      "@/repository/*": ["repository/*"]
   }
   },
   "include": [

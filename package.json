@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "test-prayground": "ts-node -r tsconfig-paths/register --transpile-only --project ./tsconfig_playground.json ./playground/index.ts",
+    "test-playground": "ts-node -r tsconfig-paths/register --transpile-only --project ./tsconfig_playground.json ./playground/index.ts",
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
