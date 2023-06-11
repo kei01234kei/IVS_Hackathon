@@ -1,26 +1,32 @@
-import { IconArrowDown, IconBolt, IconBrandGoogle, IconPlayerStop, IconRepeat, IconSend } from '@tabler/icons-react';
-import { KeyboardEvent, MutableRefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
-
-
+import {
+  IconArrowDown,
+  IconBolt,
+  IconBrandGoogle,
+  IconPlayerStop,
+  IconRepeat,
+  IconSend,
+} from '@tabler/icons-react';
+import {
+  KeyboardEvent,
+  MutableRefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { useTranslation } from 'next-i18next';
-
-
 
 import { Message } from '@/types/chat';
 import { Plugin } from '@/types/plugin';
 import { Prompt } from '@/types/prompt';
 
-
-
 import HomeContext from '@/pages/api/home/home.context';
-
-
 
 import { PluginSelect } from './PluginSelect';
 import { PromptList } from './PromptList';
 import { VariableModal } from './VariableModal';
-
 
 interface Props {
   onSend: (message: Message, plugin: Plugin | null) => void;

@@ -23,6 +23,7 @@ import {
 } from '@/utils/app/conversation';
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
+import { saveBestScore, saveScore } from '@/utils/app/score';
 import { getSettings } from '@/utils/app/settings';
 import {
   initialConversations,
@@ -43,6 +44,7 @@ import Promptbar from '@/components/Promptbar';
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
+import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -368,14 +370,39 @@ const Home = ({
     serverSidePluginKeysSet,
   ]);
 
-  // コンペIDと問題ID  --------------------------------------------
+  // コンペIDと問題IDとスコア  --------------------------------------------
 
+  // propsかなんかでもらう
   const [competitionId, setCompetitionId] = useState(1);
   const [problemId, setProblemId] = useState(1);
 
   const handleUpdateIds = (newCompetitionId: number, newProblemId: number) => {
     setCompetitionId(newCompetitionId);
     setProblemId(newProblemId);
+  };
+
+  const prompthonClient = ClientFactory.getPrompthonClient();
+
+  prompthonClient.getScore().then((score) => {
+    if (score) {
+      dispatch({ field: 'score', value: Number(score) });
+    }
+  });
+
+  prompthonClient.getBestScore().then((bestScore) => {
+    if (bestScore) {
+      dispatch({ field: 'bestScore', value: Number(bestScore) });
+    }
+  });
+
+  const handleUpdateScore = (newScore: number) => {
+    dispatch({ field: 'score', value: newScore });
+    saveScore(newScore);
+  };
+
+  const handleUpdateBestScore = (newBestScore: number) => {
+    dispatch({ field: 'bestScore', value: newBestScore });
+    saveBestScore(newBestScore);
   };
 
   return (
@@ -391,6 +418,8 @@ const Home = ({
         competitionId,
         problemId,
         handleUpdateIds,
+        handleUpdateScore,
+        handleUpdateBestScore,
       }}
     >
       <Head>

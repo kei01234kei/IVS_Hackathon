@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 
+import { GetServerSideProps } from 'next';
+
 import { useLoginUser } from '@/services/hooks/loginUser';
 
 import { LoginPaper } from '@/components/Login/LoginPaper';
 
 import { createStyles, rem } from '@mantine/core';
-import { GetServerSideProps } from 'next';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const useStyles = createStyles((theme) => ({
@@ -27,7 +28,6 @@ export default function Login() {
   );
 }
 
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const supabase = createServerSupabaseClient(context);
   const {
@@ -44,4 +44,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {},
   };
-}
+};

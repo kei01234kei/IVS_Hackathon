@@ -35,6 +35,8 @@ export interface HomeInitialState {
   serverSidePluginKeysSet: boolean;
   competitionId: number;
   problemId: number;
+  score: number;
+  bestScore: number;
 }
 
 export const initialState: HomeInitialState = {
@@ -61,4 +63,6 @@ export const initialState: HomeInitialState = {
   serverSidePluginKeysSet: false,
   competitionId: 0,
   problemId: 0,
+  score: 0,
+  bestScore: 0,
 };
