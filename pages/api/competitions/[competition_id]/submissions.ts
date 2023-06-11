@@ -9,9 +9,6 @@ type Score = {
   score: number;
 };
 
-// 現時点では chat gpt のモデルは gpt-4 のみを使用します
-const chatGPTModel = 'gpt-4';
-
 const filePaths = {
   submissions: path.join(process.cwd(), 'data', 'submissions.json'),
   answers: path.join(process.cwd(), 'data', 'answers.json'),
@@ -21,7 +18,7 @@ const filePaths = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { user_id, problem_id, content } = req.body;
+    const { user_id, problem_id, messages } = req.body;
 
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
     const submissions = JSON.parse(
@@ -42,24 +39,39 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       (pt: any) => pt.id === problem.problem_type_id,
     );
 
+    // ユーザの最後のメッセージを取得します
+    const userAnswer = messages[messages.length - 1].content;
+    if (!answer) {
+      res.status(404).json({ error: `Answer for problem id ${problem_id} not found` });
+      return;
+    }
+
     // スコアを算出します
     let score = 0;
     if (problem_type.type === 'pattern') {
-      if (answer && answer.content === content) {
+      if (answer && answer.contents[0] === userAnswer) {
         score = problem.score;
       }
-    } else if (problem_type.type === 'gradedOneCaseByChatGPT') {
+    } else if (problem_type.type === 'gradeSenseUsingChatGPT') {
       try {
-        score = await gradeUsingChatGPT(content, problem, answer);
+        score = await gradeSenseUsingChatGPT(userAnswer, problem, answer);
       } catch (error) {
         // chat gpt による採点がうまくいかなかった場合はエラーを返します
         res.status(500).json({ error: error });
+        return;
       }
-    } else if (problem_type.type === 'gradedMultipleCaseByChatGPT') {
-      // chat gpt に採点させるコードをかく
-      res.status(500).json({ error: '準備中' });
+    } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
+      const system_prompt = messages.find((m: any) => m.role === 'system')?.content;
+      try {
+        score = await gradedMultipleCaseUsingChatGPT(userAnswer, system_prompt, problem, answer);
+      } catch (error: any) {
+        // chat gpt による採点がうまくいかなかった場合はエラーを返します
+        res.status(500).json({ error: error });
+        return;
+      }
     } else {
       res.status(500).json({ error: 'Problem type not found' });
+      return;
     }
 
     // submission を作成します
@@ -67,7 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       id: nanoid(),
       user_id,
       problem_id,
-      content,
+      messages,
       score,
       submitted_at: new Date().toISOString(),
     };
@@ -87,18 +99,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const gradeUsingChatGPT = async (
+const gradeSenseUsingChatGPT = async (
   submission: string,
   problem: any,
-  answer: any,
+  answer: any
 ): Promise<number> => {
   const scores: number[] = [];
-  for (const chat_gpt_roles of answer.chat_gpt_roles) {
-    const ChatGPTResponse = await ChatGPT.create(chatGPTModel, [
-      new ChatGPTMessage(
-        'user',
-        `# Role
-          ${chat_gpt_roles}
+  for (const chat_gpt_role of answer.chat_gpt_roles) {
+    const chatGPTResponse = await ChatGPT.create(
+      answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      [
+        new ChatGPTMessage(
+          'user',
+          `# Role
+          ${chat_gpt_role}
           
           # Scoring Criteria
           ${answer.scoring_criteria}
@@ -114,15 +128,13 @@ const gradeUsingChatGPT = async (
           
           # User Response
           ${submission}`,
-      ),
-    ]);
+        ),
+      ]);
     console.log('ChatGPT からのレスポンスです');
-    console.log(ChatGPTResponse);
-    if (!ChatGPTResponse) throw new Error('ChatGPTResponse is undefined');
+    console.log(chatGPTResponse);
+    if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
     try {
-      const score = extractScoreFromJSON(
-        ChatGPTResponse?.utterances[0].content,
-      );
+      const score = extractScoreFromJSON(chatGPTResponse?.utterances[0].content);
       scores.push(score.score);
     } catch (error) {
       // chat gpt のレスポンスから score を抽出できなかった場合は continue します
@@ -137,6 +149,56 @@ const gradeUsingChatGPT = async (
   const averageScore = scores.reduce((a, b) => a + b) / scores.length;
   return Math.round(averageScore);
 };
+
+const gradedMultipleCaseUsingChatGPT = async (
+  submission: string,
+  system_prompt: any,
+  problem: any,
+  answer: any
+): Promise<number> => {
+  const scores: number[] = [];
+  for (let i = 0; i < answer.inputs.length; i++) {
+    const input = answer.inputs[i];
+    let content: any;
+    try {
+      content = JSON.parse(answer.contents[i]);
+    } catch (error) {
+      throw new Error(`${answer.contents[i]} is not a valid JSON`);
+    }
+    const chatGPTResponse = await ChatGPT.create(
+      answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      [
+        new ChatGPTMessage('system', system_prompt),
+        new ChatGPTMessage('user', submission),
+        new ChatGPTMessage('user', input),
+      ]
+    );
+    console.log('ChatGPT からのレスポンスです');
+    console.log(chatGPTResponse);
+    if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
+    try {
+      const output = JSON.parse(chatGPTResponse.utterances[0].content);
+      if (JSON.stringify(output) === JSON.stringify(content)) {
+        console.log('正解です')
+        scores.push(problem.score);
+      } else {
+        console.log('不正解です')
+        scores.push(0);
+      }
+    } catch (error) {
+      // chat gpt のレスポンスから score を抽出できなかった場合は continue します
+      console.error(error);
+      continue;
+    }
+  }
+  // score を足し合わせて返します
+  if (!(scores.length === 0)) {
+    return scores.reduce((a, b) => a + b);
+  }
+  else {
+    throw new Error('score を1つも取得できませんでした');
+  }
+}
 
 /**
  * json 文字列から score を抽出します。

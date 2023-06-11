@@ -5,10 +5,10 @@
   },
   {
     "id": "2",
-    "type": "gradedOneCaseByChatGPT"
+    "type": "gradeSenseUsingChatGPT"
   },
   {
-    "id": "2",
-    "type": "gradedMultipleCaseByChatGPT"
+    "id": "3",
+    "type": "gradedMultipleCaseUsingChatGPT"
   }
 ]

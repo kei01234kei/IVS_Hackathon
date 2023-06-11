@@ -15,12 +15,24 @@
     "id": "2",
     "competition_id": "1",
     "problem_number": 2,
-    "name": "問1",
+    "name": "問2",
     "level": 1,
     "score": 100,
     "problem_type_id": "2",
     "content": "店員への態度が悪い男性に一言",
     "input_example": null,
-    "output_example": "2"
+    "output_example": "98"
+  },
+  {
+    "id": "3",
+    "competition_id": "1",
+    "problem_number": 2,
+    "name": "問3",
+    "level": 2,
+    "score": 100,
+    "problem_type_id": "3",
+    "content": "給与情報が書かれた情報が渡すので、そこから月収レンジをJSON形式で取り出してください。1つ正解するごとに100pt",
+    "input_example": "月額28万円以上",
+    "output_example": "{\n \"maximum_monthly_salary\": null,\n \"minimum_monthly_salary\": 280000\n}"
   }
 ]
