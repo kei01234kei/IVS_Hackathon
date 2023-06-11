@@ -197,9 +197,12 @@ export const SystemPrompt: FC<Props> = ({
       <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
         {t('System Prompt')}
       </label>
+      <span className="text-[12px] text-black/50 dark:text-white/50 text-sm">
+        {"システムプロンプトは、AI対して特定の会話スタイルや行動を指示するヒントです。AIの対話の振る舞いを細かく制御することができます。"}
+      </span>
       <textarea
         ref={textareaRef}
-        className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3 text-neutral-900 dark:border-neutral-600 dark:text-neutral-100"
+        className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3 mt-2 text-neutral-900 dark:border-neutral-600 dark:text-neutral-100"
         style={{
           resize: 'none',
           bottom: `${textareaRef?.current?.scrollHeight}px`,
@@ -210,9 +213,7 @@ export const SystemPrompt: FC<Props> = ({
               : 'hidden'
           }`,
         }}
-        placeholder={
-          t(`Enter a prompt or type "/" to select a prompt...`) || ''
-        }
+        placeholder={'システムのプロンプトを入力...' || ''}
         value={t(value) || ''}
         rows={1}
         onChange={handleChange}
