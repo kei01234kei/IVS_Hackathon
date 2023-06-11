@@ -1,2 +1,158 @@
 [
+  {
+    "id": "ZdSB4Vz4EJomQGJIPxu4D",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "messageId": "1",
+        "timestamp": "2023-06-11T00:00:00Z",
+        "direction": "system",
+        "content": "This is a system prompt."
+      },
+      {
+        "messageId": "2",
+        "timestamp": "2023-06-11T00:01:00Z",
+        "direction": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T03:21:44.368Z"
+  },
+  {
+    "id": "Sp_G3nRUFW2hnsuvMJlXl",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "messageId": "1",
+        "timestamp": "2023-06-11T00:00:00Z",
+        "direction": "system",
+        "content": "This is a system prompt."
+      },
+      {
+        "messageId": "2",
+        "timestamp": "2023-06-11T00:01:00Z",
+        "direction": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T03:33:50.374Z"
+  },
+  {
+    "id": "Bs9gbIOdHkEuk0I-zZWhU",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "message_id": "1",
+        "direction": "system",
+        "content": "You are a smart assistant."
+      },
+      {
+        "message_id": "2",
+        "direction": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 0,
+    "submitted_at": "2023-06-11T03:56:23.465Z"
+  },
+  {
+    "id": "Vb8fADNPR-RMhKu8zvznh",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "message_id": "1",
+        "direction": "system",
+        "content": "You are a smart assistant."
+      },
+      {
+        "message_id": "2",
+        "direction": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T04:06:06.273Z"
+  },
+  {
+    "id": "CnhXnsQP6ZvlpQ-sT4FBS",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "message_id": "1",
+        "role": "system",
+        "content": "You are a smart assistant."
+      },
+      {
+        "message_id": "2",
+        "role": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T04:08:04.340Z"
+  },
+  {
+    "id": "ZtnIiryfeLpIRNL7UX5gg",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "message_id": "1",
+        "role": "system",
+        "content": "You are a smart assistant."
+      },
+      {
+        "message_id": "2",
+        "role": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T04:08:23.037Z"
+  },
+  {
+    "id": "44lmLUCf_QyomcwKwlhjq",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "message_id": "1",
+        "role": "system",
+        "content": "You are a smart assistant."
+      },
+      {
+        "message_id": "2",
+        "role": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T04:08:36.367Z"
+  },
+  {
+    "id": "RjwkhyWvBIG_HlZkxu_Q9",
+    "user_id": "1",
+    "problem_id": "3",
+    "messages": [
+      {
+        "message_id": "1",
+        "role": "system",
+        "content": "You are a smart assistant."
+      },
+      {
+        "message_id": "2",
+        "role": "user",
+        "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+      }
+    ],
+    "score": 200,
+    "submitted_at": "2023-06-11T04:20:52.527Z"
+  }
 ]

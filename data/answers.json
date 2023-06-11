@@ -2,6 +2,7 @@
   {
     "id": "1",
     "problem_id": "1",
+    "model": null,
     "inputs": [],
     "contents": ["2"],
     "description": "1 + 1 を計算します。2になります。",
@@ -11,6 +12,7 @@
   {
     "id": "2",
     "problem_id": "2",
+    "model": "gpt-3.5-turbo",
     "inputs": [],
     "contents": [],
     "description": "few shot を使うと良きです。temperature をあげて何度も出力させてみるのも良いかもしれません。",
@@ -23,6 +25,7 @@
   {
     "id": "3",
     "problem_id": "3",
+    "model": "gpt-3.5-turbo",
     "inputs": [
       "月給：20万円～33万円",
       "月給：30万円(固定)",
