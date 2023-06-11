@@ -11,8 +11,8 @@ export const Score: FC<Props> = ({ maxScore, score }) => {
       <div className="p-4 pb-7 flex flex-col gap-2 w-full">
         <div className="flex items-end space-x-6">
           <p className="font-medium text-base">スコア:</p>
-          <p className="font-medium text-5xl">{`${score}`}</p>
-          <p className="font-medium text-lg">/{`${maxScore}`}pt</p>
+          <p className="font-medium text-5xl tabular-nums">{`${score}`}</p>
+          <p className="font-medium text-lg tabular-nums">/{`${maxScore}`}pt</p>
         </div>
       </div>
     </div>
