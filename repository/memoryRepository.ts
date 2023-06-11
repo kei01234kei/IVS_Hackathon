@@ -54,6 +54,40 @@ const problem3 = {
   output_example: '出⼒例',
 };
 
+const dummyConversation: Conversation = {
+  id: 'dummy1',
+  name: 'Dummy conversation',
+  messages: [
+    {
+      role: 'user',
+      content: 'こんにちは、ChatGPT。今日の天気はどうですか？',
+    },
+    {
+      role: 'assistant',
+      content:
+        'こんにちは、ユーザーさん。私はAIなので、天気情報を直接知ることはできません。しかし、インターネットを通じて最新の天気情報を取得することが可能です。',
+    },
+    {
+      role: 'user',
+      content: 'それは面白いですね。では、最新のニュースを教えてください。',
+    },
+    {
+      role: 'assistant',
+      content:
+        'すみません、私はリアルタイムのインターネットアクセス能力を持っていません。そのため、最新のニュースを提供することはできません。ただし、あなたが特定のトピックについて情報を求めるなら、私が知っている範囲で答えることができます。',
+    },
+  ],
+  model: {
+    id: '1',
+    name: 'Default (GPT-3.5)',
+    maxLength: 128,
+    tokenLimit: 128,
+  },
+  prompt: 'これはプロンプトのサンプルです',
+  temperature: 0.5,
+  folderId: null,
+};
+
 export class MemoryRepository extends AbstractRepository {
   createUser(userName: string) {
     return Promise.resolve({
@@ -196,7 +230,7 @@ export class MemoryRepository extends AbstractRepository {
           id: 1,
           user_id: 1,
           problem_id: 1,
-          content: '提出内容',
+          content: dummyConversation,
           score: 10,
           submitted_at: '2020-01-01 00:00:00',
         },
@@ -204,7 +238,7 @@ export class MemoryRepository extends AbstractRepository {
           id: 1,
           user_id: 2,
           problem_id: 1,
-          content: '提出内容',
+          content: dummyConversation,
           score: 9,
           submitted_at: '2020-01-02 00:00:00',
         },
@@ -216,8 +250,7 @@ export class MemoryRepository extends AbstractRepository {
       id: 1,
       user_id: 1,
       problem_id: 1,
-      content:
-        '{"id":"c5465594-f720-4184-b32b-ce32b7a4288e","name":"こんにちは","messages":[{"role":"user","content":"こんにちは"},{"role":"assistant","content":"こんにちは！お元気ですか？"},{"role":"user","content":"はい"},{"role":"assistant","content":"良かったです！何かお手伝いできることがありますか？"}],"model":{"id":"gpt-3.5-turbo","name":"GPT-3.5","maxLength":12000,"tokenLimit":4000},"prompt":"システムのプロンプト","temperature":0.5,"folderId":null}',
+      content: dummyConversation,
       score: 10,
       submitted_at: '2020-01-01 00:00:00',
     });
@@ -256,7 +289,7 @@ export class MemoryRepository extends AbstractRepository {
       user_id: 1,
       problem_id: problemId,
       problem_type_id: 1,
-      content: JSON.stringify(promptHistory),
+      content: promptHistory,
       score: 5,
       submitted_at: new Date().toISOString(),
     });
