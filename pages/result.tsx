@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Conversation } from '@/types/chat';
 import { Problem } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
 
+import { ChatHistory } from '@/components/ChatHistory';
+import { PromptHistory } from '@/components/PromptHistory';
+
 import { ClientFactory } from '@/lib/clientFactory';
+import { Table, Title } from '@mantine/core';
 
 const Result: React.FC = () => {
   const router = useRouter();
@@ -43,6 +48,53 @@ const Result: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const elements = [
+    { col: '提出日時', value: submissionData.submitted_at },
+    { col: '問題', value: problemData.name },
+    { col: 'スコア', value: `${submissionData.score}pt` },
+  ];
+
+  const rows = elements.map((element) => (
+    <tr key={element.col}>
+      <td>{element.col}</td>
+      <td>{element.value}</td>
+    </tr>
+  ));
+
+  const dummyConversation: Conversation = {
+    id: 'dummy1',
+    name: 'Dummy conversation',
+    messages: [
+      {
+        role: 'user',
+        content: 'こんにちは、ChatGPT。今日の天気はどうですか？',
+      },
+      {
+        role: 'assistant',
+        content:
+          'こんにちは、ユーザーさん。私はAIなので、天気情報を直接知ることはできません。しかし、インターネットを通じて最新の天気情報を取得することが可能です。',
+      },
+      {
+        role: 'user',
+        content: 'それは面白いですね。では、最新のニュースを教えてください。',
+      },
+      {
+        role: 'assistant',
+        content:
+          'すみません、私はリアルタイムのインターネットアクセス能力を持っていません。そのため、最新のニュースを提供することはできません。ただし、あなたが特定のトピックについて情報を求めるなら、私が知っている範囲で答えることができます。',
+      },
+    ],
+    model: {
+      id: '1',
+      name: 'Default (GPT-3.5)',
+      maxLength: 128,
+      tokenLimit: 128,
+    },
+    prompt: 'これはプロンプトのサンプルです',
+    temperature: 0.5,
+    folderId: null,
+  };
+
   return (
     <div className="min-h-screen mx-auto px-[384px] py-32 bg-white">
       <div className="space-y-8">
@@ -53,22 +105,16 @@ const Result: React.FC = () => {
             {problemData.score}pt中{submissionData.score}ptです。
           </p>
         </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold text-gray-800">User ID:</h2>
-          <p className="text-gray-600">{submissionData.user_id}</p>
+        <div className="space-y-4">
+          <Title order={2}>提出の詳細</Title>
+          <Table striped verticalSpacing="md" horizontalSpacing="xl">
+            <tbody>{rows}</tbody>
+          </Table>
         </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold text-gray-800">Content:</h2>
-          <p className="text-gray-600">{submissionData.content.toString()}</p>
+        <div className="space-y-4">
+          <PromptHistory prompt={dummyConversation} />
         </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold text-gray-800">Score:</h2>
-          <p className="text-gray-600">{submissionData.score}</p>
-        </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold text-gray-800">Submitted At:</h2>
-          <p className="text-gray-600">{submissionData.submitted_at}</p>
-        </div>
+        <ChatHistory conversation={dummyConversation} />
       </div>
 
       <div className="fixed bottom-8 right-8 space-x-4">
@@ -84,15 +130,17 @@ const Result: React.FC = () => {
         <button
           className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
           onClick={() => {
-            prompthonClient.getNextProblemId(Number(problemId)).then((nextProblemId) => {
-              router.push({
-                pathname: '/',
-                query: {
-                  problemId: nextProblemId,
-                  competitionId,
-                },
+            prompthonClient
+              .getNextProblemId(Number(problemId))
+              .then((nextProblemId) => {
+                router.push({
+                  pathname: '/',
+                  query: {
+                    problemId: nextProblemId,
+                    competitionId,
+                  },
+                });
               });
-            });
           }}
         >
           <p className="font-bold">次の問題を解く</p>
