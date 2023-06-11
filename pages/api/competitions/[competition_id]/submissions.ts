@@ -99,16 +99,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const gradeSenseUsingChatGPT = async (submission: string, problem: any, answer: any): Promise<number> => {
+const gradeSenseUsingChatGPT = async (
+  submission: string,
+  problem: any,
+  answer: any
+): Promise<number> => {
   const scores: number[] = [];
-  for (const chat_gpt_roles of answer.chat_gpt_roles) {
+  for (const chat_gpt_role of answer.chat_gpt_roles) {
     const chatGPTResponse = await ChatGPT.create(
       answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
       [
         new ChatGPTMessage(
           'user',
           `# Role
-          ${chat_gpt_roles}
+          ${chat_gpt_role}
           
           # Scoring Criteria
           ${answer.scoring_criteria}
@@ -124,8 +128,8 @@ const gradeSenseUsingChatGPT = async (submission: string, problem: any, answer: 
           
           # User Response
           ${submission}`,
-      ),
-    ]);
+        ),
+      ]);
     console.log('ChatGPT からのレスポンスです');
     console.log(chatGPTResponse);
     if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
@@ -146,10 +150,15 @@ const gradeSenseUsingChatGPT = async (submission: string, problem: any, answer: 
   return Math.round(averageScore);
 };
 
-const gradedMultipleCaseUsingChatGPT = async (submission: string, system_prompt: any, problem: any, answer: any): Promise<number> => {
+const gradedMultipleCaseUsingChatGPT = async (
+  submission: string,
+  system_prompt: any,
+  problem: any,
+  answer: any
+): Promise<number> => {
   const scores: number[] = [];
   for (let i = 0; i < answer.inputs.length; i++) {
-    const input =  answer.inputs[i];
+    const input = answer.inputs[i];
     let content: any;
     try {
       content = JSON.parse(answer.contents[i]);
@@ -175,7 +184,7 @@ const gradedMultipleCaseUsingChatGPT = async (submission: string, system_prompt:
       } else {
         console.log('不正解です')
         scores.push(0);
-      }      
+      }
     } catch (error) {
       // chat gpt のレスポンスから score を抽出できなかった場合は continue します
       console.error(error);
