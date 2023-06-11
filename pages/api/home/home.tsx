@@ -1,34 +1,34 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 
-
-
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 
-
-
 import { useCreateReducer } from '@/hooks/useCreateReducer';
-
-
 
 import useErrorService from '@/services/errorService';
 import useApiService from '@/services/useApiService';
 
-
-
-import { cleanConversationHistory, cleanSelectedConversation } from '@/utils/app/clean';
+import {
+  cleanConversationHistory,
+  cleanSelectedConversation,
+} from '@/utils/app/clean';
 import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
-import { saveConversation, saveConversations, updateConversation } from '@/utils/app/conversation';
+import {
+  saveConversation,
+  saveConversations,
+  updateConversation,
+} from '@/utils/app/conversation';
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
 import { saveBestScore, saveScore } from '@/utils/app/score';
 import { getSettings } from '@/utils/app/settings';
-import { initialConversations, initialFolders } from '@/utils/data/setIntialPrompt';
-
-
+import {
+  initialConversations,
+  initialFolders,
+} from '@/utils/data/setIntialPrompt';
 
 import { Conversation } from '@/types/chat';
 import { KeyValuePair } from '@/types/data';
@@ -36,23 +36,16 @@ import { FolderInterface, FolderType } from '@/types/folder';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
 import { Prompt } from '@/types/prompt';
 
-
-
 import { Chat } from '@/components/Chat/Chat';
 import { Chatbar } from '@/components/Chatbar/Chatbar';
 import { Navbar } from '@/components/Mobile/Navbar';
 import Promptbar from '@/components/Promptbar';
 
-
-
 import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
-
-
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
-
 
 interface Props {
   serverSideApiKeyIsSet: boolean;
