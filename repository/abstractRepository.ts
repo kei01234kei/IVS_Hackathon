@@ -34,6 +34,8 @@ import {
   CreateSubmissionResponse,
   GetSubmissionResponse,
   GetSubmissionsResponse,
+  EvaluationRequest,
+  EvaluationResponse
 } from '@/types/submission';
 import {
   CreateUserResponse,
@@ -96,9 +98,7 @@ export abstract class AbstractRepository {
   // abstract updateSubmission():void
 
   abstract evaluate(
-    competitionId: number,
-    problemId: number,
-    promptHistory: Conversation,
+    evaluationRequest: EvaluationRequest
   ): Promise<number>;
   abstract submit(
     competitionId: number,

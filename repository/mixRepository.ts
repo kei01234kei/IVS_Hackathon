@@ -9,9 +9,11 @@ import {
   UpdateCompetitionsRequest,
 } from '@/types/competition';
 import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
-import { CreateSubmissionRequest, EvaluationRequest } from '@/types/submission';
+import { CreateSubmissionRequest } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { CreateSubmissionResponse, EvaluationRequest } from '../types/submission';
 
 let evaluateScore = 0;
 const problem1 = {
@@ -88,7 +90,14 @@ const dummyConversation: Conversation = {
   folderId: null,
 };
 
-export class MemoryRepository extends AbstractRepository {
+export class MixRepository extends AbstractRepository {
+  private apiClient: AxiosInstance ;
+  constructor() {
+    super();
+    this.apiClient = axios.create({
+      baseURL: 'http://localhost:3000/api',
+    })
+  }
   createUser(userName: string) {
     return Promise.resolve({
       id: 1,
@@ -256,24 +265,41 @@ export class MemoryRepository extends AbstractRepository {
     });
   }
   createSubmission(createSubmissionRequest: CreateSubmissionRequest) {
-    return Promise.resolve({
-      id: 1,
-      user_id: createSubmissionRequest.user_id,
-      problem_id: createSubmissionRequest.problem_id,
-      problem_type_id: 1,
-      content: createSubmissionRequest.content,
-      score: 10,
-      submitted_at: '2020-01-01 00:00:00',
+    return new Promise<CreateSubmissionResponse>(async (resolve) => {
+      const res = await this.apiClient.post(`/competition/${createSubmissionRequest.competition_id}/submissions`,{
+        user_id: createSubmissionRequest.user_id,
+        problem_id: createSubmissionRequest.problem_id,
+        content: createSubmissionRequest.content,
+      })
+      const id = parseInt(res.data?.id)
+      const userId = parseInt(res.data?.user_id)
+      const problemId = parseInt(res.data?.problem_id)
+      const content = JSON.parse(res.data?.content)
+      const score = parseInt(res.data?.score)
+      const problemTypeId = parseInt(res.data?.problem_type_id)
+      resolve({
+        id: id,
+        user_id: userId,
+        problem_id: problemId,
+        content: content,
+        score: score,
+        problem_type_id: problemTypeId,
+        submitted_at: res.data?.submitted_at,
+      })
     });
   }
 
   evaluate(
     evaluationRequest: EvaluationRequest
   ) {
-    return new Promise<number>((resolve) => {
-      setTimeout(() => {
-        resolve(evaluateScore++);
-      }, 500);
+    return new Promise<number>(async (resolve) => {
+      const res = await this.apiClient.post(`/competition/${evaluationRequest.id}/evaluation`,{
+        user_id: evaluationRequest.user_id,
+        problem_id: evaluationRequest.problem_id,
+        message: evaluationRequest.message,
+      })
+      const score = parseInt(res.data?.score)
+      resolve(score)
     });
   }
 
