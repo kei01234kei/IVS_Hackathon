@@ -2,7 +2,7 @@ import {
   CreateParticipantRequest,
   UpdateParticipantRequest,
 } from '../types/participant';
-import { Problem } from '../types/problem';
+import { Problem, GetProblemResponse } from '../types/problem';
 import { Conversation } from '@/types/chat';
 import {
   CreateCompetitionsRequest,
@@ -14,7 +14,7 @@ import { CreateSubmissionRequest, EvaluationRequest } from '@/types/submission';
 import { AbstractRepository } from '@/repository/abstractRepository';
 
 let evaluateScore = 0;
-const problem1 = {
+export const problem1 = {
   competition_id: 1,
   id: 1,
   problem_number: 1,
@@ -26,9 +26,11 @@ const problem1 = {
     'A君が16日、B君が20日で終わらせられる仕事がある。この仕事を2人で行ったとき、終わるのは何日後？',
   input_example: '入力例',
   output_example: '整数のみ (小数の場合は繰り上げ)',
+  next_problem_id: 2,
+  prev_problem_id: null,
 };
 
-const problem2 = {
+export const problem2 = {
   competition_id: 1,
   id: 2,
   problem_number: 2,
@@ -39,9 +41,11 @@ const problem2 = {
   content: '問題内容',
   input_example: '⼊⼒例',
   output_example: '出⼒例',
+  next_problem_id: 3,
+  prev_problem_id: 1,
 };
 
-const problem3 = {
+export const problem3 = {
   competition_id: 1,
   id: 3,
   problem_number: 3,
@@ -52,9 +56,11 @@ const problem3 = {
   content: '問題内容',
   input_example: '⼊⼒例',
   output_example: '出⼒例',
+  next_problem_id: null,
+  prev_problem_id: 2,
 };
 
-const dummyConversation: Conversation = {
+export const dummyConversation: Conversation = {
   id: 'dummy1',
   name: 'Dummy conversation',
   messages: [
@@ -177,7 +183,7 @@ export class MemoryRepository extends AbstractRepository {
     });
   }
   getProblem(competitionId: number, problemId: number) {
-    return new Promise<Problem>((resolve) => {
+    return new Promise<GetProblemResponse>((resolve) => {
       if (problem1.id === problemId) {
         resolve(problem1);
       } else if (problem2.id === problemId) {

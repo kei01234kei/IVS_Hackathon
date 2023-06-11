@@ -2,7 +2,7 @@ import {
   CreateParticipantRequest,
   UpdateParticipantRequest,
 } from '../types/participant';
-import { Problem } from '../types/problem';
+import { GetProblemResponse } from '../types/problem';
 import { Conversation } from '@/types/chat';
 import {
   CreateCompetitionsRequest,
@@ -10,85 +10,13 @@ import {
 } from '@/types/competition';
 import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
 import { CreateSubmissionRequest } from '@/types/submission';
+import { problem1,problem2,problem3,dummyConversation } from '@/repository/memoryRepository';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { CreateSubmissionResponse, EvaluationRequest } from '../types/submission';
 
 let evaluateScore = 0;
-const problem1 = {
-  competition_id: 1,
-  id: 1,
-  problem_number: 1,
-  name: '算数の問題',
-  level: 1,
-  score: 4,
-  problem_type_id: 1,
-  content:
-    'A君が16日、B君が20日で終わらせられる仕事がある。この仕事を2人で行ったとき、終わるのは何日後？',
-  input_example: '入力例',
-  output_example: '整数のみ (小数の場合は繰り上げ)',
-};
-
-const problem2 = {
-  competition_id: 1,
-  id: 2,
-  problem_number: 2,
-  name: '問題名',
-  level: 2,
-  score: 6,
-  problem_type_id: 2,
-  content: '問題内容',
-  input_example: '⼊⼒例',
-  output_example: '出⼒例',
-};
-
-const problem3 = {
-  competition_id: 1,
-  id: 3,
-  problem_number: 3,
-  name: '問題名',
-  level: 1,
-  score: 10,
-  problem_type_id: 3,
-  content: '問題内容',
-  input_example: '⼊⼒例',
-  output_example: '出⼒例',
-};
-
-const dummyConversation: Conversation = {
-  id: 'dummy1',
-  name: 'Dummy conversation',
-  messages: [
-    {
-      role: 'user',
-      content: 'こんにちは、ChatGPT。今日の天気はどうですか？',
-    },
-    {
-      role: 'assistant',
-      content:
-        'こんにちは、ユーザーさん。私はAIなので、天気情報を直接知ることはできません。しかし、インターネットを通じて最新の天気情報を取得することが可能です。',
-    },
-    {
-      role: 'user',
-      content: 'それは面白いですね。では、最新のニュースを教えてください。',
-    },
-    {
-      role: 'assistant',
-      content:
-        'すみません、私はリアルタイムのインターネットアクセス能力を持っていません。そのため、最新のニュースを提供することはできません。ただし、あなたが特定のトピックについて情報を求めるなら、私が知っている範囲で答えることができます。',
-    },
-  ],
-  model: {
-    id: '1',
-    name: 'Default (GPT-3.5)',
-    maxLength: 128,
-    tokenLimit: 128,
-  },
-  prompt: 'これはプロンプトのサンプルです',
-  temperature: 0.5,
-  folderId: null,
-};
 
 export class MixRepository extends AbstractRepository {
   private apiClient: AxiosInstance ;
@@ -186,7 +114,7 @@ export class MixRepository extends AbstractRepository {
     });
   }
   getProblem(competitionId: number, problemId: number) {
-    return new Promise<Problem>((resolve) => {
+    return new Promise<GetProblemResponse>((resolve) => {
       if (problem1.id === problemId) {
         resolve(problem1);
       } else if (problem2.id === problemId) {
