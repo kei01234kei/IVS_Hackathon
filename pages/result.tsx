@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Problem } from '@/types/problem';
+import { GetProblemResponse } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
 
 import { ChatHistory } from '@/components/ChatHistory';
@@ -17,7 +17,21 @@ const Result: React.FC = () => {
   const [submissionData, setSubmissionData] =
     useState<GetSubmissionResponse | null>(null);
   const prompthonClient = ClientFactory.getPrompthonClient();
-  const [problemData, setProblemData] = useState<Problem | null>(null);
+  const [problemData, setProblemData] = useState<GetProblemResponse | null>(
+    null,
+  );
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZone: 'Asia/Tokyo',
+  };
+
+  const formatter = new Intl.DateTimeFormat('ja-JP', options);
 
   useEffect(() => {
     if (!userId || !competitionId || !problemId) return;
@@ -48,7 +62,10 @@ const Result: React.FC = () => {
   }
 
   const elements = [
-    { col: '提出日時', value: submissionData.submitted_at },
+    {
+      col: '提出日時',
+      value: formatter.format(new Date(submissionData.submitted_at)),
+    },
     { col: '問題', value: problemData.name },
     { col: 'スコア', value: `${submissionData.score}pt` },
   ];
@@ -71,21 +88,24 @@ const Result: React.FC = () => {
           </p>
         </div>
         <div className="space-y-4">
-          <Title order={2}>提出の詳細</Title>
+          <Title order={2} c={'gray.8'}>
+            提出の詳細
+          </Title>
           <Table striped verticalSpacing="md" horizontalSpacing="xl">
             <tbody>{rows}</tbody>
           </Table>
         </div>
-        <PromptHistory prompt={JSON.parse(submissionData.content)} />
-        <ChatHistory conversation={JSON.parse(submissionData.content)} />
+        <PromptHistory prompt={submissionData.content} />
+        <ChatHistory conversation={submissionData.content} />
       </div>
 
       <div className="fixed bottom-8 right-8 space-x-4">
         <button
           className="px-4 py-2 bg-white rounded h-10 rounded text-gray-600 border border-gray-600 hover:border-transparent"
           onClick={() => {
-            alert('未実装');
-            // router.push('/another-path');
+            router.push({
+              pathname: '/menu/problems',
+            });
           }}
         >
           <p className="font-bold">問題一覧に戻る</p>
@@ -93,17 +113,19 @@ const Result: React.FC = () => {
         <button
           className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
           onClick={() => {
-            prompthonClient
-              .getNextProblemId(Number(problemId))
-              .then((nextProblemId) => {
-                router.push({
-                  pathname: '/',
-                  query: {
-                    problemId: nextProblemId,
-                    competitionId,
-                  },
-                });
+            if (problemData.next_problem_id) {
+              router.push({
+                pathname: '/chat',
+                query: {
+                  problemId: problemData.next_problem_id,
+                  competitionId,
+                },
               });
+            } else {
+              router.push({
+                pathname: '/menu/problems',
+              });
+            }
           }}
         >
           <p className="font-bold">次の問題を解く</p>

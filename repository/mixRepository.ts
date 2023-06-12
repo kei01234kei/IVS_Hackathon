@@ -3,101 +3,37 @@ import {
   UpdateParticipantRequest,
 } from '../types/participant';
 import { GetProblemResponse } from '../types/problem';
+import {
+  CreateSubmissionResponse,
+  EvaluationRequest,
+} from '../types/submission';
 import { Conversation } from '@/types/chat';
 import {
   CreateCompetitionsRequest,
   UpdateCompetitionsRequest,
 } from '@/types/competition';
-import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
-import { CreateSubmissionRequest, EvaluationRequest } from '@/types/submission';
+import { CreateProblemRequest, UpdateProblemRequest, GetProblemsResponse } from '@/types/problem';
+import { CreateSubmissionRequest } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
+import {
+  dummyConversation,
+  problem1,
+  problem2,
+  problem3,
+} from '@/repository/memoryRepository';
+import axios, { AxiosInstance } from 'axios';
 
 let evaluateScore = 0;
-export const problem1 = {
-  competition_id: 1,
-  id: 1,
-  problem_number: 1,
-  name: '算数の問題',
-  level: 1,
-  score: 4,
-  problem_type_id: 1,
-  content:
-    'A君が16日、B君が20日で終わらせられる仕事がある。この仕事を2人で行ったとき、終わるのは何日後？',
-  input_example: '入力例',
-  output_example: '整数のみ (小数の場合は繰り上げ)',
-  next_problem_id: 2,
-  prev_problem_id: null,
-};
 
-export const problem2 = {
-  competition_id: 1,
-  id: 2,
-  problem_number: 2,
-  name: '問題名',
-  level: 2,
-  score: 6,
-  problem_type_id: 2,
-  content: '問題内容',
-  input_example: '⼊⼒例',
-  output_example: '出⼒例',
-  next_problem_id: 3,
-  prev_problem_id: 1,
-};
-
-export const problem3 = {
-  competition_id: 1,
-  id: 3,
-  problem_number: 3,
-  name: '問題名',
-  level: 1,
-  score: 10,
-  problem_type_id: 3,
-  content: '問題内容',
-  input_example: '⼊⼒例',
-  output_example: '出⼒例',
-  next_problem_id: null,
-  prev_problem_id: 2,
-};
-
-const futureTime = new Date('2023-06-20T12:00:00+09:00').toISOString();
-const pastTime = new Date('2023-06-10T12:00:00+09:00').toISOString();
-
-export const dummyConversation: Conversation = {
-  id: 'dummy1',
-  name: 'Dummy conversation',
-  messages: [
-    {
-      role: 'user',
-      content: 'こんにちは、ChatGPT。今日の天気はどうですか？',
-    },
-    {
-      role: 'assistant',
-      content:
-        'こんにちは、ユーザーさん。私はAIなので、天気情報を直接知ることはできません。しかし、インターネットを通じて最新の天気情報を取得することが可能です。',
-    },
-    {
-      role: 'user',
-      content: 'それは面白いですね。では、最新のニュースを教えてください。',
-    },
-    {
-      role: 'assistant',
-      content:
-        'すみません、私はリアルタイムのインターネットアクセス能力を持っていません。そのため、最新のニュースを提供することはできません。ただし、あなたが特定のトピックについて情報を求めるなら、私が知っている範囲で答えることができます。',
-    },
-  ],
-  model: {
-    id: '1',
-    name: 'Default (GPT-3.5)',
-    maxLength: 128,
-    tokenLimit: 128,
-  },
-  prompt: 'これはプロンプトのサンプルです',
-  temperature: 0.5,
-  folderId: null,
-};
-
-export class MemoryRepository extends AbstractRepository {
+export class MixRepository extends AbstractRepository {
+  private apiClient: AxiosInstance;
+  constructor() {
+    super();
+    this.apiClient = axios.create({
+      baseURL: '/api',
+    });
+  }
   createUser(userName: string) {
     return Promise.resolve({
       id: 1,
@@ -129,15 +65,15 @@ export class MemoryRepository extends AbstractRepository {
           id: 1,
           name: 'コンペティションいち',
           description: 'コンペティションいち説明',
-          start_date: pastTime,
-          end_date: futureTime,
+          start_date: '2020-01-01',
+          end_date: '2020-01-02',
         },
         {
           id: 2,
           name: 'コンペティションに名',
           description: 'コンペティション２説明',
-          start_date: pastTime,
-          end_date: futureTime,
+          start_date: '2020-02-01',
+          end_date: '2020-02-04',
         },
       ],
     });
@@ -147,8 +83,8 @@ export class MemoryRepository extends AbstractRepository {
       id: competitionId,
       name: 'コンペティションいち',
       description: 'コンペティションいち説明',
-      start_date: pastTime,
-      end_date: futureTime,
+      start_date: '2020-01-01',
+      end_date: '2020-01-02',
     });
   }
   createCompetition(createCompetitionsRequest: CreateCompetitionsRequest) {
@@ -181,8 +117,33 @@ export class MemoryRepository extends AbstractRepository {
   }
 
   getProblems(competitionId: number) {
-    return Promise.resolve({
-      problems: [problem1, problem2, problem3],
+    return new Promise<GetProblemsResponse>(async (resolve) => {
+      const res = await this.apiClient.get(`/competitions/${competitionId}/problems`)
+      const problems = res.data?.problems
+      const result: GetProblemResponse[] = []
+      if (problems) {
+        problems.forEach((problem:any) => {
+          const addProblem: GetProblemResponse = {
+            id: Number(problem?.id),
+            competition_id: Number(problem?.competition_id),
+            problem_number: Number(problem?.problem_number),
+            name: problem?.name,
+            level: problem?.level,
+            score: Number(problem?.score),
+            problem_type_id: Number(problem?.problem_type_id),
+            content: problem?.content,
+            input_example: problem?.input_example as string,
+            output_example: problem?.output_example as string,
+            next_problem_id: Number(problem?.next_problem_id) || null,
+            prev_problem_id: Number(problem?.prev_problem_id) || null,
+          }
+          result.push(addProblem)
+        });
+      }
+
+      resolve({
+        problems: result,
+      })
     });
   }
   getProblem(competitionId: number, problemId: number) {
@@ -255,32 +216,59 @@ export class MemoryRepository extends AbstractRepository {
     });
   }
   getSubmission(competitionId: number, submissionId: number) {
-    return Promise.resolve({
-      id: 1,
-      user_id: 1,
-      problem_id: 1,
-      content: dummyConversation,
-      score: 10,
-      submitted_at: '2020-01-01 00:00:00',
-    });
+    // return Promise.resolve({
+    //   id: 1,
+    //   user_id: 1,
+    //   problem_id: 1,
+    //   content: dummyConversation,
+    //   score: 10,
+    //   submitted_at: '2020-01-01 00:00:00',
+    // });
+    return JSON.parse(localStorage.getItem('tmp.submission')!);
   }
   createSubmission(createSubmissionRequest: CreateSubmissionRequest) {
-    return Promise.resolve({
-      id: 1,
-      user_id: createSubmissionRequest.user_id,
-      problem_id: createSubmissionRequest.problem_id,
-      problem_type_id: 1,
-      content: createSubmissionRequest.content,
-      score: 10,
-      submitted_at: '2020-01-01 00:00:00',
+    return new Promise<CreateSubmissionResponse>(async (resolve) => {
+      const res = await this.apiClient.post(
+        `/competitions/${createSubmissionRequest.competition_id}/submissions`,
+        {
+          user_id: createSubmissionRequest.user_id,
+          problem_id: createSubmissionRequest.problem_id,
+          content: createSubmissionRequest.content,
+          competition_id: createSubmissionRequest.competition_id,
+        } as CreateSubmissionRequest,
+      );
+      const id = parseInt(res.data?.id);
+      const userId = parseInt(res.data?.user_id);
+      const problemId = parseInt(res.data?.problem_id);
+      const content = res.data?.content;
+      const score = parseInt(res.data?.score);
+      const problemTypeId = parseInt(res.data?.problem_type_id);
+      resolve({
+        id: id,
+        user_id: userId,
+        problem_id: problemId,
+        content: content,
+        score: score,
+        problem_type_id: problemTypeId,
+        submitted_at: res.data?.submitted_at,
+      });
     });
   }
 
   evaluate(evaluationRequest: EvaluationRequest) {
-    return new Promise<number>((resolve) => {
-      setTimeout(() => {
-        resolve(evaluateScore++);
-      }, 500);
+    return new Promise<number>(async (resolve) => {
+      const res = await this.apiClient.post(
+        `/competitions/${evaluationRequest.competition_id}/evaluation`,
+        {
+          competition_id: evaluationRequest.competition_id,
+          user_id: evaluationRequest.user_id,
+          problem_id: evaluationRequest.problem_id,
+          message: evaluationRequest.message,
+        },
+      );
+      const score = parseInt(res.data?.score);
+      console.log(score)
+      resolve(score);
     });
   }
 

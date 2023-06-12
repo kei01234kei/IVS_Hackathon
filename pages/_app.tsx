@@ -6,18 +6,20 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { appWithTranslation } from 'next-i18next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
+import { useRouter } from 'next/router';
+
+import AppNavbar from '@/components/Menu/AppNavbar';
 
 import '@/styles/globals.css';
-import { MantineProvider } from '@mantine/core';
-import {
-  createBrowserSupabaseClient,
-  createServerSupabaseClient,
-} from '@supabase/auth-helpers-nextjs';
+import { AppShell, MantineProvider } from '@mantine/core';
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const inter = Inter({ subsets: ['latin'] });
 
 function App(props: AppProps) {
   const queryClient = new QueryClient();
+  const router = useRouter();
+  const isMenu = router.pathname.startsWith('/menu');
   const { Component, pageProps } = props;
 
   // Create a new supabase browser client on every first render.
@@ -36,9 +38,16 @@ function App(props: AppProps) {
             withNormalizeCSS
             theme={{
               colorScheme: 'light',
+              fontFamily: 'Poppins',
             }}
           >
-            <Component {...pageProps} />
+            {isMenu ? (
+              <AppShell navbar={<AppNavbar />}>
+                <Component {...pageProps} />
+              </AppShell>
+            ) : (
+              <Component {...pageProps} />
+            )}
           </MantineProvider>
         </QueryClientProvider>
       </SessionContextProvider>

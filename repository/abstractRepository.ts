@@ -24,6 +24,7 @@ import {
   CreateProblemRequest,
   CreateProblemResponse,
   DeleteProblemResponse,
+  GetProblemsRequest,
   GetProblemResponse,
   GetProblemsResponse,
   UpdateProblemRequest,
@@ -34,6 +35,8 @@ import {
   CreateSubmissionResponse,
   GetSubmissionResponse,
   GetSubmissionsResponse,
+  EvaluationRequest,
+  EvaluationResponse
 } from '@/types/submission';
 import {
   CreateUserResponse,
@@ -69,7 +72,7 @@ export abstract class AbstractRepository {
   ): Promise<CompleteCompetitionsResponse>;
   // abstract getCompetitionStandings():void
 
-  abstract getProblems(): Promise<GetProblemsResponse>;
+  abstract getProblems(competitionId: number): Promise<GetProblemsResponse>;
   abstract getProblem(
     competitionId: number,
     problemId: number,
@@ -96,9 +99,7 @@ export abstract class AbstractRepository {
   // abstract updateSubmission():void
 
   abstract evaluate(
-    competitionId: number,
-    problemId: number,
-    promptHistory: Conversation,
+    evaluationRequest: EvaluationRequest
   ): Promise<number>;
   abstract submit(
     competitionId: number,

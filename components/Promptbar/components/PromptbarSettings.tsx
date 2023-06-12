@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import { Problem } from '@/types/problem';
 
-import HomeContext from '@/pages/api/home/home.context';
+import HomeContext from '@/pages/chat/home.context';
 
 import ChatbarContext from '@/components/Chatbar/Chatbar.context';
 
@@ -53,8 +53,14 @@ export const PromptbarSettings: FC<Props> = () => {
       alert('会話を選択してください');
       setLoading(false);
     } else {
+      // todo: user_idを取得する
       prompthonClient
-        .evaluate(competitionId, problemId, selectedConversation)
+        .evaluate({
+          competition_id: competitionId.toString(),
+          user_id: 1,
+          problem_id: problemId,
+          message: selectedConversation,
+        })
         .then((newScore) => {
           handleUpdateScore(newScore);
           if (newScore > bestScore) {
@@ -74,11 +80,14 @@ export const PromptbarSettings: FC<Props> = () => {
       alert('会話を選択してください');
       return;
     } else {
-      const submission = await prompthonClient.submit(
-        competitionId,
-        problemId,
-        selectedConversation,
-      );
+      // todo: user_idを取得する
+      const submission = await prompthonClient.createSubmission({
+        user_id: 1,
+        competition_id: competitionId,
+        problem_id: problemId,
+        content: selectedConversation,
+      });
+      localStorage.setItem('tmp.submission', JSON.stringify(submission));
       console.log(submission.score);
       console.log(submission.content);
       handleClearConversations();

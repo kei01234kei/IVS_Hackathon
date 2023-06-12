@@ -69,3 +69,56 @@ export interface CreateSubmissionResponse {
   score: number;
   submitted_at: string;
 }
+
+// example evaluationRequest
+// {
+//     "user_id": "1",
+//     "problem_id": "3",
+//     "messages": [
+//       {
+//         "message_id": "1",
+//         "role": "system",
+//         "content": "You are a smart assistant."
+//       },
+//       {
+//         "message_id": "2",
+//         "role": "user",
+//         "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+//       }
+//     ]
+// }
+export interface EvaluationRequest {
+  competition_id: string;
+  user_id: number;
+  problem_id: number;
+  message: Conversation;
+}
+
+// example EvaluationResponse
+// {
+//   "id": "Nay-3JSahEYqOVV_20B9F",
+//   "user_id": "1",
+//   "problem_id": "3",
+//   "messages": [
+//     {
+//       "message_id": "1",
+//       "role": "system",
+//       "content": "You are a smart assistant."
+//     },
+//     {
+//       "message_id": "2",
+//       "role": "user",
+//       "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+//     }
+//   ],
+//   "score": 200,
+//   "submitted_at": "2023-06-11T08:19:34.015Z"
+// }
+export interface EvaluationResponse {
+  competition_id: string;
+  user_id: number;
+  problem_id: number;
+  message: Conversation;
+  score: number;
+  submitted_at: string;
+}
