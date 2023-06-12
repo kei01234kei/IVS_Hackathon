@@ -33,14 +33,14 @@ import { ChatbarInitialState, initialState } from './Chatbar.state';
 import { ClientFactory } from '@/lib/clientFactory';
 import { v4 as uuidv4 } from 'uuid';
 
-interface Props {
-  competitionId: number;
-  problemId: number;
-}
+interface Props {}
 
 export const Chatbar = (props: Props) => {
   const prompthonClient = ClientFactory.getPrompthonClient();
-  const { competitionId, problemId } = props;
+  const {
+    competitionId,
+    problemId,
+  } = useContext(HomeContext);
 
   const { t } = useTranslation('sidebar');
 
@@ -231,6 +231,8 @@ export const Chatbar = (props: Props) => {
 
   useEffect(() => {
     const fetchProblem = async (competitionId: number, problemId: number) => {
+      console.log("chatbar:",problemId);
+      
       const result = await prompthonClient.getProblem(competitionId, problemId);
       setProblem(result);
     };
