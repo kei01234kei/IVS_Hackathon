@@ -88,7 +88,9 @@ const Result: React.FC = () => {
           </p>
         </div>
         <div className="space-y-4">
-          <Title order={2}>提出の詳細</Title>
+          <Title order={2} c={'gray.8'}>
+            提出の詳細
+          </Title>
           <Table striped verticalSpacing="md" horizontalSpacing="xl">
             <tbody>{rows}</tbody>
           </Table>
