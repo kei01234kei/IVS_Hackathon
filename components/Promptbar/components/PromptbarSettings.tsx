@@ -135,7 +135,7 @@ export const PromptbarSettings: FC<Props> = () => {
         className="text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-gray-500 text-white"
         onClick={handleSubmit}
       >
-        {evaluateLoading ? (
+        {submitLoading ? (
           <>
             <IconLoader size={16} className="animate-spin mr-2" />
             <p>提出中...</p>
