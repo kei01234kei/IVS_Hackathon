@@ -144,13 +144,13 @@ export default function AppNavbar(props: AppNavbarProps) {
             </Text>
             {competitionNav}
           </Navbar.Section>
-
+{/* 
           <Navbar.Section className={classes.footer}>
             <a href="#" className={classes.link} onClick={onClickLogout}>
               <IconLogout className={classes.linkIcon} stroke={1.5} />
               <span>Logout</span>
             </a>
-          </Navbar.Section>
+          </Navbar.Section> */}
         </Navbar>
       )}
     </>
