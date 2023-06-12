@@ -93,13 +93,13 @@ curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
 
 # gradedMultipleCaseUsingChatGPT problem type の問題に対するテスト用の curl コマンドです
 # 採点結果を submissions.json には出力しません
-curl -X POST 'http://localhost:3000/api/competitions/1/calculation' \
+curl -X POST 'http://localhost:3000/api/competitions/1/evaluation' \
 -H 'Content-Type: application/json' \
 -d '{
     "user_id": "1",
     "competition_id": 1,
     "problem_id": 3,
-    "content": {
+    "message": {
       "id": "1",
       "name": "sample",
       "messages": [

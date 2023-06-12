@@ -1,10 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
-
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { Temperature } from '@/lib/chatGPT';
 import { gradeSenseUsingChatGPT, gradedMultipleCaseUsingChatGPT } from '@/utils/app/chatGPT';
-import { EvaluationResponse, EvaluationRequest } from '@/types/submission';
+import { EvaluationRequest, EvaluationResponse } from '@/types/submission';
 
 
 const filePaths = {
@@ -16,13 +15,18 @@ const filePaths = {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { user_id, competition_id, problem_id, message } = req.body as EvaluationRequest;
-    // JSONファイルから投稿、回答、問題、問題の種類を読み込む
+
+    // JSONファイルから回答、問題、問題の種類を読み込む
     const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
     const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
     const problem_types = JSON.parse(fs.readFileSync(filePaths.problem_types, 'utf8'),);
 
     // 問題の正解を探す
     const answer = answers.find((a: any) => a.problem_id === problem_id);
+    if (!answer) {
+      res.status(404).json({ error: `Answer for problem id ${problem_id} not found` });
+      return;
+    }
 
     // 問題とその種類を見つける
     const problem = problems.find((p: any) => String(p.id) === String(problem_id) && String(p.competition_id) === String(competition_id));
@@ -31,12 +35,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const problem_type = problem_types.find((pt: any) => pt.id === problem.problem_type_id,);
 
-    // ユーザの最後のメッセージを取得します
-    const userAnswer = message.messages[message.messages.length - 1].content;;
-    if (!answer) {
-      res.status(404).json({ error: `Answer for problem id ${problem_id} not found` });
-      return;
-    }
+    const systemPrompt = message.prompt;
+    const messages = message.messages;
 
     // temperature を取得します
     const temperature = new Temperature(message.temperature);
@@ -44,21 +44,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // スコアを算出します
     let score = 0;
     if (problem_type.type === 'pattern') {
-      if (answer && answer.contents[0] === userAnswer) {
+      // ユーザの最後のメッセージを取得します
+      const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
+      if (!lastUserMessage) {
+        res.status(400).json({ error: 'User message not found' });
+        return;
+      }
+      if (answer && answer.contents[0] === lastUserMessage.content) {
         score = problem.score;
       }
     } else if (problem_type.type === 'gradeSenseUsingChatGPT') {
       try {
-        score = await gradeSenseUsingChatGPT(userAnswer, problem, answer, temperature);
+        score = await gradeSenseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
       } catch (error) {
         // chat gpt による採点がうまくいかなかった場合はエラーを返します
         res.status(500).json({ error: error });
         return;
       }
     } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
-      const system_prompt = message.messages.find((m: any) => m.role === 'system')?.content || '';
       try {
-        score = await gradedMultipleCaseUsingChatGPT(userAnswer, system_prompt, problem, answer, temperature);
+        score = await gradedMultipleCaseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
       } catch (error: any) {
         // chat gpt による採点がうまくいかなかった場合はエラーを返します
         res.status(500).json({ error: error });
@@ -71,7 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // submission を作成します
     const newSubmission: EvaluationResponse = {
-      competition_id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
+      competition_id,
       user_id,
       problem_id,
       message,

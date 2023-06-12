@@ -24,7 +24,6 @@ import {
   CreateProblemRequest,
   CreateProblemResponse,
   DeleteProblemResponse,
-  GetProblemsRequest,
   GetProblemResponse,
   GetProblemsResponse,
   UpdateProblemRequest,
