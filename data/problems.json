@@ -1,6 +1,6 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "competition_id": "1",
     "problem_number": 1,
     "name": "問1",
@@ -12,7 +12,7 @@
     "output_example": "2"
   },
   {
-    "id": "2",
+    "id": 2,
     "competition_id": "1",
     "problem_number": 2,
     "name": "問2",
@@ -24,9 +24,9 @@
     "output_example": "98"
   },
   {
-    "id": "3",
+    "id": 3,
     "competition_id": "1",
-    "problem_number": 2,
+    "problem_number": 3,
     "name": "問3",
     "level": 2,
     "score": 100,

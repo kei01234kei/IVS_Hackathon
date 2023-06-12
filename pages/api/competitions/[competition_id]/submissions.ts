@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import fs from 'fs';
+import path from 'path';
 
 import { ChatGPT, ChatGPTMessage } from '@/lib/chatGPT';
-import fs from 'fs';
-import { nanoid } from 'nanoid';
-import path from 'path';
+import { CreateSubmissionRequest, CreateSubmissionResponse } from '@/types/submission';
 
 type Score = {
   score: number;
@@ -18,30 +18,26 @@ const filePaths = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { user_id, problem_id, messages } = req.body;
-    const competition_id = req.query.competition_id as string;
+    const { user_id, competition_id, problem_id, content } = req.body as CreateSubmissionRequest;
 
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
-    const submissions = JSON.parse(
-      fs.readFileSync(filePaths.submissions, 'utf8'),
-    );
+    const submissions = JSON.parse(fs.readFileSync(filePaths.submissions, 'utf8'),);
     const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
     const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
-    const problem_types = JSON.parse(
-      fs.readFileSync(filePaths.problem_types, 'utf8'),
-    );
+    const problem_types = JSON.parse(fs.readFileSync(filePaths.problem_types, 'utf8'),);
 
     // 問題の正解を探す
     const answer = answers.find((a: any) => a.problem_id === problem_id);
 
     // 問題とその種類を見つける
-    const problem = problems.find((p: any) => p.id === problem_id && p.competition_id === competition_id);
-    const problem_type = problem_types.find(
-      (pt: any) => pt.id === problem.problem_type_id,
-    );
+    const problem = problems.find((p: any) => String(p.id) === String(problem_id) && String(p.competition_id) === String(competition_id));
+    if (!problem) {
+      throw new Error(`Problem not found with id: ${problem_id} and competition_id: ${competition_id}`);
+    }
+    const problem_type = problem_types.find((pt: any) => pt.id === problem.problem_type_id,);
 
     // ユーザの最後のメッセージを取得します
-    const userAnswer = messages[messages.length - 1].content;
+    const userAnswer = content.messages[content.messages.length - 1].content;;
     if (!answer) {
       res.status(404).json({ error: `Answer for problem id ${problem_id} not found` });
       return;
@@ -62,7 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
       }
     } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
-      const system_prompt = messages.find((m: any) => m.role === 'system')?.content;
+      const system_prompt = content.messages.find((m: any) => m.role === 'system')?.content || '';
       try {
         score = await gradedMultipleCaseUsingChatGPT(userAnswer, system_prompt, problem, answer);
       } catch (error: any) {
@@ -76,12 +72,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // submission を作成します
-    const newSubmission = {
-      id: nanoid(),
+    const newSubmission: CreateSubmissionResponse = {
+      id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
       user_id,
-      competition_id,
       problem_id,
-      messages,
+      problem_type_id: problem.problem_type_id,
+      content,
       score,
       submitted_at: new Date().toISOString(),
     };
