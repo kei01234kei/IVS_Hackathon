@@ -10,9 +10,9 @@ export default function Problems(props: Props) {
   return (
     <>
       <Head>
-        <title>問題</title>
+        <title>Prompthonとは</title>
       </Head>
-      <PageHeader label="問題" />
+      <PageHeader label="Prompthonとは" />
       <Container size="lg" style={{ padding: '64px 128px' }}>
         <div className="space-y-8">
           <div className="space-y-4">
@@ -22,7 +22,7 @@ export default function Problems(props: Props) {
           </div>
           <div className="space-y-4">
             <Title order={2} c="gray.8">
-              Prompthonとは
+              Prompthonについて
             </Title>
             <Text fz="md" c="gray.8">
               Default text
