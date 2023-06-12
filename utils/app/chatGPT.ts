@@ -1,97 +1,15 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { ChatGPT, ChatGPTMessage, Temperature } from '@/lib/chatGPT';
 
-import { ChatGPT, ChatGPTMessage } from '@/lib/chatGPT';
-import fs from 'fs';
-import { nanoid } from 'nanoid';
-import path from 'path';
 
 type Score = {
   score: number;
 };
 
-const filePaths = {
-  answers: path.join(process.cwd(), 'data', 'answers.json'),
-  problems: path.join(process.cwd(), 'data', 'problems.json'),
-  problem_types: path.join(process.cwd(), 'data', 'problem_types.json'),
-};
-
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
-    const { user_id, problem_id, messages } = req.body;
-
-    // JSONファイルから回答、問題、問題の種類を読み込む
-    const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
-    const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
-    const problem_types = JSON.parse(
-      fs.readFileSync(filePaths.problem_types, 'utf8'),
-    );
-
-    // 問題の正解を探す
-    const answer = answers.find((a: any) => a.problem_id === problem_id);
-
-    // 問題とその種類を見つける
-    const problem = problems.find((p: any) => p.id === problem_id);
-    const problem_type = problem_types.find(
-      (pt: any) => pt.id === problem.problem_type_id,
-    );
-
-    // ユーザの最後のメッセージを取得します
-    const userAnswer = messages[messages.length - 1].content;
-    if (!answer) {
-      res.status(404).json({ error: `Answer for problem id ${problem_id} not found` });
-      return;
-    }
-
-    // スコアを算出します
-    let score = 0;
-    if (problem_type.type === 'pattern') {
-      if (answer && answer.contents[0] === userAnswer) {
-        score = problem.score;
-      }
-    } else if (problem_type.type === 'gradeSenseUsingChatGPT') {
-      try {
-        score = await gradeSenseUsingChatGPT(userAnswer, problem, answer);
-      } catch (error) {
-        // chat gpt による採点がうまくいかなかった場合はエラーを返します
-        res.status(500).json({ error: error });
-        return;
-      }
-    } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
-      const system_prompt = messages.find((m: any) => m.role === 'system')?.content;
-      try {
-        score = await gradedMultipleCaseUsingChatGPT(userAnswer, system_prompt, problem, answer);
-      } catch (error: any) {
-        // chat gpt による採点がうまくいかなかった場合はエラーを返します
-        res.status(500).json({ error: error });
-        return;
-      }
-    } else {
-      res.status(500).json({ error: 'Problem type not found' });
-      return;
-    }
-
-    // submission を作成します
-    const newSubmission = {
-      id: nanoid(),
-      user_id,
-      problem_id,
-      messages,
-      score,
-      submitted_at: new Date().toISOString(),
-    };
-
-    // レスポンスを返します
-    res.status(200).json(newSubmission);
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-};
-
-const gradeSenseUsingChatGPT = async (
+export const gradeSenseUsingChatGPT = async (
   submission: string,
   problem: any,
-  answer: any
+  answer: any,
+  temperature: Temperature
 ): Promise<number> => {
   const scores: number[] = [];
   for (const chat_gpt_role of answer.chat_gpt_roles) {
@@ -118,7 +36,9 @@ const gradeSenseUsingChatGPT = async (
           # User Response
           ${submission}`,
         ),
-      ]);
+      ],
+      temperature
+    );
     console.log('ChatGPT からのレスポンスです');
     console.log(chatGPTResponse);
     if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
@@ -139,11 +59,12 @@ const gradeSenseUsingChatGPT = async (
   return Math.round(averageScore);
 };
 
-const gradedMultipleCaseUsingChatGPT = async (
+export const gradedMultipleCaseUsingChatGPT = async (
   submission: string,
   system_prompt: any,
   problem: any,
-  answer: any
+  answer: any,
+  temperature: Temperature
 ): Promise<number> => {
   const scores: number[] = [];
   for (let i = 0; i < answer.inputs.length; i++) {
@@ -160,7 +81,8 @@ const gradedMultipleCaseUsingChatGPT = async (
         new ChatGPTMessage('system', system_prompt),
         new ChatGPTMessage('user', submission),
         new ChatGPTMessage('user', input),
-      ]
+      ],
+      temperature
     );
     console.log('ChatGPT からのレスポンスです');
     console.log(chatGPTResponse);
@@ -217,5 +139,3 @@ const extractScoreFromJSON = (jsonString: string): Score => {
     throw new Error(`Invalid JSON: ${matches[0]}`);
   }
 };
-
-export default handler;
