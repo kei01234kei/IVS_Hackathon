@@ -56,10 +56,10 @@ export const PromptbarSettings: FC<Props> = () => {
       // todo: user_idを取得する
       prompthonClient
         .evaluate({
-          id:competitionId.toString(),
-          user_id :1,
-          problem_id:problemId,
-          message:selectedConversation
+          id: competitionId.toString(),
+          user_id: 1,
+          problem_id: problemId,
+          message: selectedConversation,
         })
         .then((newScore) => {
           handleUpdateScore(newScore);
@@ -82,12 +82,12 @@ export const PromptbarSettings: FC<Props> = () => {
     } else {
       // todo: user_idを取得する
       const submission = await prompthonClient.createSubmission({
+        user_id: 1,
         competition_id: competitionId,
         problem_id: problemId,
         content: selectedConversation,
-        user_id: 1, 
-      }
-      );
+      });
+      localStorage.setItem('tmp.submission', JSON.stringify(submission));
       console.log(submission.score);
       console.log(submission.content);
       handleClearConversations();

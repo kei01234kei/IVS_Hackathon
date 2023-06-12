@@ -31,7 +31,11 @@ export const PromptHistory = (props: PromptProps) => {
           </div>
           <div className="space-y-1">
             <p className="text-gray-400">システムプロンプト</p>
-            <p className="text-gray-800">{prompt}</p>
+            {prompt ? (
+              <p className="text-gray-800">{prompt}</p>
+            ) : (
+              <p className="text-gray-800">なし</p>
+            )}
           </div>
           <div className="space-y-1">
             <p className="text-gray-400">Temperature</p>
