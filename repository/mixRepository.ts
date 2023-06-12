@@ -147,17 +147,43 @@ export class MixRepository extends AbstractRepository {
     });
   }
   getProblem(competitionId: number, problemId: number) {
-    return new Promise<GetProblemResponse>((resolve) => {
-      if (problem1.id === problemId) {
-        resolve(problem1);
-      } else if (problem2.id === problemId) {
-        resolve(problem2);
-      } else if (problem3.id === problemId) {
-        resolve(problem3);
-      } else {
-        resolve(problem1);
+    return new Promise<GetProblemResponse>(async (resolve) => {
+      const res = await this.apiClient.get(`/competitions/${competitionId}/problems/${problemId}`)
+      const problem = res.data
+      
+      if (problem) {
+        const result: GetProblemResponse = {
+          id: Number(problem?.id),
+          competition_id: Number(problem?.competition_id),
+          problem_number: Number(problem?.problem_number),
+          name: problem?.name,
+          level: problem?.level,
+          score: Number(problem?.score),
+          problem_type_id: Number(problem?.problem_type_id),
+          content: problem?.content,
+          input_example: problem?.input_example as string,
+          output_example: problem?.output_example as string,
+          next_problem_id: Number(problem?.next_problem_id) || null,
+          prev_problem_id: Number(problem?.prev_problem_id) || null,
+        }
+        resolve(result)
+      }else{
+        resolve({} as GetProblemResponse)
       }
     });
+
+
+    // return new Promise<GetProblemResponse>((resolve) => {
+    //   if (problem1.id === problemId) {
+    //     resolve(problem1);
+    //   } else if (problem2.id === problemId) {
+    //     resolve(problem2);
+    //   } else if (problem3.id === problemId) {
+    //     resolve(problem3);
+    //   } else {
+    //     resolve(problem1);
+    //   }
+    // });
   }
   createProblem(createProblemRequest: CreateProblemRequest) {
     return Promise.resolve({
