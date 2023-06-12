@@ -88,7 +88,7 @@ export interface CreateSubmissionResponse {
 //     ]
 // }
 export interface EvaluationRequest {
-  id: string;
+  competition_id: string;
   user_id: number;
   problem_id: number;
   message: Conversation;
@@ -115,7 +115,7 @@ export interface EvaluationRequest {
 //   "submitted_at": "2023-06-11T08:19:34.015Z"
 // }
 export interface EvaluationResponse {
-  id: string;
+  competition_id: string;
   user_id: number;
   problem_id: number;
   message: Conversation;

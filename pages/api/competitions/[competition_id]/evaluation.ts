@@ -4,7 +4,7 @@ import path from 'path';
 
 import { Temperature } from '@/lib/chatGPT';
 import { gradeSenseUsingChatGPT, gradedMultipleCaseUsingChatGPT } from '@/utils/app/chatGPT';
-import { CreateSubmissionRequest, CreateSubmissionResponse } from '@/types/submission';
+import { EvaluationResponse, EvaluationRequest } from '@/types/submission';
 
 
 const filePaths = {
@@ -15,8 +15,7 @@ const filePaths = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { user_id, competition_id, problem_id, content } = req.body as CreateSubmissionRequest;
-
+    const { user_id, competition_id, problem_id, message } = req.body as EvaluationRequest;
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
     const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
     const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
@@ -33,14 +32,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const problem_type = problem_types.find((pt: any) => pt.id === problem.problem_type_id,);
 
     // ユーザの最後のメッセージを取得します
-    const userAnswer = content.messages[content.messages.length - 1].content;;
+    const userAnswer = message.messages[message.messages.length - 1].content;;
     if (!answer) {
       res.status(404).json({ error: `Answer for problem id ${problem_id} not found` });
       return;
     }
 
     // temperature を取得します
-    const temperature = new Temperature(content.temperature);
+    const temperature = new Temperature(message.temperature);
 
     // スコアを算出します
     let score = 0;
@@ -57,7 +56,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
       }
     } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
-      const system_prompt = content.messages.find((m: any) => m.role === 'system')?.content || '';
+      const system_prompt = message.messages.find((m: any) => m.role === 'system')?.content || '';
       try {
         score = await gradedMultipleCaseUsingChatGPT(userAnswer, system_prompt, problem, answer, temperature);
       } catch (error: any) {
@@ -71,12 +70,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // submission を作成します
-    const newSubmission: CreateSubmissionResponse = {
-      id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
+    const newSubmission: EvaluationResponse = {
+      competition_id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
       user_id,
       problem_id,
-      problem_type_id: problem.problem_type_id,
-      content,
+      message,
       score,
       submitted_at: new Date().toISOString(),
     };
