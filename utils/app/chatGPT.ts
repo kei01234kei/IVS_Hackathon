@@ -1,4 +1,5 @@
-import { ChatGPT, ChatGPTMessage, Temperature } from '@/lib/chatGPT';
+import { ChatGPT, Temperature } from '@/lib/chatGPT';
+import { Message } from "@/types/chat";
 
 
 type Score = {
@@ -6,19 +7,26 @@ type Score = {
 };
 
 export const gradeSenseUsingChatGPT = async (
-  submission: string,
   problem: any,
   answer: any,
-  temperature: Temperature
+  temperature: Temperature,
+  systemPrompt: string,
+  messages: Message[]
 ): Promise<number> => {
+  // ユーザの最後のメッセージを取得します
+  const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
+  if (!lastUserMessage) {
+    throw new Error('User message not found');
+  }
   const scores: number[] = [];
   for (const chat_gpt_role of answer.chat_gpt_roles) {
     const chatGPTResponse = await ChatGPT.create(
       answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      systemPrompt,
       [
-        new ChatGPTMessage(
-          'user',
-          `# Role
+        {
+          role: 'user',
+          content: `# Role
           ${chat_gpt_role}
           
           # Scoring Criteria
@@ -34,8 +42,8 @@ export const gradeSenseUsingChatGPT = async (
           ${problem.content}
           
           # User Response
-          ${submission}`,
-        ),
+          ${lastUserMessage.content}`
+        }
       ],
       temperature
     );
@@ -60,11 +68,11 @@ export const gradeSenseUsingChatGPT = async (
 };
 
 export const gradedMultipleCaseUsingChatGPT = async (
-  submission: string,
-  system_prompt: any,
   problem: any,
   answer: any,
-  temperature: Temperature
+  temperature: Temperature,
+  systemPrompt: string,
+  messages: Message[]
 ): Promise<number> => {
   const scores: number[] = [];
   for (let i = 0; i < answer.inputs.length; i++) {
@@ -77,10 +85,13 @@ export const gradedMultipleCaseUsingChatGPT = async (
     }
     const chatGPTResponse = await ChatGPT.create(
       answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      systemPrompt,
       [
-        new ChatGPTMessage('system', system_prompt),
-        new ChatGPTMessage('user', submission),
-        new ChatGPTMessage('user', input),
+        ...messages,
+        {
+          "role": "user",
+          "content": input
+        },
       ],
       temperature
     );
