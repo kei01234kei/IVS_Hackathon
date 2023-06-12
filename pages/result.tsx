@@ -129,13 +129,6 @@ const Result: React.FC = () => {
                 pathname: '/menu/problems',
               });
             } else {
-              const nextProblemId = problemData.next_problem_id? problemData.next_problem_id:problemData.id + 1
-              // todo: fixme
-              if (nextProblemId > 3) {
-                router.push({
-                  pathname: '/menu/problems',
-                });
-              }
               router.push({
                 pathname: '/chat',
                 query: {
