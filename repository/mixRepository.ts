@@ -12,7 +12,7 @@ import {
   CreateCompetitionsRequest,
   UpdateCompetitionsRequest,
 } from '@/types/competition';
-import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
+import { CreateProblemRequest, UpdateProblemRequest, GetProblemsResponse } from '@/types/problem';
 import { CreateSubmissionRequest } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
@@ -116,9 +116,34 @@ export class MixRepository extends AbstractRepository {
     });
   }
 
-  getProblems() {
-    return Promise.resolve({
-      problems: [problem1, problem2, problem3],
+  getProblems(competitionId: number) {
+    return new Promise<GetProblemsResponse>(async (resolve) => {
+      const res = await this.apiClient.get(`/competitions/${competitionId}/problems`)
+      const problems = res.data?.problems
+      const result: GetProblemResponse[] = []
+      if (problems) {
+        problems.forEach((problem:any) => {
+          const addProblem: GetProblemResponse = {
+            id: Number(problem?.id),
+            competition_id: Number(problem?.competition_id),
+            problem_number: Number(problem?.problem_number),
+            name: problem?.name,
+            level: problem?.level,
+            score: Number(problem?.score),
+            problem_type_id: Number(problem?.problem_type_id),
+            content: problem?.content,
+            input_example: problem?.input_example as string,
+            output_example: problem?.output_example as string,
+            next_problem_id: Number(problem?.next_problem_id) || null,
+            prev_problem_id: Number(problem?.prev_problem_id) || null,
+          }
+          result.push(addProblem)
+        });
+      }
+
+      resolve({
+        problems: result,
+      })
     });
   }
   getProblem(competitionId: number, problemId: number) {
