@@ -1,24 +1,34 @@
-import { ChatGPT, ChatGPTMessage, Temperature } from '@/lib/chatGPT';
+import GPT3Tokenizer from "gpt3-tokenizer";
+import { ChatGPT, Temperature } from '@/lib/chatGPT';
+import { Message } from "@/types/chat";
 
+
+const TOKEN_LIMIT = 4096;
 
 type Score = {
   score: number;
 };
 
 export const gradeSenseUsingChatGPT = async (
-  submission: string,
   problem: any,
   answer: any,
-  temperature: Temperature
+  temperature: Temperature,
+  systemPrompt: string,
+  messages: Message[]
 ): Promise<number> => {
+  // ユーザの最後のメッセージを取得します
+  const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
+  if (!lastUserMessage) {
+    throw new Error('User message not found');
+  }
   const scores: number[] = [];
   for (const chat_gpt_role of answer.chat_gpt_roles) {
-    const chatGPTResponse = await ChatGPT.create(
-      answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+    const messagesToSend = await trimHistory(
       [
-        new ChatGPTMessage(
-          'user',
-          `# Role
+        {role: 'system', content: systemPrompt},
+        {
+          role: 'user',
+          content: `# Role
           ${chat_gpt_role}
           
           # Scoring Criteria
@@ -34,9 +44,14 @@ export const gradeSenseUsingChatGPT = async (
           ${problem.content}
           
           # User Response
-          ${submission}`,
-        ),
+          ${lastUserMessage.content}`
+        }
       ],
+      TOKEN_LIMIT
+    );
+    const chatGPTResponse = await ChatGPT.create(
+      answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      messagesToSend,
       temperature
     );
     console.log('ChatGPT からのレスポンスです');
@@ -60,11 +75,11 @@ export const gradeSenseUsingChatGPT = async (
 };
 
 export const gradedMultipleCaseUsingChatGPT = async (
-  submission: string,
-  system_prompt: any,
   problem: any,
   answer: any,
-  temperature: Temperature
+  temperature: Temperature,
+  systemPrompt: string,
+  messages: Message[]
 ): Promise<number> => {
   const scores: number[] = [];
   for (let i = 0; i < answer.inputs.length; i++) {
@@ -75,13 +90,20 @@ export const gradedMultipleCaseUsingChatGPT = async (
     } catch (error) {
       throw new Error(`${answer.contents[i]} is not a valid JSON`);
     }
+    const messagesToSend = await trimHistory(
+      [
+        {role: 'system', content: systemPrompt},
+        ...messages,
+        {
+          "role": "user",
+          "content": input
+        },
+      ],
+      TOKEN_LIMIT
+    );
     const chatGPTResponse = await ChatGPT.create(
       answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
-      [
-        new ChatGPTMessage('system', system_prompt),
-        new ChatGPTMessage('user', submission),
-        new ChatGPTMessage('user', input),
-      ],
+      messagesToSend,
       temperature
     );
     console.log('ChatGPT からのレスポンスです');
@@ -139,3 +161,44 @@ const extractScoreFromJSON = (jsonString: string): Score => {
     throw new Error(`Invalid JSON: ${matches[0]}`);
   }
 };
+
+// 会話履歴の配列をトリミングする関数
+export const trimHistory = async (messages: Message[], tokenLimit: number): Promise<Message[]> => {
+  let tokenCount = 0;
+    let messagesToSend: any[] = [];
+
+    // 最初のメッセージがsysmtem promptの場合は必ず含める
+    let firstMessage = null;
+    if (messages.length > 0 && messages[0]["role"] === "system") {
+        firstMessage = messages[0];
+        tokenCount = await getTokenCount(messages[0]["content"]) + 4; // 4はChatGPTが勝手に付与するトークン
+    }
+
+    let endIndex = 0;
+    if (firstMessage) {
+        endIndex = 1; // 最初のメッセージは既に処理されているので、ループの開始位置を1つ前にする
+    }
+    for (let i = messages.length - 1; i >= endIndex; i--) {
+        const message = messages[i];
+        const tokenLength = await getTokenCount(message["content"]) + 4 // 4はChatGPTが勝手に付与するトークン
+        console.log("tokenLength", tokenLength)
+        if (tokenCount + tokenLength > tokenLimit) {
+            break;
+        }
+        console.log("tokenCount", tokenCount)
+        tokenCount += tokenLength;
+        messagesToSend = [message, ...messagesToSend];
+    }
+
+    if (firstMessage) {
+        messagesToSend = [firstMessage, ...messagesToSend];
+    }
+
+    return messagesToSend;
+}
+
+export const getTokenCount = async (inputText: string): Promise<number> => {
+  const tokenizer = new GPT3Tokenizer({ type: "gpt3" }) // or 'codex'
+  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(inputText)
+  return encoded.bpe.length
+}
