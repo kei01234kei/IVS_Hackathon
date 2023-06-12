@@ -8,7 +8,6 @@ import { CreateSubmissionRequest, CreateSubmissionResponse } from '@/types/submi
 
 
 const filePaths = {
-  submissions: path.join(process.cwd(), 'data', 'submissions.json'),
   answers: path.join(process.cwd(), 'data', 'answers.json'),
   problems: path.join(process.cwd(), 'data', 'problems.json'),
   problem_types: path.join(process.cwd(), 'data', 'problem_types.json'),
@@ -19,7 +18,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { user_id, competition_id, problem_id, content } = req.body as CreateSubmissionRequest;
 
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
-    const submissions = JSON.parse(fs.readFileSync(filePaths.submissions, 'utf8'),);
     const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
     const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
     const problem_types = JSON.parse(fs.readFileSync(filePaths.problem_types, 'utf8'),);
@@ -82,13 +80,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       score,
       submitted_at: new Date().toISOString(),
     };
-
-    // 新しい submission をリストに追加して保存する
-    submissions.push(newSubmission);
-    fs.writeFileSync(
-      filePaths.submissions,
-      JSON.stringify(submissions, null, 2),
-    );
 
     // レスポンスを返します
     res.status(200).json(newSubmission);

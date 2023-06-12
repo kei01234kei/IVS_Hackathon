@@ -44,6 +44,8 @@ export interface GetProblemResponse {
   content: string;
   input_example: string;
   output_example: string;
+  next_problem_id: number|null;
+  prev_problem_id: number|null,
 }
 
 // example CreateProblemRequest
