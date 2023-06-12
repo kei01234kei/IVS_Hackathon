@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import { Problem } from '@/types/problem';
 
-import HomeContext from '@/pages/api/home/home.context';
+import HomeContext from '@/pages/chat/home.context';
 
 import ChatbarContext from '@/components/Chatbar/Chatbar.context';
 

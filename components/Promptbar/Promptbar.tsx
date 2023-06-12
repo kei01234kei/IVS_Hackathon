@@ -18,7 +18,7 @@ import { OpenAIModels } from '@/types/openai';
 import { PluginKey } from '@/types/plugin';
 import { Prompt } from '@/types/prompt';
 
-import HomeContext from '@/pages/api/home/home.context';
+import HomeContext from '@/pages/chat/home.context';
 
 import { Conversations } from '../Chatbar/components/Conversations';
 import { PromptFolders } from './components/PromptFolders';

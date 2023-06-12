@@ -1,11 +1,10 @@
-import { IconExternalLink } from '@tabler/icons-react';
 import { useContext } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
 import { OpenAIModel } from '@/types/openai';
 
-import HomeContext from '@/pages/api/home/home.context';
+import HomeContext from '@/pages/chat/home.context';
 
 export const ModelSelect = () => {
   const { t } = useTranslation('chat');

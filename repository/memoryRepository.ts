@@ -1,17 +1,14 @@
-import {
-  CreateParticipantRequest,
-  UpdateParticipantRequest,
-} from '../types/participant';
-import { Problem } from '../types/problem';
 import { Conversation } from '@/types/chat';
-import {
-  CreateCompetitionsRequest,
-  UpdateCompetitionsRequest,
-} from '@/types/competition';
+import { CreateCompetitionsRequest, UpdateCompetitionsRequest } from '@/types/competition';
 import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
 import { CreateSubmissionRequest } from '@/types/submission';
+import { CreateParticipantRequest, UpdateParticipantRequest } from '../types/participant';
+import { Problem } from '../types/problem';
+
+
 
 import { AbstractRepository } from '@/repository/abstractRepository';
+
 
 let evaluateScore = 0;
 const problem1 = {
@@ -53,6 +50,9 @@ const problem3 = {
   input_example: '⼊⼒例',
   output_example: '出⼒例',
 };
+
+const futureTime = (new Date('2023-06-20T12:00:00+09:00')).toISOString();
+const pastTime = (new Date('2023-06-10T12:00:00+09:00')).toISOString();
 
 const dummyConversation: Conversation = {
   id: 'dummy1',
@@ -120,15 +120,15 @@ export class MemoryRepository extends AbstractRepository {
           id: 1,
           name: 'コンペティションいち',
           description: 'コンペティションいち説明',
-          start_date: '2020-01-01',
-          end_date: '2020-01-02',
+          start_date: pastTime,
+          end_date: futureTime,
         },
         {
           id: 2,
           name: 'コンペティションに名',
           description: 'コンペティション２説明',
-          start_date: '2020-02-01',
-          end_date: '2020-02-04',
+          start_date: pastTime,
+          end_date: futureTime,
         },
       ],
     });
@@ -138,8 +138,8 @@ export class MemoryRepository extends AbstractRepository {
       id: competitionId,
       name: 'コンペティションいち',
       description: 'コンペティションいち説明',
-      start_date: '2020-01-01',
-      end_date: '2020-01-02',
+      start_date: pastTime,
+      end_date: futureTime,
     });
   }
   createCompetition(createCompetitionsRequest: CreateCompetitionsRequest) {
