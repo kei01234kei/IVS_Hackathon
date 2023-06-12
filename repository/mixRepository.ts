@@ -258,14 +258,16 @@ export class MixRepository extends AbstractRepository {
   evaluate(evaluationRequest: EvaluationRequest) {
     return new Promise<number>(async (resolve) => {
       const res = await this.apiClient.post(
-        `/competition/${evaluationRequest.id}/evaluation`,
+        `/competitions/${evaluationRequest.competition_id}/evaluation`,
         {
+          competition_id: evaluationRequest.competition_id,
           user_id: evaluationRequest.user_id,
           problem_id: evaluationRequest.problem_id,
           message: evaluationRequest.message,
         },
       );
       const score = parseInt(res.data?.score);
+      console.log(score)
       resolve(score);
     });
   }

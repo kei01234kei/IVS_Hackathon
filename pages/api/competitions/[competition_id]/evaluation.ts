@@ -15,8 +15,7 @@ const filePaths = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { user_id, id, problem_id, message } = req.body as EvaluationRequest;
-    const competition_id = id;
+    const { user_id, competition_id, problem_id, message } = req.body as EvaluationRequest;
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
     const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
     const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
@@ -72,7 +71,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // submission を作成します
     const newSubmission: EvaluationResponse = {
-      id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
+      competition_id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
       user_id,
       problem_id,
       message,

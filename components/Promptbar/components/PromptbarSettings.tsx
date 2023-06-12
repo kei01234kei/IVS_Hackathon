@@ -56,7 +56,7 @@ export const PromptbarSettings: FC<Props> = () => {
       // todo: user_idを取得する
       prompthonClient
         .evaluate({
-          id: competitionId.toString(),
+          competition_id: competitionId.toString(),
           user_id: 1,
           problem_id: problemId,
           message: selectedConversation,
