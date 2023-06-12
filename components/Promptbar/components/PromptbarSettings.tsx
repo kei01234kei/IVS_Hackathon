@@ -33,7 +33,8 @@ export const PromptbarSettings: FC<Props> = () => {
   const score = state.score;
   const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [evaluateLoading, setEvaluateLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const { reward, isAnimating } = useReward('rewardId', 'confetti', {
     angle: 130,
   });
@@ -47,11 +48,11 @@ export const PromptbarSettings: FC<Props> = () => {
   }, [competitionId, problemId]);
 
   const handleEvaluate = async () => {
-    setLoading(true);
+    setEvaluateLoading(true);
     const selectedConversation = state.selectedConversation;
     if (!selectedConversation) {
       alert('会話を選択してください');
-      setLoading(false);
+      setEvaluateLoading(false);
     } else {
       // todo: user_idを取得する
       prompthonClient
@@ -67,7 +68,7 @@ export const PromptbarSettings: FC<Props> = () => {
             handleUpdateBestScore(newScore);
             reward();
           }
-          setLoading(false);
+          setEvaluateLoading(false);
         });
     }
   };
@@ -75,9 +76,11 @@ export const PromptbarSettings: FC<Props> = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
+    setSubmitLoading(true);
     const selectedConversation = state.selectedConversation;
     if (!selectedConversation) {
       alert('会話を選択してください');
+      setSubmitLoading(false);
       return;
     } else {
       // todo: user_idを取得する
@@ -91,6 +94,7 @@ export const PromptbarSettings: FC<Props> = () => {
       console.log(submission.score);
       console.log(submission.content);
       handleClearConversations();
+      setSubmitLoading(false);
       router.push({
         pathname: '/result',
         query: {
@@ -112,9 +116,9 @@ export const PromptbarSettings: FC<Props> = () => {
       <button
         className="text-white flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-white hover:text-black"
         onClick={handleEvaluate}
-        disabled={loading}
+        disabled={evaluateLoading}
       >
-        {loading ? (
+        {evaluateLoading ? (
           <>
             <IconLoader size={16} className="animate-spin mr-2" />
             <p>採点中...</p>
@@ -131,8 +135,17 @@ export const PromptbarSettings: FC<Props> = () => {
         className="text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-gray-500 text-white"
         onClick={handleSubmit}
       >
-        <IconSquareCheck size={16} />
-        提出して完了する
+        {evaluateLoading ? (
+          <>
+            <IconLoader size={16} className="animate-spin mr-2" />
+            <p>提出中...</p>
+          </>
+        ) : (
+          <>
+            <IconSquareCheck size={16} />
+            提出して完了する
+          </>
+        )}
       </button>
     </div>
   );
