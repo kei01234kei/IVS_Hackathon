@@ -171,7 +171,7 @@ export class MemoryRepository extends AbstractRepository {
     });
   }
 
-  getProblems() {
+  getProblems(competitionId: number) {
     return Promise.resolve({
       problems: [problem1, problem2, problem3],
     });

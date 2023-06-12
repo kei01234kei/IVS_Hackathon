@@ -69,7 +69,7 @@ export abstract class AbstractRepository {
   ): Promise<CompleteCompetitionsResponse>;
   // abstract getCompetitionStandings():void
 
-  abstract getProblems(): Promise<GetProblemsResponse>;
+  abstract getProblems(competitionId: number): Promise<GetProblemsResponse>;
   abstract getProblem(
     competitionId: number,
     problemId: number,

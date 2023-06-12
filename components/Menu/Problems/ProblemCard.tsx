@@ -1,3 +1,7 @@
+import { useRouter } from 'next/router';
+
+import { Problem } from '@/types/problem';
+
 import { LevelBadge } from '@/components/LevelBadge';
 
 import { Group, Paper, Text } from '@mantine/core';
@@ -9,11 +13,19 @@ enum Level {
 }
 
 interface ProblemCardProps {
-  title: string;
-  level: Level;
+  problem: Problem;
 }
 
-export const ProblemCard: React.FC<ProblemCardProps> = ({ title, level }) => {
+export const ProblemCard: React.FC<ProblemCardProps> = ({ problem }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    window.open(
+      `/chat/?problemId=${problem.id}&competitionId=${problem.competition_id}`,
+      '_blank',
+    );
+  };
+
   return (
     <Paper
       p="sm"
@@ -21,12 +33,20 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({ title, level }) => {
       style={{
         display: 'inline-block',
       }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.1)';
+        e.currentTarget.style.transition = 'transform 0.3s ease-in-out';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
+      onClick={handleClick}
     >
       <Group>
         <Text fz="lg" fw={700}>
-          {title}
+          {problem.name}
         </Text>
-        <LevelBadge level={level} />
+        <LevelBadge level={problem.level} />
       </Group>
     </Paper>
   );
