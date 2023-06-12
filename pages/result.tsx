@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Problem } from '@/types/problem';
+import { GetProblemResponse } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
 
 import { ChatHistory } from '@/components/ChatHistory';
@@ -17,7 +17,9 @@ const Result: React.FC = () => {
   const [submissionData, setSubmissionData] =
     useState<GetSubmissionResponse | null>(null);
   const prompthonClient = ClientFactory.getPrompthonClient();
-  const [problemData, setProblemData] = useState<Problem | null>(null);
+  const [problemData, setProblemData] = useState<GetProblemResponse | null>(
+    null,
+  );
 
   useEffect(() => {
     if (!userId || !competitionId || !problemId) return;
@@ -76,8 +78,8 @@ const Result: React.FC = () => {
             <tbody>{rows}</tbody>
           </Table>
         </div>
-        <PromptHistory prompt={JSON.parse(submissionData.content)} />
-        <ChatHistory conversation={JSON.parse(submissionData.content)} />
+        <PromptHistory prompt={submissionData.content} />
+        <ChatHistory conversation={submissionData.content} />
       </div>
 
       <div className="fixed bottom-8 right-8 space-x-4">
@@ -93,17 +95,13 @@ const Result: React.FC = () => {
         <button
           className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
           onClick={() => {
-            prompthonClient
-              .getNextProblemId(Number(problemId))
-              .then((nextProblemId) => {
-                router.push({
-                  pathname: '/',
-                  query: {
-                    problemId: nextProblemId,
-                    competitionId,
-                  },
-                });
-              });
+            router.push({
+              pathname: '/',
+              query: {
+                problemId: problemData.next_problem_id,
+                competitionId,
+              },
+            });
           }}
         >
           <p className="font-bold">次の問題を解く</p>
