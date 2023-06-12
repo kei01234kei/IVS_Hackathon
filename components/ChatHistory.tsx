@@ -22,7 +22,7 @@ export const ChatHistory = (props: ChatProps) => {
 
   return (
     <div>
-      <Title order={3} mb="sm">
+      <Title order={3} mb="sm" c={'gray.8'}>
         会話履歴
       </Title>
 

@@ -21,6 +21,18 @@ const Result: React.FC = () => {
     null,
   );
 
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZone: 'Asia/Tokyo',
+  };
+
+  const formatter = new Intl.DateTimeFormat('ja-JP', options);
+
   useEffect(() => {
     if (!userId || !competitionId || !problemId) return;
 
@@ -50,7 +62,10 @@ const Result: React.FC = () => {
   }
 
   const elements = [
-    { col: '提出日時', value: submissionData.submitted_at },
+    {
+      col: '提出日時',
+      value: formatter.format(new Date(submissionData.submitted_at)),
+    },
     { col: '問題', value: problemData.name },
     { col: 'スコア', value: `${submissionData.score}pt` },
   ];
@@ -73,7 +88,9 @@ const Result: React.FC = () => {
           </p>
         </div>
         <div className="space-y-4">
-          <Title order={2}>提出の詳細</Title>
+          <Title order={2} c={'gray.8'}>
+            提出の詳細
+          </Title>
           <Table striped verticalSpacing="md" horizontalSpacing="xl">
             <tbody>{rows}</tbody>
           </Table>
@@ -86,8 +103,9 @@ const Result: React.FC = () => {
         <button
           className="px-4 py-2 bg-white rounded h-10 rounded text-gray-600 border border-gray-600 hover:border-transparent"
           onClick={() => {
-            alert('未実装');
-            // router.push('/another-path');
+            router.push({
+              pathname: '/menu/problems',
+            });
           }}
         >
           <p className="font-bold">問題一覧に戻る</p>
@@ -96,7 +114,7 @@ const Result: React.FC = () => {
           className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
           onClick={() => {
             router.push({
-              pathname: '/',
+              pathname: '/chat',
               query: {
                 problemId: problemData.next_problem_id,
                 competitionId,
