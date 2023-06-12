@@ -1,6 +1,30 @@
 import axios, { AxiosError } from 'axios';
 import { Configuration, OpenAIApi } from 'openai';
 
+export class Temperature {
+  private value: number;
+
+  constructor(_value: number) {
+    if (_value < 0 || _value > 2) {
+      throw new Error("Temperature must be between 0 and 2");
+    }
+
+    this.value = _value;
+  }
+
+  getValue(): number {
+    return this.value;
+  }
+
+  setValue(value: number): void {
+    if (value < 0 || value > 2) {
+      throw new Error("Temperature must be between 0 and 2");
+    }
+
+    this.value = value;
+  }
+}
+
 // Role型を enum 形式で定義
 const ROLE = {
   USER: 'user',
@@ -166,6 +190,7 @@ export class ChatGPT {
   public static async create(
     model: MODEL,
     messages: ChatGPTMessage[],
+    temperature?: Temperature,
     timeout?: number,
   ): Promise<ChatGPTResponse | undefined> {
     const configuration = new Configuration({
@@ -179,6 +204,7 @@ export class ChatGPT {
         {
           model: model,
           messages: messages.map((message) => message.toSerializable()),
+          temperature: temperature?.getValue(),
         },
         {
           timeout,
