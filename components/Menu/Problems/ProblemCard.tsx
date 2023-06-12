@@ -43,7 +43,7 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({ problem }) => {
       onClick={handleClick}
     >
       <Group>
-        <Text fz="lg" fw={700}>
+        <Text fz="lg" fw={700}  c="gray.8">
           {problem.name}
         </Text>
         <LevelBadge level={problem.level} />

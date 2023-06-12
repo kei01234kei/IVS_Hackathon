@@ -95,7 +95,7 @@ export const PageHeader = ({ label }: PageHeaderProps) => {
     <>
       <Box className={classes.header}>
         {largeScreen ? (
-          <Title order={4} ml={'lg'}>
+          <Title order={4} ml={'lg'} c="gray.8">
             {label}
           </Title>
         ) : (
@@ -109,7 +109,7 @@ export const PageHeader = ({ label }: PageHeaderProps) => {
             >
               <AppNavbar drawer={true} />
             </Drawer>
-            <Title order={4} ml={'lg'}>
+            <Title order={4} ml={'lg'} c="gray.8">
               {label}
             </Title>
           </Flex>

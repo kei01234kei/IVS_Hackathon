@@ -165,7 +165,9 @@ export default function AppNavbar(props: AppNavbarProps) {
           <Navbar.Section grow>
             <Group className={classes.header}>
               <IconSquareLetterP />
-              <Text sx={{ fontWeight: 700 }}>Prompthon</Text>
+              <Text sx={{ fontWeight: 700 }} c="gray.8">
+                Prompthon
+              </Text>
             </Group>
             <Text size="xs" weight={500} color="dimmed">
               コンペティション

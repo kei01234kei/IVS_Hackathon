@@ -6,7 +6,7 @@ import { PageHeader } from '@/components/Menu/PageHeader';
 import { ProblemCard } from '@/components/Menu/Problems/ProblemCard';
 
 import { ClientFactory } from '@/lib/clientFactory';
-import { Container, Title } from '@mantine/core';
+import { Container, Text, Title } from '@mantine/core';
 
 interface Props {}
 
@@ -63,21 +63,25 @@ export default function Problems(props: Props) {
       <Container size="lg" style={{ padding: '64px 128px' }}>
         <div className="space-y-8">
           <div className="space-y-4">
-            <Title order={1}>IVS Prompthon 2023</Title>
-            <p>
-              IVS Prompthon
-              2023へようこそ！あなたがここにいること、それ自体が未来への第一歩です。この場所はただの学習の場じゃない、未来と共に進化する旅の始まり地点です。
-            </p>
-            <p>
+            <Title order={1} c="gray.8">
+              IVS Prompthon 2023
+            </Title>
+            <Text fz="md" c="gray.8">
+              IVS
+              Prompthon2023へようこそ！あなたがここにいること、それ自体が未来への第一歩です。この場所はただの学習の場じゃない、未来と共に進化する旅の始まり地点です。
+            </Text>
+            <Text fz="md" c="gray.8">
               ChatGPTをただ使うだけ？それは古い話。ここではChatGPTをどう使いこなすか、それを学びます。でも、単にコードを打ち込むだけじゃないんです。一緒に、AIと共に新しい未来を切り開いていくんです。
-            </p>
-            <p>
+            </Text>
+            <Text fz="md" c="gray.8">
               私たちが目指してるのは、自分自身が何でもできる人材になること。AIを上手く活用するためのツール、それがPrompthonです。
               さあ、共にこの挑戦を始めましょう。未来を創造するために、Prompthonであなたの力を試してみてください！
-            </p>
+            </Text>
           </div>
           <div className="space-y-4">
-            <Title order={2}>問題</Title>
+            <Title order={2} c="gray.8">
+              問題
+            </Title>
             <div className="space-x-4">
               {problems.map((problem: Problem) => (
                 <ProblemCard key={problem.id} problem={problem} />
