@@ -19,7 +19,7 @@ import { OpenAIModels } from '@/types/openai';
 import { PluginKey } from '@/types/plugin';
 import { Problem } from '@/types/problem';
 
-import HomeContext from '@/pages/api/home/home.context';
+import HomeContext from '@/pages/chat/home.context';
 
 import { ChatFolders } from './components/ChatFolders';
 import { ChatbarSettings } from './components/ChatbarSettings';
