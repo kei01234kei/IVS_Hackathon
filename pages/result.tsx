@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react';
 
+
+
 import { useRouter } from 'next/router';
+
+
 
 import { GetProblemResponse } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
 
+
+
 import { ChatHistory } from '@/components/ChatHistory';
 import { PromptHistory } from '@/components/PromptHistory';
 
+
+
 import { ClientFactory } from '@/lib/clientFactory';
 import { Table, Title } from '@mantine/core';
+
 
 const Result: React.FC = () => {
   const router = useRouter();
@@ -113,17 +122,19 @@ const Result: React.FC = () => {
         <button
           className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
           onClick={() => {
-            if (problemData.next_problem_id) {
+            // TODO problemData.next_problem_idで取得するようにし、それがnullの場合の処理で分ける
+            const nextProblemId = problemData.id + 1;
+            if (nextProblemId > 3) {
+              router.push({
+                pathname: '/menu/problems',
+              });
+            } else {
               router.push({
                 pathname: '/chat',
                 query: {
                   problemId: problemData.next_problem_id,
                   competitionId,
                 },
-              });
-            } else {
-              router.push({
-                pathname: '/menu/problems',
               });
             }
           }}
