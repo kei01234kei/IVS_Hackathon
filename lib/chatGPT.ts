@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { Configuration, OpenAIApi } from 'openai';
+import { Message } from '@/types/chat'
 
 export class Temperature {
   private value: number;
@@ -154,30 +155,6 @@ export class ChatGPTResponse {
 }
 
 /**
- * ChatGPT を呼び出すときの1発話のメッセージを表すクラスです。
- */
-export class ChatGPTMessage {
-  public role: Role;
-  public content: string;
-
-  constructor(_role: Role, _content: string) {
-    this.role = _role;
-    this.content = _content;
-  }
-
-  /**
-   * ChatGPT APIのリクエストデータを作成するための関数です。
-   * @returns Chat GPT API に送る1発話
-   */
-  public toSerializable(): any {
-    return {
-      role: this.role,
-      content: this.content,
-    };
-  }
-}
-
-/**
  * ChatGPT APIを呼び出すためのクラスです。
  * 参考: https://platform.openai.com/docs/quickstart/build-your-application
  */
@@ -189,7 +166,7 @@ export class ChatGPT {
    */
   public static async create(
     model: MODEL,
-    messages: ChatGPTMessage[],
+    messages: Message[],
     temperature?: Temperature,
     timeout?: number,
   ): Promise<ChatGPTResponse | undefined> {
@@ -203,7 +180,7 @@ export class ChatGPT {
       completion = await openai.createChatCompletion(
         {
           model: model,
-          messages: messages.map((message) => message.toSerializable()),
+          messages: messages,
           temperature: temperature?.getValue(),
         },
         {
