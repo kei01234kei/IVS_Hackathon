@@ -5,7 +5,7 @@ export interface Message {
   content: string;
 }
 
-export type Role = 'assistant' | 'user' | 'system';
+export type Role = 'assistant' | 'user';
 
 export interface ChatBody {
   model: OpenAIModel;

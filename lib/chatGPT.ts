@@ -166,6 +166,7 @@ export class ChatGPT {
    */
   public static async create(
     model: MODEL,
+    systemPrompt: string,
     messages: Message[],
     temperature?: Temperature,
     timeout?: number,
@@ -180,7 +181,13 @@ export class ChatGPT {
       completion = await openai.createChatCompletion(
         {
           model: model,
-          messages: messages,
+          messages: [
+            {
+              role: 'system',
+              content: systemPrompt,
+            },
+            ...messages
+          ],
           temperature: temperature?.getValue(),
         },
         {
