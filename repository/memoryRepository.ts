@@ -2,16 +2,16 @@ import {
   CreateParticipantRequest,
   UpdateParticipantRequest,
 } from '../types/participant';
-import { Problem, GetProblemResponse } from '../types/problem';
+import { GetProblemResponse } from '../types/problem';
 import { Conversation } from '@/types/chat';
-import { CreateCompetitionsRequest, UpdateCompetitionsRequest } from '@/types/competition';
+import {
+  CreateCompetitionsRequest,
+  UpdateCompetitionsRequest,
+} from '@/types/competition';
 import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
 import { CreateSubmissionRequest, EvaluationRequest } from '@/types/submission';
-import { CreateParticipantRequest, UpdateParticipantRequest } from '../types/participant';
-import { Problem } from '../types/problem';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
-
 
 let evaluateScore = 0;
 export const problem1 = {
@@ -60,8 +60,8 @@ export const problem3 = {
   prev_problem_id: 2,
 };
 
-const futureTime = (new Date('2023-06-20T12:00:00+09:00')).toISOString();
-const pastTime = (new Date('2023-06-10T12:00:00+09:00')).toISOString();
+const futureTime = new Date('2023-06-20T12:00:00+09:00').toISOString();
+const pastTime = new Date('2023-06-10T12:00:00+09:00').toISOString();
 
 export const dummyConversation: Conversation = {
   id: 'dummy1',
@@ -276,9 +276,7 @@ export class MemoryRepository extends AbstractRepository {
     });
   }
 
-  evaluate(
-    evaluationRequest: EvaluationRequest
-  ) {
+  evaluate(evaluationRequest: EvaluationRequest) {
     return new Promise<number>((resolve) => {
       setTimeout(() => {
         resolve(evaluateScore++);
