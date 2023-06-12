@@ -4,7 +4,7 @@ import path from 'path';
 
 import { Temperature } from '@/lib/chatGPT';
 import { gradeSenseUsingChatGPT, gradedMultipleCaseUsingChatGPT } from '@/utils/app/chatGPT';
-import { CreateSubmissionRequest, CreateSubmissionResponse, EvaluationResponse, EvaluationRequest } from '@/types/submission';
+import { EvaluationResponse, EvaluationRequest } from '@/types/submission';
 
 
 const filePaths = {
