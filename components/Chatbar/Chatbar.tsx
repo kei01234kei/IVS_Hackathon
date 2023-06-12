@@ -237,6 +237,8 @@ export const Chatbar = (props: Props) => {
     fetchProblem(competitionId, problemId);
   }, [competitionId, problemId]);
 
+  const hoge = () => {};
+
   return (
     <ChatbarContext.Provider
       value={{
@@ -267,6 +269,9 @@ export const Chatbar = (props: Props) => {
         handleCreateFolder={() => handleCreateFolder(t('New folder'), 'chat')}
         handleDrop={handleDrop}
         footerComponent={<ChatbarSettings />}
+        addChatItemButtonTitle="Add Chat Item"
+        handleChatCreateItem={hoge}
+        handleChatCreateFolder={hoge}
       />
     </ChatbarContext.Provider>
   );
