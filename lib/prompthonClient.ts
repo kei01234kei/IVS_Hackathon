@@ -94,8 +94,8 @@ export class PrompthonClient {
   }
   async getCompetitionStandings() {}
 
-  async getProblems(): Promise<GetProblemsResponse> {
-    return this.repo.getProblems();
+  async getProblems(competitionId: number): Promise<GetProblemsResponse> {
+    return this.repo.getProblems(competitionId);
   }
   // 問題の詳細を取得
   async getProblem(
