@@ -1,23 +1,30 @@
-import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+
+
+
+import { getBadgeProps } from '@/utils/app/badgeColor';
+
+
 
 import { Problem } from '@/types/problem';
 
+
+
 import { LevelBadge } from '@/components/LevelBadge';
+
+
 
 import { Group, Paper, Text } from '@mantine/core';
 
-enum Level {
-  Beginner = 1,
-  Intermediate = 2,
-  Advanced = 3,
-}
 
 interface ProblemCardProps {
   problem: Problem;
 }
 
 export const ProblemCard: React.FC<ProblemCardProps> = ({ problem }) => {
-  const router = useRouter();
+  const { color, colorCode } = getBadgeProps(problem.level);
+  const originalTextColor = 'gray.8';
+  const [textColor, setTextColor] = useState(originalTextColor);
 
   const handleClick = () => {
     window.open(
@@ -32,18 +39,26 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({ problem }) => {
       shadow="sm"
       style={{
         display: 'inline-block',
+        background: 'white',
+        transition: 'background 0.2s',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'scale(1.1)';
-        e.currentTarget.style.transition = 'transform 0.3s ease-in-out';
+        e.currentTarget.style.background = `${colorCode}`;
+        setTextColor('white');
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.background = 'white';
+        setTextColor(originalTextColor);
       }}
       onClick={handleClick}
     >
       <Group>
-        <Text fz="lg" fw={700}  c="gray.8">
+        <Text
+          fz="lg"
+          fw={700}
+          c={textColor}
+          style={{ transition: 'color 0.2s' }} // Transition for text color change
+        >
           {problem.name}
         </Text>
         <LevelBadge level={problem.level} />

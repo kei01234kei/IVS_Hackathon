@@ -38,6 +38,7 @@ function App(props: AppProps) {
             withNormalizeCSS
             theme={{
               colorScheme: 'light',
+              fontFamily: 'Poppins',
             }}
           >
             {isMenu ? (
