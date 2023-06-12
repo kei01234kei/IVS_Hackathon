@@ -113,13 +113,19 @@ const Result: React.FC = () => {
         <button
           className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
           onClick={() => {
-            router.push({
-              pathname: '/chat',
-              query: {
-                problemId: problemData.next_problem_id,
-                competitionId,
-              },
-            });
+            if (problemData.next_problem_id) {
+              router.push({
+                pathname: '/chat',
+                query: {
+                  problemId: problemData.next_problem_id,
+                  competitionId,
+                },
+              });
+            } else {
+              router.push({
+                pathname: '/menu/problems',
+              });
+            }
           }}
         >
           <p className="font-bold">次の問題を解く</p>
