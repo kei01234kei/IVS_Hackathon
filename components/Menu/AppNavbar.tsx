@@ -1,20 +1,26 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { IconFileCheck, IconFilePencil, IconList, IconLogout, IconSquareLetterN } from '@tabler/icons-react';
+import {
+  IconFileCheck,
+  IconFilePencil,
+  IconInfoSquare,
+  IconList,
+  IconSquareLetterP,
+} from '@tabler/icons-react';
 import { useState } from 'react';
-
-
 
 import { useRouter } from 'next/router';
 
-
-
 import { useLoginUser } from '@/services/hooks/loginUser';
 
-
-
-import { Code, Group, Navbar, Text, createStyles, getStylesRef, rem } from '@mantine/core';
+import {
+  Group,
+  Navbar,
+  Text,
+  createStyles,
+  getStylesRef,
+  rem,
+} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -91,6 +97,10 @@ const competitions = [
   { link: '/menu/submits', label: '提出結果', icon: IconFileCheck },
 ];
 
+const abouts = [
+  { link: '/menu/about', label: 'Prompthonとは', icon: IconInfoSquare },
+];
+
 interface AppNavbarProps {
   drawer?: boolean;
 }
@@ -126,6 +136,24 @@ export default function AppNavbar(props: AppNavbarProps) {
     </a>
   ));
 
+  const aboutsNav = abouts.map((item) => (
+    <a
+      className={cx(classes.link, {
+        [classes.linkActive]: item.label === active,
+      })}
+      href={item.link}
+      key={item.label}
+      onClick={(event) => {
+        event.preventDefault();
+        setActive(item.label);
+        router.push(item.link);
+      }}
+    >
+      <item.icon className={classes.linkIcon} stroke={1.5} />
+      <span>{item.label}</span>
+    </a>
+  ));
+
   return (
     <>
       {(largeScreen || (!largeScreen && props.drawer)) && (
@@ -136,15 +164,19 @@ export default function AppNavbar(props: AppNavbarProps) {
         >
           <Navbar.Section grow>
             <Group className={classes.header}>
-              <IconSquareLetterN />
-              <Code sx={{ fontWeight: 700 }}>LangCore</Code>
+              <IconSquareLetterP />
+              <Text sx={{ fontWeight: 700 }}>Prompthon</Text>
             </Group>
             <Text size="xs" weight={500} color="dimmed">
               コンペティション
             </Text>
             {competitionNav}
+            <Text size="xs" weight={500} color="dimmed">
+              Prompthon
+            </Text>
+            {aboutsNav}
           </Navbar.Section>
-{/* 
+          {/* 
           <Navbar.Section className={classes.footer}>
             <a href="#" className={classes.link} onClick={onClickLogout}>
               <IconLogout className={classes.linkIcon} stroke={1.5} />
