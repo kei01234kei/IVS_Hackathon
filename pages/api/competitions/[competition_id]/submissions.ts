@@ -19,6 +19,7 @@ const filePaths = {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { user_id, problem_id, messages } = req.body;
+    const competition_id = req.query.competition_id as string;
 
     // JSONファイルから投稿、回答、問題、問題の種類を読み込む
     const submissions = JSON.parse(
@@ -34,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const answer = answers.find((a: any) => a.problem_id === problem_id);
 
     // 問題とその種類を見つける
-    const problem = problems.find((p: any) => p.id === problem_id);
+    const problem = problems.find((p: any) => p.id === problem_id && p.competition_id === competition_id);
     const problem_type = problem_types.find(
       (pt: any) => pt.id === problem.problem_type_id,
     );
@@ -78,6 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const newSubmission = {
       id: nanoid(),
       user_id,
+      competition_id,
       problem_id,
       messages,
       score,
