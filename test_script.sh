@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 問題一覧を取得します
+curl -X GET 'http://localhost:3000/api/competitions/1/problems'
+
 # 正しい回答を提出します
 curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
 -H 'Content-Type: application/json' \
