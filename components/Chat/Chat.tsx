@@ -24,7 +24,7 @@ import { throttle } from '@/utils/data/throttle';
 import { ChatBody, Conversation, Message } from '@/types/chat';
 import { Plugin } from '@/types/plugin';
 
-import HomeContext from '@/pages/chat/home.context';
+import HomeContext from '@/components/Home/home.context';
 
 import Spinner from '../Spinner';
 import { ChatInput } from './ChatInput';

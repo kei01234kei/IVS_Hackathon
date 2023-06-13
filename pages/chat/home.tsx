@@ -37,13 +37,15 @@ import { FolderInterface, FolderType } from '@/types/folder';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
 import { Prompt } from '@/types/prompt';
 
+import HomeContext from '../../components/Home/home.context';
+import {
+  HomeInitialState,
+  initialState,
+} from '../../components/Home/home.state';
 import { Chat } from '@/components/Chat/Chat';
 import { Chatbar } from '@/components/Chatbar/Chatbar';
 import { Navbar } from '@/components/Mobile/Navbar';
 import Promptbar from '@/components/Promptbar';
-
-import HomeContext from './home.context';
-import { HomeInitialState, initialState } from './home.state';
 
 import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
@@ -441,7 +443,7 @@ const Home = ({
           </div>
 
           <div className="flex h-full w-full pt-[48px] sm:pt-0">
-            <Chatbar/>
+            <Chatbar />
 
             <div className="flex flex-1">
               <Chat stopConversationRef={stopConversationRef} />

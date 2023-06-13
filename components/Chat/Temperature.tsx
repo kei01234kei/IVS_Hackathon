@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 
 import { DEFAULT_TEMPERATURE } from '@/utils/app/const';
 
-import HomeContext from '@/pages/chat/home.context';
+import HomeContext from '@/components/Home/home.context';
 
 interface Props {
   label: string;

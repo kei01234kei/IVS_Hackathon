@@ -2,9 +2,8 @@ import { useContext } from 'react';
 
 import { FolderInterface } from '@/types/folder';
 
-import HomeContext from '@/pages/chat/home.context';
-
 import Folder from '@/components/Folder';
+import HomeContext from '@/components/Home/home.context';
 import { PromptComponent } from '@/components/Promptbar/components/Prompt';
 
 import PromptbarContext from '../PromptBar.context';

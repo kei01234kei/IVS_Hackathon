@@ -5,8 +5,7 @@ import { useContext, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import router from 'next/router';
 
-import HomeContext from '@/pages/chat/home.context';
-
+import HomeContext from '@/components/Home/home.context';
 import { SettingDialog } from '@/components/Settings/SettingDialog';
 
 import { Key } from '../../Settings/Key';

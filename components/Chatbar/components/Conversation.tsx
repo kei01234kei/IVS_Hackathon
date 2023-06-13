@@ -16,10 +16,9 @@ import {
 
 import { Conversation } from '@/types/chat';
 
-import HomeContext from '@/pages/chat/home.context';
-
 import SidebarActionButton from '@/components/Buttons/SidebarActionButton';
 import ChatbarContext from '@/components/Chatbar/Chatbar.context';
+import HomeContext from '@/components/Home/home.context';
 
 interface Props {
   conversation: Conversation;

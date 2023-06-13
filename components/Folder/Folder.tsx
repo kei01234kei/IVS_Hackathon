@@ -16,9 +16,8 @@ import {
 
 import { FolderInterface } from '@/types/folder';
 
-import HomeContext from '@/pages/chat/home.context';
-
 import SidebarActionButton from '@/components/Buttons/SidebarActionButton';
+import HomeContext from '@/components/Home/home.context';
 
 interface Props {
   currentFolder: FolderInterface;

@@ -18,12 +18,11 @@ import { OpenAIModels } from '@/types/openai';
 import { PluginKey } from '@/types/plugin';
 import { Prompt } from '@/types/prompt';
 
-import HomeContext from '@/pages/chat/home.context';
-
 import { Conversations } from '../Chatbar/components/Conversations';
 import { PromptFolders } from './components/PromptFolders';
 import { PromptbarSettings } from './components/PromptbarSettings';
 import { Prompts } from './components/Prompts';
+import HomeContext from '@/components/Home/home.context';
 
 import ChatbarContext from '../Chatbar/Chatbar.context';
 import {

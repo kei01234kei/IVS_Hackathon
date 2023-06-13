@@ -19,12 +19,11 @@ import { OpenAIModels } from '@/types/openai';
 import { PluginKey } from '@/types/plugin';
 import { Problem } from '@/types/problem';
 
-import HomeContext from '@/pages/chat/home.context';
-
 import { ChatFolders } from './components/ChatFolders';
 import { ChatbarSettings } from './components/ChatbarSettings';
 import { Conversations } from './components/Conversations';
 import { ProblemDescription } from './components/ProblemDescription';
+import HomeContext from '@/components/Home/home.context';
 
 import Sidebar from '../Sidebar';
 import ChatbarContext from './Chatbar.context';
@@ -37,10 +36,7 @@ interface Props {}
 
 export const Chatbar = (props: Props) => {
   const prompthonClient = ClientFactory.getPrompthonClient();
-  const {
-    competitionId,
-    problemId,
-  } = useContext(HomeContext);
+  const { competitionId, problemId } = useContext(HomeContext);
 
   const { t } = useTranslation('sidebar');
 
@@ -231,8 +227,8 @@ export const Chatbar = (props: Props) => {
 
   useEffect(() => {
     const fetchProblem = async (competitionId: number, problemId: number) => {
-      console.log("chatbar:",problemId);
-      
+      console.log('chatbar:', problemId);
+
       const result = await prompthonClient.getProblem(competitionId, problemId);
       setProblem(result);
     };
