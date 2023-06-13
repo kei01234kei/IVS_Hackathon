@@ -13,7 +13,7 @@ export default function Ranking(props: Props) {
         <title>順位</title>
       </Head>
       <PageHeader label="順位" />
-      <Container size="sm" style={{ marginTop: '3rem' }}>
+      <Container size="sm" my="xl" py="xl">
         <div className="space-y-8">
           <div className="space-y-4">
             <Title order={1} c="gray.8">

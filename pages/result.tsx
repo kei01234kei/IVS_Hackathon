@@ -1,24 +1,15 @@
 import { useEffect, useState } from 'react';
 
-
-
 import { useRouter } from 'next/router';
-
-
 
 import { GetProblemResponse } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
 
-
-
 import { ChatHistory } from '@/components/ChatHistory';
 import { PromptHistory } from '@/components/PromptHistory';
 
-
-
 import { ClientFactory } from '@/lib/clientFactory';
-import { Table, Title } from '@mantine/core';
-
+import { Container, Flex, Table, Title } from '@mantine/core';
 
 const Result: React.FC = () => {
   const router = useRouter();
@@ -87,7 +78,7 @@ const Result: React.FC = () => {
   ));
 
   return (
-    <div className="min-h-screen mx-auto px-[384px] py-32 bg-white">
+    <Container size="sm" pt="3rem" pb="6rem" className="flex justify-center">
       <div className="space-y-8">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold text-gray-800">お疲れ様でした！</h1>
@@ -108,9 +99,9 @@ const Result: React.FC = () => {
         <ChatHistory conversation={submissionData.content} />
       </div>
 
-      <div className="fixed bottom-8 right-8 space-x-4">
+      <Flex justify="center" className="fixed bottom-8 space-x-4">
         <button
-          className="px-4 py-2 bg-white rounded h-10 rounded text-gray-600 border border-gray-600 hover:border-transparent"
+          className="px-4 py-2 bg-white rounded h-10 shadow-md rounded text-gray-600 border border-gray-600 hover:border-transparent"
           onClick={() => {
             router.push({
               pathname: '/menu/problems',
@@ -120,7 +111,7 @@ const Result: React.FC = () => {
           <p className="font-bold">問題一覧に戻る</p>
         </button>
         <button
-          className="px-4 py-2 bg-gray-600 rounded h-10 rounded text-white"
+          className="px-4 py-2 bg-gray-600 rounded h-10 shadow-md rounded text-white"
           onClick={() => {
             // TODO problemData.next_problem_idで取得するようにし、それがnullの場合の処理で分ける
             const nextProblemId = problemData.id + 1;
@@ -141,8 +132,8 @@ const Result: React.FC = () => {
         >
           <p className="font-bold">次の問題を解く</p>
         </button>
-      </div>
-    </div>
+      </Flex>
+    </Container>
   );
 };
 

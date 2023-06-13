@@ -13,7 +13,7 @@ export default function Submits(props: Props) {
         <title>提出結果</title>
       </Head>
       <PageHeader label="提出結果" />
-      <Container size="sm" style={{ marginTop: '3rem' }}>
+      <Container size="sm" my="xl" py="xl">
         <div className="space-y-8">
           <div className="space-y-4">
             <Title order={1} c="gray.8">
