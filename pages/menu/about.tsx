@@ -13,7 +13,7 @@ export default function Problems(props: Props) {
         <title>Prompthonとは</title>
       </Head>
       <PageHeader label="Prompthonとは" />
-      <Container size="lg" style={{ padding: '64px 128px' }}>
+      <Container size="sm" style={{ marginTop: '3rem' }}>
         <div className="space-y-8">
           <div className="space-y-4">
             <Title order={1} c="gray.8">
