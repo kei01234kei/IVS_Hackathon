@@ -1,1 +1,510 @@
-[]
+[
+  {
+    "id": 1611377995464883,
+    "user_id": "1",
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {
+          "role": "user",
+          "content": "2"
+        }
+      ],
+      "prompt": "あなたは優れたアシスタントです",
+      "temperature": 0,
+      "folderId": "1"
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T09:09:22.216Z"
+  },
+  {
+    "id": 8669150854772571,
+    "user_id": "1",
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {
+          "role": "user",
+          "content": "wrong answer"
+        }
+      ],
+      "prompt": "あなたは優れたアシスタントです",
+      "temperature": 0,
+      "folderId": "1"
+    },
+    "score": 0,
+    "submitted_at": "2023-06-13T09:09:22.263Z"
+  },
+  {
+    "id": 2876685923561877,
+    "user_id": "1",
+    "problem_id": 3,
+    "problem_type_id": "3",
+    "content": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Given a document from a user, try to extract the following metadata:\n - minimum_monthly_salary: number or null\n - maximum_monthly_salary: number or null\n\nexample input1: 年棒240万円以上\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\n\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\n ONLY JSON is accepted as a response."
+        }
+      ],
+      "model": {
+        "id": "1",
+        "name": "gpt-3.5-turbo",
+        "maxLength": 1000,
+        "tokenLimit": 2000
+      },
+      "prompt": "あなたは優れたアシスタントです",
+      "temperature": 0,
+      "folderId": "1"
+    },
+    "score": 300,
+    "submitted_at": "2023-06-13T09:09:37.217Z"
+  },
+  {
+    "id": 4770887386294711,
+    "user_id": 1,
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "9264b886-4b3d-44d9-b743-fbc428799fe8",
+      "name": "print(2)",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(2)"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        },
+        {
+          "role": "user",
+          "content": "print(2)"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        },
+        {
+          "role": "user",
+          "content": "2"
+        },
+        {
+          "role": "assistant",
+          "content": "Is there anything else I can help you with?"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T09:14:10.500Z"
+  },
+  {
+    "id": 8644856618406029,
+    "user_id": "1",
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(1+1)"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        }
+      ],
+      "prompt": "あなたは優れたアシスタントです",
+      "temperature": 0,
+      "folderId": "1"
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T09:22:38.131Z"
+  },
+  {
+    "id": 2821009042945309,
+    "user_id": "1",
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(1+1)"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        }
+      ],
+      "prompt": "あなたは優れたアシスタントです",
+      "temperature": 0,
+      "folderId": "1"
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T09:22:44.751Z"
+  },
+  {
+    "id": 1158090722684469,
+    "user_id": 1,
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "f9594cc4-c727-413c-8b9d-1d997e19b2fc",
+      "name": "print(1+1)",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(1+1)"
+        },
+        {
+          "role": "assistant",
+          "content": ""
+        },
+        {
+          "role": "user",
+          "content": "hello"
+        },
+        {
+          "role": "assistant",
+          "content": "Hello! How can I assist you today?"
+        },
+        {
+          "role": "user",
+          "content": "print(1+1)"
+        },
+        {
+          "role": "assistant",
+          "content": "The output of `print(1+1)` is `2`."
+        },
+        {
+          "role": "user",
+          "content": "print(1+1)"
+        },
+        {
+          "role": "assistant",
+          "content": "The output of `print(1+1)` is `2`."
+        },
+        {
+          "role": "user",
+          "content": "just print answer"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T09:29:17.336Z"
+  },
+  {
+    "id": 7649916483887335,
+    "user_id": "1",
+    "problem_id": 2,
+    "problem_type_id": "2",
+    "content": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {
+          "role": "user",
+          "content": "態度が悪いラーメン屋の店員にコメントして"
+        },
+        {
+          "role": "assistant",
+          "content": "二郎系ラーメン屋の店長さんみたいですね。"
+        }
+      ],
+      "model": {
+        "id": "1",
+        "name": "gpt-3.5-turbo",
+        "maxLength": 1000,
+        "tokenLimit": 2000
+      },
+      "prompt": "あなたは優れたアシスタントです",
+      "temperature": 0,
+      "folderId": "1"
+    },
+    "score": 60,
+    "submitted_at": "2023-06-13T09:31:36.113Z"
+  },
+  {
+    "id": 8452236967005861,
+    "user_id": 1,
+    "problem_id": 2,
+    "problem_type_id": "2",
+    "content": {
+      "id": "5e4639ec-b08b-4652-8995-44a861046930",
+      "name": "print(\"二郎系ラーメン屋の店長さんみたいですね。\")",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(\"二郎系ラーメン屋の店長さんみたいですね。\")"
+        },
+        {
+          "role": "assistant",
+          "content": "ありがとうございます！私は二郎系ラーメン屋の店長ではありませんが、ラーメンは大好きです。二郎系ラーメンは特に好きで、よく食べに行きます。"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 20,
+    "submitted_at": "2023-06-13T10:05:09.935Z"
+  },
+  {
+    "id": 3731870957985173,
+    "user_id": 1,
+    "problem_id": 3,
+    "problem_type_id": "3",
+    "content": {
+      "id": "66550f44-5992-4c4a-86b0-eb15d0b25154",
+      "name": "Given a document from a user, ...",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Given a document from a user, try to extract the following metadata:\\n - minimum_monthly_salary: number or null\\n - maximum_monthly_salary: number or null\\n\\nexample input1: 年棒240万円以上\\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\\n\\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\\n ONLY JSON is accepted as a response."
+        },
+        {
+          "role": "assistant",
+          "content": "{\n  \"minimum_monthly_salary\": 200000,\n  \"maximum_monthly_salary\": null\n}"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 300,
+    "submitted_at": "2023-06-13T10:09:52.526Z"
+  },
+  {
+    "id": 3954648443515809,
+    "user_id": 1,
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "5460ce93-32ad-49ee-9834-cea1ab936832",
+      "name": "print(2)",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(2)"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T10:11:44.229Z"
+  },
+  {
+    "id": 1549000376388435,
+    "user_id": 1,
+    "problem_id": 2,
+    "problem_type_id": "2",
+    "content": {
+      "id": "055b19f9-efdd-48db-a9dd-d75699c9c55d",
+      "name": "print(\"二郎系ラーメン屋の店長さんみたいですね\")",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(\"二郎系ラーメン屋の店長さんみたいですね\")"
+        },
+        {
+          "role": "assistant",
+          "content": "ありがとうございます！私はただのAIですが、二郎系ラーメン屋の店長さんのように、お客様に満足していただけるように努めています。何かご注文はありますか？"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 35,
+    "submitted_at": "2023-06-13T10:13:10.020Z"
+  },
+  {
+    "id": 6732050298705275,
+    "user_id": 1,
+    "problem_id": 3,
+    "problem_type_id": "3",
+    "content": {
+      "id": "5f07f91a-0df6-4c92-9b26-c278f57bbbf7",
+      "name": "Given a document from a user, ...",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Given a document from a user, try to extract the following metadata:\\n - minimum_monthly_salary: number or null\\n - maximum_monthly_salary: number or null\\n\\nexample input1: 年棒240万円以上\\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\\n\\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\\n ONLY JSON is accepted as a response."
+        },
+        {
+          "role": "assistant",
+          "content": "{\n  \"minimum_monthly_salary\": 200000,\n  \"maximum_monthly_salary\":"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 300,
+    "submitted_at": "2023-06-13T10:15:43.706Z"
+  },
+  {
+    "id": 7656200065424403,
+    "user_id": 1,
+    "problem_id": 1,
+    "problem_type_id": "1",
+    "content": {
+      "id": "022d811c-cc09-4d8d-9c80-8add8fb8114a",
+      "name": "print(\"2\")",
+      "messages": [
+        {
+          "role": "user",
+          "content": "print(\"2\")"
+        },
+        {
+          "role": "assistant",
+          "content": "2"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 100,
+    "submitted_at": "2023-06-13T10:48:51.382Z"
+  },
+  {
+    "id": 3297088864088485,
+    "user_id": 1,
+    "problem_id": 2,
+    "problem_type_id": "2",
+    "content": {
+      "id": "48d7261b-3166-484e-a53b-1f1b13d5b5bb",
+      "name": "二郎系ラーメン屋の店員さんみたいですね",
+      "messages": [
+        {
+          "role": "user",
+          "content": "二郎系ラーメン屋の店員さんみたいですね"
+        },
+        {
+          "role": "assistant",
+          "content": "はい、そうですね。二郎系ラーメン屋の店員さんは、特徴的な制服や髪型、そして独特の言葉遣いがあります。また、注文を取る際には、具材やスープの濃さ、麺の硬さなど、細かいオーダーを聞き取ります。お客様に合った最適なラーメンを提供するため、熟練した技術と経験が必要です。"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 25,
+    "submitted_at": "2023-06-13T10:49:41.806Z"
+  },
+  {
+    "id": 1968867946229559,
+    "user_id": 1,
+    "problem_id": 3,
+    "problem_type_id": "3",
+    "content": {
+      "id": "bef2628c-14e6-4b19-9ab0-f2a31a6d7fb0",
+      "name": "Given a document from a user, ...",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Given a document from a user, try to extract the following metadata:\\n - minimum_monthly_salary: number or null\\n - maximum_monthly_salary: number or null\\n\\nexample input1: 年棒240万円以上\\nexample output1: {minimum_monthly_salary: 200000, maximum_monthly_salary:null}\\n\\n Respond with a JSON containing the extracted metadata in key value pairs. If you dont find a metadata field, dont specify it.\\n ONLY JSON is accepted as a response."
+        },
+        {
+          "role": "assistant",
+          "content": "{\n  \"minimum_monthly_salary\": 200000,\n  \"maximum_monthly_salary\":"
+        }
+      ],
+      "model": {
+        "id": "gpt-3.5-turbo",
+        "name": "GPT-3.5",
+        "maxLength": 12000,
+        "tokenLimit": 4000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": null
+    },
+    "score": 300,
+    "submitted_at": "2023-06-13T10:53:39.035Z"
+  }
+]
