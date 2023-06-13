@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import { PageHeader } from '@/components/Menu/PageHeader';
 
-import { Container, Title } from '@mantine/core';
+import { Container, Title, Text } from '@mantine/core';
 
 interface Props {}
 
@@ -19,6 +19,9 @@ export default function Submits(props: Props) {
             <Title order={1} c="gray.8">
               提出結果
             </Title>
+            <Text fz="md" c="gray.8">
+              <p>未実装</p>
+            </Text>
           </div>
         </div>
       </Container>

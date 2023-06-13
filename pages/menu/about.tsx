@@ -25,7 +25,13 @@ export default function Problems(props: Props) {
               Prompthonについて
             </Title>
             <Text fz="md" c="gray.8">
-              Default text
+              <p>
+                Prompthon (プロンプトソン)は、プロンプト (Prompt) と
+                ハッカソン(Hackathon)を組み合わせた造語であり、ChatGPTとの対話スキルを磨くためのコンペティションです。
+              </p>
+              <p>
+                各参加者は具体的なタスクについて、ChatGPTだけで達成することが求められます。ゲーム感覚でプロンプトエンジニアリングを学ぶことで、AIとの対話により深い理解を得ることが可能になります。まずはAIとの対話を「知る」ことから始まり、「使いこなす」ことへと進み、最終的には「自動化する」ことを目指します。
+              </p>
             </Text>
           </div>
           <div className="space-y-4">
@@ -33,7 +39,9 @@ export default function Problems(props: Props) {
               Prompthonのルール
             </Title>
             <Text fz="md" c="gray.8">
-              Default text
+              <p>
+                Prompthonのコンペティションでは、参加者が特定のタスクを解決するためにChatGPTと対話します。
+              </p>
             </Text>
           </div>
         </div>
