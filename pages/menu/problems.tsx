@@ -8,7 +8,7 @@ import { PageHeader } from '@/components/Menu/PageHeader';
 import { ProblemCard } from '@/components/Menu/Problems/ProblemCard';
 
 import { ClientFactory } from '@/lib/clientFactory';
-import { Container, Text, Title } from '@mantine/core';
+import { Container, Flex, Text, Title } from '@mantine/core';
 
 interface Props {}
 
@@ -80,7 +80,7 @@ export default function Problems(props: Props) {
         <title>問題</title>
       </Head>
       <PageHeader label="問題" />
-      <Container size="sm" style={{ marginTop: '3rem' }}>
+      <Container size="sm" mt="3rem">
         <div className="space-y-8">
           <div className="space-y-4">
             <Title order={1} c="gray.8">
@@ -96,11 +96,16 @@ export default function Problems(props: Props) {
             <Title order={2} c="gray.8">
               問題
             </Title>
-            <div className="flex justify-start space-x-4 space-y-4">
+            <Flex
+              gap="xs"
+              justify="flex-start"
+              direction={{ base: 'column', xs: 'row' }}
+              wrap="wrap"
+            >
               {problemsResponse!.problems.map((problem: Problem) => (
                 <ProblemCard key={problem.id} problem={problem} />
               ))}
-            </div>
+            </Flex>
           </div>
         </div>
       </Container>
