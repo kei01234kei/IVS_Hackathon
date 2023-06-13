@@ -132,7 +132,7 @@ const Result: React.FC = () => {
               router.push({
                 pathname: '/chat',
                 query: {
-                  problemId: problemData.next_problem_id,
+                  problemId: nextProblemId,
                   competitionId,
                 },
               });
