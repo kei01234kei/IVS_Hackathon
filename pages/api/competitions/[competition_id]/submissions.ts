@@ -67,7 +67,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     let score = 0;
     if (problem_type.type === 'pattern') {
       // ユーザの最後のメッセージを取得します
-      const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
+      const lastUserMessage = messages.filter((m: any) => m.role === 'assistant').pop();
       if (!lastUserMessage) {
         res.status(400).json({ error: 'User message not found' });
         return;
@@ -78,9 +78,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (problem_type.type === 'gradeSenseUsingChatGPT') {
       try {
         score = await gradeSenseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
-      } catch (error) {
+      } catch (error: any) {
         // chat gpt による採点がうまくいかなかった場合はエラーを返します
-        res.status(500).json({ error: error });
+        res.status(500).json({ error: error.message });
         return;
       }
     } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
@@ -88,7 +88,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         score = await gradedMultipleCaseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
       } catch (error: any) {
         // chat gpt による採点がうまくいかなかった場合はエラーを返します
-        res.status(500).json({ error: error });
+        res.status(500).json({ error: error.message });
         return;
       }
     } else {

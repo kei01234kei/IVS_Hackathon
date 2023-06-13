@@ -14,7 +14,8 @@ curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
       "id": "1",
       "name": "sample",
       "messages": [
-        {"role": "user", "content": "2"}
+        {"role": "user", "content": "print(1+1)"},
+        {"role": "assistant", "content": "2"}
       ],
       "prompt": "あなたは優れたアシスタントです",
       "temperature": 0,
@@ -33,7 +34,8 @@ curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
       "id": "1",
       "name": "sample",
       "messages": [
-        {"role": "user", "content": "wrong answer"}
+        {"role": "user", "content": "wrong answer"},
+        {"role": "assistant", "content": "haha"}
       ],
       "prompt": "あなたは優れたアシスタントです",
       "temperature": 0,
@@ -42,6 +44,31 @@ curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
 }'
 
 # gradedOneCaseByChatGPT problem type の問題に対する挙動確認用の curl コマンドです
+curl -X POST 'http://localhost:3000/api/competitions/1/evaluation' \
+-H 'Content-Type: application/json' \
+-d '{
+    "user_id": 1,
+    "competition_id": 1,
+    "problem_id": 2,
+    "message": {
+      "id": "1",
+      "name": "sample",
+      "messages": [
+        {"role": "user", "content": "態度が悪いラーメン屋の店員にコメントして"},
+        {"role": "assistant", "content": "二郎系ラーメン屋の店長さんみたいですね。"}
+      ],
+      "model": {
+        "id": "1",
+        "name": "gpt-3.5-turbo",
+        "maxLength": 1000,
+        "tokenLimit": 2000
+      },
+      "prompt": "",
+      "temperature": 0,
+      "folderId": "1"
+    }
+}'
+
 curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
 -H 'Content-Type: application/json' \
 -d '{
@@ -52,7 +79,8 @@ curl -X POST 'http://localhost:3000/api/competitions/1/submissions' \
       "id": "1",
       "name": "sample",
       "messages": [
-        {"role": "user", "content": "二郎系ラーメン屋の店長さんみたいですね。"}
+        {"role": "user", "content": "態度が悪いラーメン屋の店員にコメントして"},
+        {"role": "assistant", "content": "二郎系ラーメン屋の店長さんみたいですね。"}
       ],
       "model": {
         "id": "1",

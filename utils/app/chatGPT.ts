@@ -14,7 +14,7 @@ export const gradeSenseUsingChatGPT = async (
   messages: Message[]
 ): Promise<number> => {
   // ユーザの最後のメッセージを取得します
-  const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
+  const lastUserMessage = messages.filter((m: any) => m.role === 'assistant').pop();
   if (!lastUserMessage) {
     throw new Error('User message not found');
   }
@@ -107,9 +107,9 @@ export const gradedMultipleCaseUsingChatGPT = async (
         console.log('不正解です')
         scores.push(0);
       }
-    } catch (error) {
+    } catch (error: any) {
       // chat gpt のレスポンスから score を抽出できなかった場合は continue します
-      console.error(error);
+      console.error(error.message);
       continue;
     }
   }

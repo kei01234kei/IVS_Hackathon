@@ -12,7 +12,7 @@
   {
     "id": "2",
     "problem_id": 2,
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-4",
     "inputs": [],
     "contents": [],
     "description": "few shot を使うと良きです。temperature をあげて何度も出力させてみるのも良いかもしれません。",
@@ -25,7 +25,7 @@
   {
     "id": "3",
     "problem_id": 3,
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-4",
     "inputs": [
       "月給：20万円～33万円",
       "月給：30万円(固定)",
