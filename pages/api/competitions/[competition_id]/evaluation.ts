@@ -17,9 +17,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { user_id, competition_id, problem_id, message } = req.body as EvaluationRequest;
 
     // JSONファイルから回答、問題、問題の種類を読み込む
-    const answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'));
-    const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
-    const problem_types = JSON.parse(fs.readFileSync(filePaths.problem_types, 'utf8'),);
+    let answers: any;
+    try {
+      answers = JSON.parse(fs.readFileSync(filePaths.answers, 'utf8'),);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+    let problems: any;
+    try {
+      problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'),);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+    let problem_types: any;
+    try {
+      problem_types = JSON.parse(fs.readFileSync(filePaths.problem_types, 'utf8'),);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
 
     // 問題の正解を探す
     const answer = answers.find((a: any) => a.problem_id === problem_id);

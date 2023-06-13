@@ -15,7 +15,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const { competition_id } = req.query;
 
     // JSONファイルから問題を読み込む
-    const problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
+    let problems: any;
+    try {
+      problems = JSON.parse(fs.readFileSync(filePaths.problems, 'utf8'));
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
 
     // 問題と一覧を見つける
     const responseProblems = problems.filter((p: any) => String(p.competition_id) === String(competition_id)) as GetProblemResponse[];
