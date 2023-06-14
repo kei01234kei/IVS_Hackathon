@@ -1,6 +1,8 @@
-import { ChatGPT, Temperature } from '@/lib/chatGPT';
+import { ChatGPT, ChatGPTResponse, Temperature } from '@/lib/chatGPT';
 import { Message } from "@/types/chat";
 
+
+const CHAT_GPT_DEFAULT_TIMEOUT = 5000;
 
 type Score = {
   score: number;
@@ -20,33 +22,41 @@ export const gradeSenseUsingChatGPT = async (
   }
   const scores: number[] = [];
   for (const chat_gpt_role of answer.chat_gpt_roles) {
-    const chatGPTResponse = await ChatGPT.create(
-      answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
-      systemPrompt,
-      [
-        {
-          role: 'user',
-          content: `# Role
-          ${chat_gpt_role}
-          
-          # Scoring Criteria
-          ${answer.scoring_criteria}
-          
-          # Output Format
+    let chatGPTResponse: ChatGPTResponse | undefined;
+    try {
+      chatGPTResponse = await ChatGPT.create(
+        answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
+        systemPrompt,
+        [
+
           {
-          "reason":  string (in Japanese),
-          "score" : number (0-${problem.score})
+            role: 'user',
+            content: `# Role
+            ${chat_gpt_role}
+            
+            # Scoring Criteria
+            ${answer.scoring_criteria}
+            
+            # Output Format
+            {
+            "reason":  string (in Japanese),
+            "score" : number (0-${problem.score})
+            }
+            
+            # Problem statement
+            ${problem.content}
+            
+            # User Response
+            ${lastUserMessage.content}`
           }
-          
-          # Problem statement
-          ${problem.content}
-          
-          # User Response
-          ${lastUserMessage.content}`
-        }
-      ],
-      temperature
-    );
+        ],
+        temperature,
+        CHAT_GPT_DEFAULT_TIMEOUT
+      );
+    } catch (error: any) {
+      console.error(error.message);
+      continue;
+    }
     console.log('ChatGPT からのレスポンスです');
     console.log(chatGPTResponse);
     if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
@@ -83,18 +93,26 @@ export const gradedMultipleCaseUsingChatGPT = async (
     } catch (error) {
       throw new Error(`${answer.contents[i]} is not a valid JSON`);
     }
-    const chatGPTResponse = await ChatGPT.create(
-      answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
-      systemPrompt,
-      [
-        ...messages,
-        {
-          "role": "user",
-          "content": input
-        },
-      ],
-      temperature
-    );
+    let chatGPTResponse: ChatGPTResponse | undefined;
+    try {
+      chatGPTResponse = await ChatGPT.create(
+        answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
+        systemPrompt,
+        [
+          ...messages,
+          {
+            "role": "user",
+            "content": input
+          },
+        ],
+        temperature,
+        CHAT_GPT_DEFAULT_TIMEOUT
+      );
+    } catch (error: any) {
+      console.error(error.message);
+      continue;
+    }
+
     console.log('ChatGPT からのレスポンスです');
     console.log(chatGPTResponse);
     if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
@@ -118,7 +136,7 @@ export const gradedMultipleCaseUsingChatGPT = async (
     return scores.reduce((a, b) => a + b);
   }
   else {
-    throw new Error('score を1つも取得できませんでした');
+    throw new Error('No scores were extracted from ChatGPTResponse');
   }
 }
 
