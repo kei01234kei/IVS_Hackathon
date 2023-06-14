@@ -77,7 +77,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (problem_type.type === 'gradeSenseUsingChatGPT') {
     try {
-      score = await gradeSenseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      const grade = await gradeSenseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      score += grade.score
     } catch (error: any) {
       // chat gpt による採点がうまくいかなかった場合はエラーを返します
       res.status(500).json({ error: error.message });
@@ -85,7 +86,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
     try {
-      score = await gradedMultipleCaseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      const grade = await gradedMultipleCaseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      score = grade.score
     } catch (error: any) {
       // chat gpt による採点がうまくいかなかった場合はエラーを返します
       res.status(500).json({ error: error.message });

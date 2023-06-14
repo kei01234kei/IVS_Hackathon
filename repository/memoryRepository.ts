@@ -9,7 +9,7 @@ import {
   UpdateCompetitionsRequest,
 } from '@/types/competition';
 import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
-import { CreateSubmissionRequest, EvaluationRequest } from '@/types/submission';
+import { CreateSubmissionRequest, EvaluationRequest,EvaluationResponse } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
 
@@ -277,9 +277,17 @@ export class MemoryRepository extends AbstractRepository {
   }
 
   evaluate(evaluationRequest: EvaluationRequest) {
-    return new Promise<number>((resolve) => {
+    return new Promise<EvaluationResponse>((resolve) => {
       setTimeout(() => {
-        resolve(evaluateScore++);
+        resolve({
+          user_id: evaluationRequest.user_id,
+          competition_id: evaluationRequest.competition_id,
+          message: dummyConversation,
+          problem_id: evaluationRequest.problem_id,
+          reason: '正解',
+          score: evaluateScore++,
+          submitted_at: new Date().toISOString(),
+        });
       }, 500);
     });
   }

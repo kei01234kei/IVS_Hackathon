@@ -6,6 +6,7 @@ import { GetProblemResponse } from '../types/problem';
 import {
   CreateSubmissionResponse,
   EvaluationRequest,
+  EvaluationResponse
 } from '../types/submission';
 import { Conversation } from '@/types/chat';
 import {
@@ -23,8 +24,6 @@ import {
   problem3,
 } from '@/repository/memoryRepository';
 import axios, { AxiosInstance } from 'axios';
-
-let evaluateScore = 0;
 
 export class MixRepository extends AbstractRepository {
   private apiClient: AxiosInstance;
@@ -282,7 +281,7 @@ export class MixRepository extends AbstractRepository {
   }
 
   evaluate(evaluationRequest: EvaluationRequest) {
-    return new Promise<number>(async (resolve) => {
+    return new Promise<EvaluationResponse>(async (resolve) => {
       const res = await this.apiClient.post(
         `/competitions/${evaluationRequest.competition_id}/evaluation`,
         {
@@ -292,9 +291,9 @@ export class MixRepository extends AbstractRepository {
           message: evaluationRequest.message,
         },
       );
-      const score = parseInt(res.data?.score);
-      console.log(score)
-      resolve(score);
+      // const score = parseInt(res.data?.score);
+      console.log(res.data)
+      resolve(res.data);
     });
   }
 

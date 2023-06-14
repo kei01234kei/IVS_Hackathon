@@ -120,5 +120,6 @@ export interface EvaluationResponse {
   problem_id: number;
   message: Conversation;
   score: number;
+  reason: string;
   submitted_at: string;
 }
