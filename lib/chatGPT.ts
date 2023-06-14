@@ -36,7 +36,7 @@ export type Role = (typeof ROLE)[keyof typeof ROLE];
 
 // Role型を enum 形式で定義
 const MODEL = {
-  gpt3_5: 'gpt-3.5-turbo',
+  gpt3_5: 'gpt-3.5-turbo-0613',
   gpt4: 'gpt-4',
 } as const;
 export type MODEL = (typeof MODEL)[keyof typeof MODEL];

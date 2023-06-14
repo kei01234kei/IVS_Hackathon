@@ -2,7 +2,7 @@
   {
     "id": "1",
     "problem_id": 1,
-    "model": null,
+    "model": "gpt-3.5-turbo-0613",
     "inputs": [],
     "contents": [
       "私はAIロボットです。"
@@ -14,7 +14,7 @@
   {
     "id": "2",
     "problem_id": 2,
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-3.5-turbo-0613",
     "inputs": [],
     "contents": [
       "25"
@@ -26,6 +26,38 @@
   {
     "id": "3",
     "problem_id": 3,
+    "model": "gpt-3.5-turbo-0613",
+    "inputs": [],
+    "contents": [
+      "9"
+    ],
+    "description": "ChatGPTが計算ミスをする場合があります。計算過程を教えたり、計算過程をきちんと出力させることで、計算ミスを減らすことができます。",
+    "chat_gpt_roles": [],
+    "scoring_criteria": null
+  },
+  {
+    "id": "4",
+    "problem_id": 4,
+    "model": "gpt-3.5-turbo-0613",
+    "inputs": [
+      "月給：20万円～33万円",
+      "月給：30万円(固定)",
+      "年俸：600万円以上",
+      "完全歩合制"
+    ],
+    "contents": [
+      "{\n\"maximum_monthly_salary\": 330000,\n\"minimum_monthly_salary\": 200000\n}",
+      "{\n\"maximum_monthly_salary\": 300000,\n\"minimum_monthly_salary\": 300000\n}",
+      "{\n\"maximum_monthly_salary\": null,\n\"minimum_monthly_salary\": 500000\n}",
+      "{\n\"maximum_monthly_salary\": null,\n\"minimum_monthly_salary\": null\n}"
+    ],
+    "description": "JSONの型を指定する、Few Shotを使ってアウトプットの例を教える、JSONのみを必ず返すようにSystemプロンプトで指定しておくことで狙った結果を常に返すようにできます。",
+    "chat_gpt_roles": [],
+    "scoring_criteria": null
+  },
+  {
+    "id": "5",
+    "problem_id": 5,
     "model": "gpt-4",
     "inputs": [],
     "contents": [],
@@ -34,25 +66,5 @@
       "Pretend to be a comedy judge and score the entries."
     ],
     "scoring_criteria": "1. Relevance to the Problem statement: This measures how well the submitted content relates and adapts to the given problem statement.\n 2. Creativity: This evaluates how original and creative the submitted content is.\n 3. Essence of Humor: This assesses how effectively the submitted content uses universal humorous elements."
-  },
-  {
-    "id": "3",
-    "problem_id": 3,
-    "model": "gpt-4",
-    "inputs": [
-      "月給：20万円～33万円",
-      "月給：30万円(固定)",
-      "年俸：600万円以上",
-      "完全歩合制"
-    ],
-    "contents": [
-      "{\n\"minimum_monthly_salary\": 200000,\n\"maximum_monthly_salary\": 330000\n}",
-      "{\n\"minimum_monthly_salary\": 300000,\n\"maximum_monthly_salary\": 300000\n}",
-      "{\n\"minimum_monthly_salary\": 600000,\n\"maximum_monthly_salary\": null\n}",
-      "{\n\"minimum_monthly_salary\": null,\n\"maximum_monthly_salary\": null\n}"
-    ],
-    "description": "few shot を使うと良きです。",
-    "chat_gpt_roles": [],
-    "scoring_criteria": null
   }
 ]

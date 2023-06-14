@@ -124,7 +124,7 @@ const Result: React.FC = () => {
           onClick={() => {
             // TODO problemData.next_problem_idで取得するようにし、それがnullの場合の処理で分ける
             const nextProblemId = problemData.id + 1;
-            if (nextProblemId > 3) {
+            if (nextProblemId > 5) {
               router.push({
                 pathname: '/menu/problems',
               });
