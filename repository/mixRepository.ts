@@ -291,7 +291,6 @@ export class MixRepository extends AbstractRepository {
           message: evaluationRequest.message,
         },
       );
-      // const score = parseInt(res.data?.score);
       console.log(res.data)
       resolve(res.data);
     });

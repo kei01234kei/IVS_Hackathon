@@ -65,8 +65,6 @@ export const PromptbarSettings: FC<Props> = () => {
           message: selectedConversation,
         })
         .then((evaluate) => {
-          console.log("evaluate",evaluate);
-          
           const newScore = evaluate.score
           handleUpdateScore(newScore);
           if (newScore > bestScore) {
