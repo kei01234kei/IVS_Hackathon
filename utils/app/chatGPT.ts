@@ -2,7 +2,6 @@ import { ChatGPT, ChatGPTResponse, Temperature } from '@/lib/chatGPT';
 import { Message } from "@/types/chat";
 
 
-const CHAT_GPT_DEFAULT_TIMEOUT = 5000;
 
 type Score = {
   score: number;
@@ -50,8 +49,7 @@ export const gradeSenseUsingChatGPT = async (
             ${lastUserMessage.content}`
           }
         ],
-        temperature,
-        CHAT_GPT_DEFAULT_TIMEOUT
+        temperature
       );
     } catch (error: any) {
       console.error(error.message);
@@ -105,8 +103,7 @@ export const gradedMultipleCaseUsingChatGPT = async (
             "content": input
           },
         ],
-        temperature,
-        CHAT_GPT_DEFAULT_TIMEOUT
+        temperature
       );
     } catch (error: any) {
       console.error(error.message);

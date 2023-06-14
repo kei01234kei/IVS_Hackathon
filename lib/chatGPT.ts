@@ -169,7 +169,6 @@ export class ChatGPT {
     systemPrompt: string,
     messages: Message[],
     temperature?: Temperature,
-    timeout?: number,
   ): Promise<ChatGPTResponse | undefined> {
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
@@ -191,7 +190,7 @@ export class ChatGPT {
           temperature: temperature?.getValue(),
         },
         {
-          timeout,
+          timeout: 30 * 1000, //vercel pro trial planのタイムアウトに合わせる
         },
       );
     } catch (error) {
