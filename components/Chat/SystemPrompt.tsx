@@ -195,10 +195,12 @@ export const SystemPrompt: FC<Props> = ({
   return (
     <div className="flex flex-col">
       <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400 font-semibold">
-        {"システムプロンプト"}
+        {'システムプロンプト'}
       </label>
       <span className="text-[12px] text-black/50 dark:text-white/50 text-sm">
-        {"システムプロンプトは、AI対して特定の会話スタイルや行動を指示するヒントです。AIの対話の振る舞いを細かく制御することができます。"}
+        {
+          'システムプロンプトは、AI対して特定の会話スタイルや行動を指示するヒントです。AIの対話の振る舞いを細かく制御することができます。'
+        }
       </span>
       <textarea
         ref={textareaRef}
@@ -213,8 +215,8 @@ export const SystemPrompt: FC<Props> = ({
               : 'hidden'
           }`,
         }}
-        placeholder={'システムのプロンプトを入力...' || ''}
-        value={t(value) || ''}
+        placeholder={'システムプロンプトを入力...'}
+        value={value}
         rows={1}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

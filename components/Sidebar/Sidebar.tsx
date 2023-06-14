@@ -2,7 +2,7 @@ import { IconMistOff, IconPlus } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OpenSidebarButton } from './components/OpenCloseButton';
+import { CloseSidebarButton, OpenSidebarButton } from './components/OpenCloseButton';
 
 interface Props<T> {
   isOpen: boolean;
@@ -126,7 +126,7 @@ const Sidebar = <T,>({
         {footerComponent}
       </div>
 
-      {/* <CloseSidebarButton onClick={toggleOpen} side={side} /> */}
+      <CloseSidebarButton onClick={toggleOpen} side={side} />
     </div>
   ) : (
     <OpenSidebarButton onClick={toggleOpen} side={side} />
