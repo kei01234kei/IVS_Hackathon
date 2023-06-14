@@ -2,7 +2,7 @@ import { ChatGPT, ChatGPTResponse, Temperature } from '@/lib/chatGPT';
 import { Message } from "@/types/chat";
 
 
-const CHAT_GPT_DEFAULT_TIMEOUT = 8000;
+const CHAT_GPT_DEFAULT_TIMEOUT = 5000;
 
 type Score = {
   score: number;
