@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 
-
-
 import { getBadgeProps } from '@/utils/app/badgeColor';
-
-
 
 import { Problem } from '@/types/problem';
 
-
-
 import { LevelBadge } from '@/components/LevelBadge';
 
-
-
 import { Group, Paper, Text } from '@mantine/core';
-
 
 interface ProblemCardProps {
   problem: Problem;
@@ -52,12 +43,12 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({ problem }) => {
       }}
       onClick={handleClick}
     >
-      <Group>
+      <Group noWrap={true} align={'center'} spacing={'sm'}>
         <Text
           fz="lg"
           fw={700}
           c={textColor}
-          style={{ transition: 'color 0.2s' }} // Transition for text color change
+          style={{ transition: 'color 0.2s' }}
         >
           {problem.name}
         </Text>
