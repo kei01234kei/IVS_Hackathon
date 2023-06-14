@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Head from 'next/head';
 
@@ -10,7 +10,7 @@ import { ProblemCard } from '@/components/Menu/Problems/ProblemCard';
 import { ClientFactory } from '@/lib/clientFactory';
 import { Container, Text, Title } from '@mantine/core';
 
-interface Props {}
+interface Props { }
 
 export default function Problems(props: Props) {
   const prompthonClient = ClientFactory.getPrompthonClient();
@@ -19,60 +19,18 @@ export default function Problems(props: Props) {
   const [problemsResponse, setProblemsResponse] =
     useState<GetProblemsResponse | null>({
       problems: [
-        {
-          competition_id: 1,
-          id: 1,
-          problem_number: 1,
-          name: '算数の問題',
-          level: 1,
-          score: 4,
-          problem_type_id: 1,
-          content:
-            'A君が16日、B君が20日で終わらせられる仕事がある。この仕事を2人で行ったとき、終わるのは何日後？',
-          input_example: '入力例',
-          output_example: '整数のみ (小数の場合は繰り上げ)',
-          prev_problem_id: null,
-          next_problem_id: null,
-        },
-        {
-          competition_id: 1,
-          id: 2,
-          problem_number: 2,
-          name: '中級問題',
-          level: 2,
-          score: 4,
-          problem_type_id: 1,
-          content: '中級問題',
-          input_example: '入力例',
-          output_example: '出力例',
-          prev_problem_id: null,
-          next_problem_id: null,
-        },
-        {
-          competition_id: 1,
-          id: 3,
-          problem_number: 3,
-          name: '上級問題',
-          level: 3,
-          score: 4,
-          problem_type_id: 1,
-          content: '上級問題',
-          input_example: '入力例',
-          output_example: '出力例',
-          prev_problem_id: null,
-          next_problem_id: null,
-        },
+
       ],
     });
 
   // TODO: getProblemsが動いたらこっちに切り替える
-  // useEffect(() => {
-  //   const fetchProblems = async (competitionId: number) => {
-  //     const response = await prompthonClient.getProblems(competitionId);
-  //     setProblemsResponse(response);
-  //   };
-  //   fetchProblems(competitionId);
-  // }, [competitionId]);
+  useEffect(() => {
+    const fetchProblems = async (competitionId: number) => {
+      const response = await prompthonClient.getProblems(competitionId);
+      setProblemsResponse(response);
+    };
+    fetchProblems(competitionId);
+  }, [competitionId]);
 
   return (
     <>

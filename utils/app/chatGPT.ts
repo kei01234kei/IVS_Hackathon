@@ -21,7 +21,7 @@ export const gradeSenseUsingChatGPT = async (
   const scores: number[] = [];
   for (const chat_gpt_role of answer.chat_gpt_roles) {
     const chatGPTResponse = await ChatGPT.create(
-      answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
       systemPrompt,
       [
         {
@@ -84,7 +84,7 @@ export const gradedMultipleCaseUsingChatGPT = async (
       throw new Error(`${answer.contents[i]} is not a valid JSON`);
     }
     const chatGPTResponse = await ChatGPT.create(
-      answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+      answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
       systemPrompt,
       [
         ...messages,
