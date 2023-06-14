@@ -25,9 +25,10 @@ export const gradeSenseUsingChatGPT = async (
     let chatGPTResponse: ChatGPTResponse | undefined;
     try {
       chatGPTResponse = await ChatGPT.create(
-        answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+        answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
         systemPrompt,
         [
+
           {
             role: 'user',
             content: `# Role
@@ -95,7 +96,7 @@ export const gradedMultipleCaseUsingChatGPT = async (
     let chatGPTResponse: ChatGPTResponse | undefined;
     try {
       chatGPTResponse = await ChatGPT.create(
-        answer?.model || 'gpt-4',  // answers.json で指定されているモデルを読み込みます
+        answer?.model || 'gpt-3.5-turbo-0613',  // answers.json で指定されているモデルを読み込みます
         systemPrompt,
         [
           ...messages,
@@ -111,6 +112,7 @@ export const gradedMultipleCaseUsingChatGPT = async (
       console.error(error.message);
       continue;
     }
+
     console.log('ChatGPT からのレスポンスです');
     console.log(chatGPTResponse);
     if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
