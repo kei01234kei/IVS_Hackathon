@@ -50,6 +50,15 @@ import Promptbar from '@/components/Promptbar';
 import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
+import dynamic from 'next/dynamic';
+import { STATUS } from 'react-joyride';
+import { TOUR_STEPS,ACTIVE_STEPS } from '@/utils/data/tour';
+
+const JoyrideNoSSR = dynamic(
+  () => import('react-joyride'),
+  { ssr: false }
+);
+
 
 interface Props {
   serverSideApiKeyIsSet: boolean;
@@ -73,6 +82,25 @@ const Home = ({
   const { getModels } = useApiService();
   const { getModelsError } = useErrorService();
   const [initialRender, setInitialRender] = useState<boolean>(true);
+
+  const [tourRun, setTourRun] = useState(false);
+  const [tourStep, setTourStep] = useState<any>(TOUR_STEPS);
+
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setTourRun(false);
+      // アクティブな説明が終わったらチュートリアル表示を終了する
+      if (tourStep == ACTIVE_STEPS){
+        return
+      }
+      // 画面説明後に、アクティブなチュートリアル説明を表示する
+      setTimeout(() => {
+        setTourRun(true);
+        setTourStep(ACTIVE_STEPS)
+      }, 1000);
+    }
+  };
 
   const contextValue = useCreateReducer<HomeInitialState>({
     initialState,
@@ -379,6 +407,21 @@ const Home = ({
     serverSideApiKeyIsSet,
     serverSidePluginKeysSet,
   ]);
+  useEffect(() => {
+    prompthonClient.getProblem(competitionId, problemId).then((problem) => {
+      // チュートリアル以外の問題はツアーを開始しない
+      if(!problem.example){
+        return
+      }
+      // 全てのコンポーネントがレンダリングされた後にツアーを開始する
+      if (problem.example > 0) {
+        setTimeout(() => {
+          setTourRun(true);
+        }, 1 * 1000);
+      }
+    }).catch((err) => {
+    });
+  },[]);
 
   // コンペIDと問題IDとスコア  --------------------------------------------
 
@@ -422,6 +465,19 @@ const Home = ({
         handleUpdateBestScore,
       }}
     >
+      <JoyrideNoSSR
+        steps={tourStep}
+        run={tourRun}
+        continuous={true}
+        scrollToFirstStep={true}
+        showSkipButton={true}
+        callback={handleJoyrideCallback}
+        styles={{
+          options: {
+            zIndex: 10000,
+          }
+        }}
+      />
       <Head>
         <title>Prompthon Chat</title>
         <meta name="description" content="ChatGPT but better." />

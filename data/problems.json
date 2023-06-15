@@ -11,7 +11,8 @@
     "content": "ChatGPTをプロンプトで操ることはできますか？まずはChatGPTに「私はAIロボットです。」と言わせてみましょう！",
     "input_example": null,
     "output_format": "文字列",
-    "output_example": "文字列 \n[例] 私は人間です。"
+    "output_example": "文字列 \n[例] 私は人間です。",
+    "example":1
   },
   {
     "id": 2,

@@ -142,6 +142,7 @@ export class MixRepository extends AbstractRepository {
             output_example: problem?.output_example as string,
             next_problem_id: Number(problem?.next_problem_id) || null,
             prev_problem_id: Number(problem?.prev_problem_id) || null,
+            example: problem?.example,
           };
           result.push(addProblem);
         });
@@ -174,6 +175,7 @@ export class MixRepository extends AbstractRepository {
           output_example: problem?.output_example as string,
           next_problem_id: Number(problem?.next_problem_id) || null,
           prev_problem_id: Number(problem?.prev_problem_id) || null,
+          example: problem?.example,
         };
         resolve(result);
       } else {
