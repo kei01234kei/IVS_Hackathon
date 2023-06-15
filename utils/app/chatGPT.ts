@@ -298,9 +298,7 @@ export const MakeWrongReasonCompared = async (
             Please check if the strings match, and if they are wrong, tell us why!
 
             # Output Format
-            {
-            "reason":  string (in Japanese),
-            }
+            string (in Japanese),
 
             # example 1
             ## user input text
@@ -308,9 +306,7 @@ export const MakeWrongReasonCompared = async (
             ## correct text
             hello smith
             ## response
-            {
-              "reason": "名前が違います"
-            }
+            "名前が違います"
 
             # example 2
             ## user input text
@@ -324,9 +320,7 @@ export const MakeWrongReasonCompared = async (
               "age": 23
             }
             ## response
-            {
-              "reason": "年齢が違います"
-            }
+            "年齢が違います"
 
             # example 3
             ## user input text
@@ -340,9 +334,8 @@ export const MakeWrongReasonCompared = async (
               "age": 23
             }
             ## response
-            {
-              "reason": "フィールド名が違います"
-            }
+            "フィールド名が違います"
+
             # example 4
             ## user input text
             hello json
@@ -352,9 +345,7 @@ export const MakeWrongReasonCompared = async (
               "age": 23
             }
             ## response
-            {
-              "reason": "フォーマットが違います"
-            }
+            "フォーマットが違います"
         `,
       [
         {
