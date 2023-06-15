@@ -35,9 +35,7 @@ const ReasonCard = ({ reason, loading = false }: ReasonCardProps) => {
             <IconLoader size={16} className="animate-spin" />
           </div>
         ) : (
-          <div
-            className={`relative flex-1 overflow-hidden text-left`}
-          >
+          <div className={`relative flex-1 overflow-hidden text-left`}>
             <p className="mb-2">[AIコメント]</p>
             <p className="font-normal">{reason}</p>
           </div>
@@ -46,6 +44,9 @@ const ReasonCard = ({ reason, loading = false }: ReasonCardProps) => {
     </>
   );
 };
+
+const randomlyEncourage = () =>
+  ['お見事！', 'やりましたね！', '素晴らしい！'][Math.floor(Math.random() * 3)];
 
 interface Props {}
 
@@ -101,6 +102,9 @@ export const PromptbarSettings: FC<Props> = () => {
         })
         .then((evaluateResponse) => {
           setReason(evaluateResponse.reason);
+          if (evaluateResponse.score === problem?.totalScore) {
+            setReason(randomlyEncourage());
+          }
           const newScore = evaluateResponse.score;
           handleUpdateScore(newScore);
           if (newScore > bestScore) {
