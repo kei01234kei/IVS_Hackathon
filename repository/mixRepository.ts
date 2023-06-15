@@ -167,7 +167,7 @@ export class MixRepository extends AbstractRepository {
           name: problem?.name,
           level: problem?.level,
           score: Number(problem?.score),
-          totalScore: Number(problem?.score),
+          totalScore: Number(problem?.totalScore),
           problem_type_id: Number(problem?.problem_type_id),
           content: problem?.content,
           input_example: problem?.input_example as string,
