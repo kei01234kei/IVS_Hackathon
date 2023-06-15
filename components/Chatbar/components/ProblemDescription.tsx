@@ -2,33 +2,12 @@ import { Problem } from '@/types/problem';
 
 import { LevelBadge } from '@/components/LevelBadge';
 
-enum Level {
-  Beginner = 1,
-  Intermediate = 2,
-  Advanced = 3,
-}
-
 interface Props {
   problem: Problem | null;
 }
 
 export const ProblemDescription = (props: Props) => {
   const problem = props.problem;
-  let levelLabel: string = '';
-
-  if (problem) {
-    switch (problem.level) {
-      case Level.Beginner:
-        levelLabel = '初級';
-        break;
-      case Level.Intermediate:
-        levelLabel = '中級';
-        break;
-      case Level.Advanced:
-        levelLabel = '上級';
-        break;
-    }
-  }
 
   return (
     <div className="flex justify-center">
