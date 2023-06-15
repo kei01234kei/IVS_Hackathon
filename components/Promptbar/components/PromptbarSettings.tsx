@@ -63,6 +63,7 @@ export const PromptbarSettings: FC<Props> = () => {
   const bestScore = state.bestScore;
   const [problem, setProblem] = useState<Problem | null>(null);
   const [isEvaluated, setIsEvaluated] = useState<boolean>(false);
+  const [canEvaluated, setCanEvaluated] = useState<boolean>(false);
   const [evaluateLoading, setEvaluateLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [reason, setReason] = useState<string>('');
@@ -95,6 +96,10 @@ export const PromptbarSettings: FC<Props> = () => {
     if (!selectedConversation) {
       alert('会話を選択してください');
       setEvaluateLoading(false);
+    } else if (selectedConversation.messages.length === 0) {
+      alert('メッセージを1回以上送信してください');
+      setEvaluateLoading(false);
+      setIsEvaluated(false);
     } else {
       // todo: user_idを取得する
       prompthonClient
