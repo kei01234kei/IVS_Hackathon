@@ -11,7 +11,7 @@ export const TOUR_STEPS = [
   },
   {
     target: '.tour-system-prompt',
-    content: 'システムプロンプトはシステムプロンプトは、AI対して特定の会話スタイルや行動を指示するヒントです。',
+    content: 'システムプロンプトは、AI対して特定の会話スタイルや行動を指示するヒントです。',
   },
   {
     target: '.tour-input-prompt',
@@ -39,17 +39,32 @@ export const TOUR_STEPS = [
 export const ACTIVE_STEPS = [
   {
     target: '.tour-active-prompt',
-    content: 'プロンプトを入力してみよう。\n 「私は人間として返してください」と入力してみよう',
+    content: (
+      <>
+        <p>プロンプトを入力してみよう。</p>
+        <p>「私は人間として返してください」と入力してみよう</p>
+      </>
+    )  as React.ReactNode,
     disableBeacon: false,
   },
   {
     target: '.tour-active-evaluation',
-    content: 'プロンプトと採点してみよう\n「採点する」をクリックしてみよう',
+    content: (
+      <>
+        <p>プロンプトと採点してみよう。</p>
+        <p>「採点する」をクリックしてみよう</p>
+      </>
+    )  as React.ReactNode,
     disableBeacon: false,
   },
   {
     target: '.tour-active-submission',
-    content: '採点したプロンプトと提出してみよう\n「提出して完了する」をクリックしてみよう',
+    content: (
+      <>
+        <p>採点したプロンプトと提出してみよう。</p>
+        <p>「提出して完了する」をクリックしてみよう</p>
+      </>
+    )  as React.ReactNode,
     disableBeacon: false,
   },
 ];
