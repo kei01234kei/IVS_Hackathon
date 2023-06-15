@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Temperature } from '@/lib/chatGPT';
-import { gradeSenseUsingChatGPT, gradedMultipleCaseUsingChatGPT } from '@/utils/app/chatGPT';
+import { gradeSenseUsingChatGPT, gradedMultipleCaseUsingChatGPT, MakeWrongReasonCompared } from '@/utils/app/chatGPT';
 import { EvaluationRequest, EvaluationResponse } from '@/types/submission';
 
 
@@ -57,6 +57,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // スコアを算出します
   let score = 0;
+  let reason = '';
   if (problem_type.type === 'pattern') {
     // ユーザの最後のメッセージを取得します
     const lastUserMessage = messages.filter((m: any) => m.role === 'assistant').pop();
@@ -66,10 +67,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     if (answer && answer.contents[0] === lastUserMessage.content) {
       score = problem.score;
+    }else{
+      score = 0;
+      reason = await MakeWrongReasonCompared(lastUserMessage.content,answer.contents[0])
     }
   } else if (problem_type.type === 'gradeSenseUsingChatGPT') {
     try {
-      score = await gradeSenseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      const grade = await gradeSenseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      score = grade.score
+      reason = grade.reason
     } catch (error: any) {
       // chat gpt による採点がうまくいかなかった場合はエラーを返します
       res.status(500).json({ error: error.message });
@@ -77,7 +83,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (problem_type.type === 'gradedMultipleCaseUsingChatGPT') {
     try {
-      score = await gradedMultipleCaseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      const grade = await gradedMultipleCaseUsingChatGPT(problem, answer, temperature, systemPrompt, messages);
+      score = grade.score
+      reason = grade.reason
     } catch (error: any) {
       // chat gpt による採点がうまくいかなかった場合はエラーを返します
       res.status(500).json({ error: error.message });
@@ -89,17 +97,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // submission を作成します
-  const newSubmission: EvaluationResponse = {
+  const evaluationResponse: EvaluationResponse = {
     competition_id,
     user_id,
     problem_id,
     message,
     score,
+    reason,
     submitted_at: new Date().toISOString(),
   };
 
   // レスポンスを返します
-  res.status(200).json(newSubmission);
+  res.status(200).json(evaluationResponse);
 
 };
 

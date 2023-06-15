@@ -99,7 +99,7 @@ export abstract class AbstractRepository {
 
   abstract evaluate(
     evaluationRequest: EvaluationRequest
-  ): Promise<number>;
+  ): Promise<EvaluationResponse>;
   abstract submit(
     competitionId: number,
     problemId: number,
