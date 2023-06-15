@@ -13,7 +13,11 @@ type Grade = {
   reason: string;
 };
 
+<<<<<<< HEAD
 const MAKE_WRONG_REASON_COMPARED_ERROR_MSG =  "問題文や出力フォーマットを確認しよう！";
+=======
+const MAKE_WRONG_REASON_COMPARED_ERROR_MSG =  "can't make reason";
+>>>>>>> 2bb674833cea3654b80b6f36c3d0c7f4352da2a6
 
 export const gradeSenseUsingChatGPT = async (
   problem: any,
