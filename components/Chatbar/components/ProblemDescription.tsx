@@ -29,7 +29,24 @@ export const ProblemDescription = (props: Props) => {
           </div>
           <div className="p-1 flex flex-col gap-2">
             <p className="font-semibold text-xl">配点</p>
-            <p className="font-medium text-sm">{problem.score}pt</p>
+            {problem.score === problem.totalScore ? (
+              <p className="font-medium text-sm">{problem.score}pt</p>
+            ) : (
+              <>
+                <p className="font-medium text-sm">
+                  <span className="font-bold text-sm">
+                    ケースごとの配点:{' '}
+                  </span>
+                  <span className="font-medium text-sm">{problem.score}pt</span>
+                </p>
+                <p className="font-medium text-sm">
+                  <span className="font-bold text-sm">
+                    合計配点:{' '}
+                  </span>
+                  <span className="font-medium text-sm">{problem.totalScore}pt</span>
+                </p>
+              </>
+            )}
           </div>
         </div>
       )}
