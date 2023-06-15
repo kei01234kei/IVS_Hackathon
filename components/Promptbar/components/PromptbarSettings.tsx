@@ -79,16 +79,6 @@ export const PromptbarSettings: FC<Props> = () => {
     fetchProblem(competitionId, problemId);
   }, [competitionId, problemId]);
 
-  // 特定のreasonを変換する
-  const reasonConverter = (reason: string) => {
-    switch (reason) {
-      case 'error':
-        return '';
-      default:
-        return reason;
-    }
-  };
-
   const handleEvaluate = async () => {
     setEvaluateLoading(true);
     setIsEvaluated(true);
