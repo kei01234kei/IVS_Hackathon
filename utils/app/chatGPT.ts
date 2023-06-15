@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { ChatGPT, ChatGPTResponse, Temperature, MODEL } from '@/lib/chatGPT';
 import { Message } from "@/types/chat";
 
@@ -146,10 +147,11 @@ async function testPrompt(
     }
     try {
       result.res = await emulateChatGPT(model, system_prompt, messages, input, temperature)
+      correctAnswer = JSON.parse(correctAnswer)
       const output = JSON.parse(result.res.utterances[0].content);
       console.log('ChatGPT からのレスポンスです');
       console.log(result.res);
-      if (JSON.stringify(output) === JSON.stringify(correctAnswer)) {
+      if (_.isEqual(output, correctAnswer)) {
         console.log('正解です')
         result.success = true
       } else {
@@ -170,7 +172,6 @@ export const gradedMultipleCaseUsingChatGPT = async (
   messages: Message[]
 ): Promise<Grade> => {
   let score: number = 0;
-  let reason: string|null = null;
   const model:MODEL = answer?.model || 'gpt-3.5-turbo-0613'
   const promises = [];
   for (let i = 0; i < answer.inputs.length; i++) {
