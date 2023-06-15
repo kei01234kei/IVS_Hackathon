@@ -51,7 +51,7 @@ import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
 import dynamic from 'next/dynamic';
-import { STATUS } from 'react-joyride';
+import { STATUS, CallBackProps } from 'react-joyride';
 import { TOUR_STEPS,ACTIVE_STEPS } from '@/utils/data/tour';
 
 const JoyrideNoSSR = dynamic(
@@ -86,9 +86,9 @@ const Home = ({
   const [tourRun, setTourRun] = useState(false);
   const [tourStep, setTourStep] = useState<any>(TOUR_STEPS);
 
-  const handleJoyrideCallback = (data) => {
+  const handleJoyrideCallback = (data:CallBackProps) => {
     const { status } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+    if (STATUS.FINISHED == status ||  STATUS.SKIPPED == status) {
       setTourRun(false);
       // アクティブな説明が終わったらチュートリアル表示を終了する
       if (tourStep == ACTIVE_STEPS){
