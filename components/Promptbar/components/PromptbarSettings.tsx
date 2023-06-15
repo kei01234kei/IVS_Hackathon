@@ -163,9 +163,6 @@ export const PromptbarSettings: FC<Props> = () => {
       {isEvaluated && reason && (
         <ReasonCard reason={reason} loading={evaluateLoading}></ReasonCard>
       )}
-      {isEvaluated && reason && (
-        <ReasonCard reason={reason} loading={evaluateLoading}></ReasonCard>
-      )}
       {problem && <Score maxScore={problem.totalScore} score={score} />}
       <div>
         <span id="rewardId" />
