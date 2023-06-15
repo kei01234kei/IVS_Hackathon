@@ -23,6 +23,12 @@ export const ProblemDescription = (props: Props) => {
             <p className="font-semibold text-xl">問題文</p>
             <p className="font-medium text-sm">{problem.content}</p>
           </div>
+          {problem.input_example && (
+            <div className="p-1 flex flex-col gap-2 whitespace-pre-wrap">
+              <p className="font-semibold text-xl">入力例</p>
+              <p className="font-medium text-sm">{problem.input_example}</p>
+            </div>
+          )}
           <div className="p-1 flex flex-col gap-2 whitespace-pre-wrap">
             <p className="font-semibold text-xl">出力フォーマット</p>
             <p className="font-medium text-sm">{problem.output_example}</p>
@@ -34,16 +40,14 @@ export const ProblemDescription = (props: Props) => {
             ) : (
               <>
                 <p className="font-medium text-sm">
-                  <span className="font-bold text-sm">
-                    ケースごとの配点:{' '}
-                  </span>
+                  <span className="font-bold text-sm">ケースごとの配点: </span>
                   <span className="font-medium text-sm">{problem.score}pt</span>
                 </p>
                 <p className="font-medium text-sm">
-                  <span className="font-bold text-sm">
-                    合計配点:{' '}
+                  <span className="font-bold text-sm">合計配点: </span>
+                  <span className="font-medium text-sm">
+                    {problem.totalScore}pt
                   </span>
-                  <span className="font-medium text-sm">{problem.totalScore}pt</span>
                 </p>
               </>
             )}
