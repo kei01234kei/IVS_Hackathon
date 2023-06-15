@@ -1,8 +1,9 @@
-import fs from 'fs';
-import path from 'path';
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { GetProblemResponse } from '@/types/problem';
 
+import fs from 'fs';
+import path from 'path';
 
 // problems.json ファイルのパスを取得します。
 const filePaths = {
@@ -10,7 +11,6 @@ const filePaths = {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-
   const { competition_id } = req.query;
 
   // JSONファイルから問題を読み込む
@@ -22,12 +22,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   // 問題と一覧を見つける
-  const responseProblems = problems.filter((p: any) => String(p.competition_id) === String(competition_id)) as GetProblemResponse[];
+  const responseProblems = problems.filter(
+    (p: any) => String(p.competition_id) === String(competition_id),
+  ) as GetProblemResponse[];
   if (!responseProblems) {
     throw new Error(`Problem not found with competition_id: ${competition_id}`);
   }
 
   // レスポンスとして問題を返します。
   res.status(200).json({ problems: responseProblems });
-
 }

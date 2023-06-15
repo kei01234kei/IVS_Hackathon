@@ -11,7 +11,7 @@ export const PromptHistory = (props: PromptProps) => {
 
   return (
     <div>
-      <Title order={3} mb="sm" c={"gray.8"}>
+      <Title order={3} mb="sm" c={'gray.8'}>
         プロンプト情報
       </Title>
 

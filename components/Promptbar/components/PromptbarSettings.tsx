@@ -17,7 +17,6 @@ import { Score } from './Score';
 
 import { ClientFactory } from '@/lib/clientFactory';
 
-
 interface Props {}
 
 export const PromptbarSettings: FC<Props> = () => {
@@ -65,7 +64,7 @@ export const PromptbarSettings: FC<Props> = () => {
           message: selectedConversation,
         })
         .then((evaluate) => {
-          const newScore = evaluate.score
+          const newScore = evaluate.score;
           handleUpdateScore(newScore);
           if (newScore > bestScore) {
             handleUpdateBestScore(newScore);
@@ -80,7 +79,9 @@ export const PromptbarSettings: FC<Props> = () => {
 
   const handleSubmit = async () => {
     if (isEvaluated) {
-      const isConfirmed = window.confirm(`${bestScore}点のスコアで提出しますか？`);
+      const isConfirmed = window.confirm(
+        `${bestScore}点のスコアで提出しますか？`,
+      );
       if (isConfirmed) {
         setSubmitLoading(true);
         const selectedConversation = state.selectedConversation;
@@ -139,9 +140,13 @@ export const PromptbarSettings: FC<Props> = () => {
         )}
       </button>
 
-        {/* className="text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-gray-500 text-white" */}
+      {/* className="text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-gray-500 text-white" */}
       <button
-        className={`text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 ${isEvaluated ? 'hover:bg-gray-500 text-white' : 'bg-gray text-gray-600 pointer-events-none'}`}
+        className={`text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 ${
+          isEvaluated
+            ? 'hover:bg-gray-500 text-white'
+            : 'bg-gray text-gray-600 pointer-events-none'
+        }`}
         onClick={handleSubmit}
       >
         {submitLoading ? (

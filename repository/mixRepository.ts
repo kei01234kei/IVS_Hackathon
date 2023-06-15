@@ -6,14 +6,18 @@ import { GetProblemResponse } from '../types/problem';
 import {
   CreateSubmissionResponse,
   EvaluationRequest,
-  EvaluationResponse
+  EvaluationResponse,
 } from '../types/submission';
 import { Conversation } from '@/types/chat';
 import {
   CreateCompetitionsRequest,
   UpdateCompetitionsRequest,
 } from '@/types/competition';
-import { CreateProblemRequest, UpdateProblemRequest, GetProblemsResponse } from '@/types/problem';
+import {
+  CreateProblemRequest,
+  GetProblemsResponse,
+  UpdateProblemRequest,
+} from '@/types/problem';
 import { CreateSubmissionRequest } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
@@ -117,11 +121,13 @@ export class MixRepository extends AbstractRepository {
 
   getProblems(competitionId: number) {
     return new Promise<GetProblemsResponse>(async (resolve) => {
-      const res = await this.apiClient.get(`/competitions/${competitionId}/problems`)
-      const problems = res.data?.problems
-      const result: GetProblemResponse[] = []
+      const res = await this.apiClient.get(
+        `/competitions/${competitionId}/problems`,
+      );
+      const problems = res.data?.problems;
+      const result: GetProblemResponse[] = [];
       if (problems) {
-        problems.forEach((problem:any) => {
+        problems.forEach((problem: any) => {
           const addProblem: GetProblemResponse = {
             id: Number(problem?.id),
             competition_id: Number(problem?.competition_id),
@@ -135,21 +141,23 @@ export class MixRepository extends AbstractRepository {
             output_example: problem?.output_example as string,
             next_problem_id: Number(problem?.next_problem_id) || null,
             prev_problem_id: Number(problem?.prev_problem_id) || null,
-          }
-          result.push(addProblem)
+          };
+          result.push(addProblem);
         });
       }
 
       resolve({
         problems: result,
-      })
+      });
     });
   }
   getProblem(competitionId: number, problemId: number) {
     return new Promise<GetProblemResponse>(async (resolve) => {
-      const res = await this.apiClient.get(`/competitions/${competitionId}/problems/${problemId}`)
-      const problem = res.data
-      
+      const res = await this.apiClient.get(
+        `/competitions/${competitionId}/problems/${problemId}`,
+      );
+      const problem = res.data;
+
       if (problem) {
         const result: GetProblemResponse = {
           id: Number(problem?.id),
@@ -164,13 +172,12 @@ export class MixRepository extends AbstractRepository {
           output_example: problem?.output_example as string,
           next_problem_id: Number(problem?.next_problem_id) || null,
           prev_problem_id: Number(problem?.prev_problem_id) || null,
-        }
-        resolve(result)
-      }else{
-        resolve({} as GetProblemResponse)
+        };
+        resolve(result);
+      } else {
+        resolve({} as GetProblemResponse);
       }
     });
-
 
     // return new Promise<GetProblemResponse>((resolve) => {
     //   if (problem1.id === problemId) {
@@ -291,7 +298,7 @@ export class MixRepository extends AbstractRepository {
           message: evaluationRequest.message,
         },
       );
-      console.log(res.data)
+      console.log(res.data);
       resolve(res.data);
     });
   }

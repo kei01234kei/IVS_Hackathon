@@ -1,13 +1,14 @@
+import { Message } from '@/types/chat';
+
 import axios, { AxiosError } from 'axios';
 import { Configuration, OpenAIApi } from 'openai';
-import { Message } from '@/types/chat'
 
 export class Temperature {
   private value: number;
 
   constructor(_value: number) {
     if (_value < 0 || _value > 2) {
-      throw new Error("Temperature must be between 0 and 2");
+      throw new Error('Temperature must be between 0 and 2');
     }
 
     this.value = _value;
@@ -19,7 +20,7 @@ export class Temperature {
 
   setValue(value: number): void {
     if (value < 0 || value > 2) {
-      throw new Error("Temperature must be between 0 and 2");
+      throw new Error('Temperature must be between 0 and 2');
     }
 
     this.value = value;
@@ -185,7 +186,7 @@ export class ChatGPT {
               role: 'system',
               content: systemPrompt,
             },
-            ...messages
+            ...messages,
           ],
           temperature: temperature?.getValue(),
         },

@@ -4,9 +4,7 @@
     "problem_id": 1,
     "model": "gpt-3.5-turbo-0613",
     "inputs": [],
-    "contents": [
-      "私はAIロボットです。"
-    ],
+    "contents": ["私はAIロボットです。"],
     "description": "「私はAIロボットです。」とだけ返すことはできましたか？句読点が抜けたり、余計な文言が入ってしまった場合は、指摘をして直してもらいましょう！",
     "chat_gpt_roles": [],
     "scoring_criteria": null
@@ -16,9 +14,7 @@
     "problem_id": 2,
     "model": "gpt-3.5-turbo-0613",
     "inputs": [],
-    "contents": [
-      "25"
-    ],
+    "contents": ["25"],
     "description": "ChatGPTは簡単な問題であれば計算可能です。25 とだけ返すことはできましたか？余計な文言が入ってしまった場合は、指摘をして直してもらいましょう！",
     "chat_gpt_roles": [],
     "scoring_criteria": null
@@ -28,9 +24,7 @@
     "problem_id": 3,
     "model": "gpt-3.5-turbo-0613",
     "inputs": [],
-    "contents": [
-      "9"
-    ],
+    "contents": ["9"],
     "description": "ChatGPTが計算ミスをする場合があります。計算過程を教えたり、計算過程をきちんと出力させることで、計算ミスを減らすことができます。",
     "chat_gpt_roles": [],
     "scoring_criteria": null
@@ -62,9 +56,7 @@
     "inputs": [],
     "contents": [],
     "description": "ChatGPTに面白いことを言わせる方法はいくつかあります。\\n1️⃣ FewShotで面白い回答をいくつか与えてそれを踏まえて創作させる \\n2️⃣　面白さの本質をChatGPTに教えて考えさせる \\n3️⃣　CoTで面白い回答を作るまでの思考回路をしっかりと言語化させてみる。\\n\\nまた、GPT4でないとこのような高度な創作は難しいため、GPT4を使ってみましょう！",
-    "chat_gpt_roles": [
-      "Pretend to be a comedy judge and score the entries."
-    ],
+    "chat_gpt_roles": ["Pretend to be a comedy judge and score the entries."],
     "scoring_criteria": "1. Relevance to the Problem statement: This measures how well the submitted content relates and adapts to the given problem statement.\n 2. Creativity: This evaluates how original and creative the submitted content is.\n 3. Essence of Humor: This assesses how effectively the submitted content uses universal humorous elements."
   }
 ]

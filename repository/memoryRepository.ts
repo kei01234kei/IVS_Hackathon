@@ -9,7 +9,11 @@ import {
   UpdateCompetitionsRequest,
 } from '@/types/competition';
 import { CreateProblemRequest, UpdateProblemRequest } from '@/types/problem';
-import { CreateSubmissionRequest, EvaluationRequest,EvaluationResponse } from '@/types/submission';
+import {
+  CreateSubmissionRequest,
+  EvaluationRequest,
+  EvaluationResponse,
+} from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
 

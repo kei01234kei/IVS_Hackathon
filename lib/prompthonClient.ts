@@ -31,10 +31,10 @@ import {
 import {
   CreateSubmissionRequest,
   CreateSubmissionResponse,
-  GetSubmissionResponse,
-  GetSubmissionsResponse,
   EvaluationRequest,
   EvaluationResponse,
+  GetSubmissionResponse,
+  GetSubmissionsResponse,
 } from '@/types/submission';
 import {
   CreateUserResponse,
@@ -139,7 +139,7 @@ export class PrompthonClient {
 
   // 採点
   async evaluate(
-    evaluationRequest: EvaluationRequest
+    evaluationRequest: EvaluationRequest,
   ): Promise<EvaluationResponse> {
     return this.repo.evaluate(evaluationRequest);
   }

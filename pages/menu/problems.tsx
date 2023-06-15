@@ -10,7 +10,7 @@ import { ProblemCard } from '@/components/Menu/Problems/ProblemCard';
 import { ClientFactory } from '@/lib/clientFactory';
 import { Container, Flex, Text, Title, useMantineTheme } from '@mantine/core';
 
-interface Props { }
+interface Props {}
 
 export default function Problems(props: Props) {
   const theme = useMantineTheme();
@@ -19,9 +19,7 @@ export default function Problems(props: Props) {
   const competitionId = 1;
   const [problemsResponse, setProblemsResponse] =
     useState<GetProblemsResponse | null>({
-      problems: [
-
-      ],
+      problems: [],
     });
 
   // TODO: getProblemsが動いたらこっちに切り替える
