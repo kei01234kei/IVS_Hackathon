@@ -13,6 +13,8 @@ type Grade = {
   reason: string;
 };
 
+const MAKE_WRONG_REASON_COMPARED_ERROR_MSG =  "can't make reason";
+
 export const gradeSenseUsingChatGPT = async (
   problem: any,
   answer: any,
@@ -52,7 +54,7 @@ export const gradeSenseUsingChatGPT = async (
 
   return {
     score: averageScore,
-    reason: reason || '',
+    reason: reason || MAKE_WRONG_REASON_COMPARED_ERROR_MSG,
   };
 };
 
@@ -248,7 +250,7 @@ export const gradedMultipleCaseUsingChatGPT = async (
 
   return {
     score,
-    reason: (await promiseReason) || 'error',
+    reason: (await promiseReason) || MAKE_WRONG_REASON_COMPARED_ERROR_MSG,
   };
 };
 
@@ -364,10 +366,10 @@ export const MakeWrongReasonCompared = async (
     console.log('chatGPTResponse');
     console.log(chatGPTResponse);
     if (!chatGPTResponse) throw new Error('ChatGPTResponse is undefined');
-    console.log(JSON.parse(chatGPTResponse?.utterances[0].content));
-    return JSON.parse(chatGPTResponse?.utterances[0].content);
+    console.log(chatGPTResponse?.utterances[0].content);
+    return chatGPTResponse?.utterances[0].content;
   } catch (error: any) {
     console.error(error.message);
-    return error.message;
+    return MAKE_WRONG_REASON_COMPARED_ERROR_MSG;
   }
 };
