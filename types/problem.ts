@@ -7,7 +7,8 @@
 //       "problem_number": "問題番号",
 //       "name": "問題名",
 //       "level": "問題の難易度",
-//       "score": "問題を解いた時のスコア",
+//       "score": "問題を解いた時の1ケースあたりのスコア",
+//       "totalScore": "問題を解いた時の総スコア",
 //       "problem_type_id": "問題の種類のID",
 //       "content": "問題内容",
 //       "input_example": "⼊⼒例",
@@ -27,7 +28,8 @@ export interface GetProblemsResponse {
 //   "problem_number": "問題番号",
 //   "name": "問題名",
 //   "level": "問題の難易度",
-//   "score": "問題を解いた時のスコア",
+//   "score": "問題を解いた時の1ケースあたりのスコア",
+//   "totalScore": "問題を解いた時の総スコア",
 //   "problem_type_id": "問題の種類のID",
 //   "content": "問題内容",
 //   "input_example": "⼊⼒例",
@@ -40,6 +42,7 @@ export interface GetProblemResponse {
   name: string;
   level: number;
   score: number;
+  totalScore: number;
   problem_type_id: number;
   content: string;
   input_example: string;
@@ -53,7 +56,8 @@ export interface GetProblemResponse {
 //     "competition_id": "コンペティションID",
 //     "name": "問題名",
 //     "level": "問題の難易度",
-//     "score": "問題を解いた時のスコア",
+//     "score": "問題を解いた時の1ケースあたりのスコア",
+//     "totalScore": "問題を解いた時の総スコア",
 //     "problem_type_id": "問題の種類のID",
 //     "content": "問題内容",
 //     "input_example": "入力例",
@@ -64,6 +68,7 @@ export interface CreateProblemRequest {
   name: string;
   level: number;
   score: number;
+  totalScore: number;
   problem_type_id: number;
   content: string;
   input_example: string;
@@ -77,7 +82,8 @@ export interface CreateProblemRequest {
 //   "problem_number": "問題番号",
 //   "name": "問題名",
 //   "level": "問題の難易度",
-//   "score": "問題を解いた時のスコア",
+//   "score": "問題を解いた時の1ケースあたりのスコア",
+//   "totalScore": "問題を解いた時の総スコア",
 //   "problem_type_id": "問題の種類のID",
 //   "content": "問題内容",
 //   "input_example": "⼊⼒例",
@@ -90,6 +96,7 @@ export interface CreateProblemResponse {
   name: string;
   level: number;
   score: number;
+  totalScore: number;
   problem_type_id: number;
   content: string;
   input_example: string;
@@ -103,6 +110,7 @@ export interface Problem {
   name: string;
   level: number;
   score: number;
+  totalScore: number;
   problem_type_id: number;
   content: string;
   input_example: string;
@@ -116,7 +124,8 @@ export interface Problem {
 //     "problem_number": "新しい問題番号",
 //     "name": "新しい問題名",
 //     "level": "新しい問題の難易度",
-//     "score": "新しい問題を解いた時のスコア",
+//     "score": "問題を解いた時の1ケースあたりのスコア",
+//     "totalScore": "問題を解いた時の総スコア",
 //     "problem_type_id": "新しい問題の種類のID",
 //     "content": "新しい問題内容",
 //     "input_example": "新しい入力例",
@@ -129,6 +138,7 @@ export interface UpdateProblemRequest {
   name: string;
   level: number;
   score: number;
+  totalScore: number;
   problem_type_id: number;
   content: string;
   input_example: string;
@@ -140,7 +150,8 @@ export interface UpdateProblemRequest {
 //   "problem_number": "新しい問題番号",
 //   "name": "新しい問題名",
 //   "level": "新しい問題の難易度",
-//   "score": "新しい問題を解いた時のスコア",
+//   "score": "問題を解いた時の1ケースあたりのスコア",
+//   "totalScore": "問題を解いた時の総スコア",
 //   "problem_type_id": "新しい問題の種類のID",
 //   "content": "新しい問題内容",
 //   "input_example": "新しい⼊⼒例",
@@ -151,6 +162,7 @@ export interface UpdateProblemResponse {
   name: string;
   level: number;
   score: number;
+  totalScore: number;
   problem_type_id: number;
   content: string;
   input_example: string;
