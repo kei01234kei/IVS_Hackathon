@@ -78,7 +78,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   );
 
   const systemPrompt = content.prompt;
+
   const messages = content.messages;
+  if (!messages) {
+    res.status(200).json({
+      id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
+      user_id,
+      problem_id,
+      problem_type_id: problem.problem_type_id,
+      content,
+      score: 0,
+      submitted_at: new Date().toISOString(),
+    } as CreateSubmissionResponse);
+    return;
+  }
 
   // temperature を取得します
   const temperature = new Temperature(content.temperature);
