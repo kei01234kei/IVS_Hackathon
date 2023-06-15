@@ -118,7 +118,7 @@ export const PromptbarSettings: FC<Props> = () => {
 
   return (
     <div className="flex flex-col items-center space-y-0 border-t border-white/20 pt-2 text-sm font-bold">
-      {problem && <Score maxScore={problem.score} score={score} />}
+      {problem && <Score maxScore={problem.totalScore} score={score} />}
       <div>
         <span id="rewardId" />
       </div>
