@@ -133,7 +133,8 @@ export const gradedMultipleCaseUsingChatGPT = async (
     return scores.reduce((a, b) => a + b);
   }
   else {
-    throw new Error('No scores were extracted from ChatGPTResponse');
+    console.error('No scores were extracted from ChatGPTResponse');
+    return 0;
   }
 }
 
