@@ -1,5 +1,6 @@
 import {
   IconLoader,
+  IconMessageChatbot,
   IconPlayerPlay,
   IconSquareCheck,
 } from '@tabler/icons-react';
@@ -16,6 +17,35 @@ import HomeContext from '@/components/Home/home.context';
 import { Score } from './Score';
 
 import { ClientFactory } from '@/lib/clientFactory';
+
+interface ReasonCardProps {
+  reason: string;
+  loading?: boolean;
+}
+
+const ReasonCard = ({ reason, loading = false }: ReasonCardProps) => {
+  return (
+    <>
+      <div
+        className={`flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-[#343541]/90  bg-[#343541]/90`}
+      >
+        <IconMessageChatbot size={18} />
+        {loading ? (
+          <div className="flex-grow flex items-center justify-center pr-6">
+            <IconLoader size={16} className="animate-spin" />
+          </div>
+        ) : (
+          <div
+            className={`relative flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3 pr-12`}
+          >
+            <p className="mb-2">[AI採点コメント]</p>
+            <p className="font-normal">{reason}</p>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 
 interface Props {}
 
@@ -35,7 +65,8 @@ export const PromptbarSettings: FC<Props> = () => {
   const [isEvaluated, setIsEvaluated] = useState<boolean>(false);
   const [evaluateLoading, setEvaluateLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const { reward, isAnimating } = useReward('rewardId', 'confetti', {
+  const [reason, setReason] = useState<string>('');
+  const { reward } = useReward('rewardId', 'confetti', {
     angle: 130,
   });
 
@@ -46,6 +77,16 @@ export const PromptbarSettings: FC<Props> = () => {
     };
     fetchProblem(competitionId, problemId);
   }, [competitionId, problemId]);
+
+  // 特定のreasonを変換する
+  const reasonConverter = (reason: string) => {
+    switch (reason) {
+      case 'error':
+        return '';
+      default:
+        return reason;
+    }
+  };
 
   const handleEvaluate = async () => {
     setEvaluateLoading(true);
@@ -63,8 +104,9 @@ export const PromptbarSettings: FC<Props> = () => {
           problem_id: problemId,
           message: selectedConversation,
         })
-        .then((evaluate) => {
-          const newScore = evaluate.score;
+        .then((evaluateResponse) => {
+          setReason(evaluateResponse.reason);
+          const newScore = evaluateResponse.score;
           handleUpdateScore(newScore);
           if (newScore > bestScore) {
             handleUpdateBestScore(newScore);
@@ -118,6 +160,9 @@ export const PromptbarSettings: FC<Props> = () => {
 
   return (
     <div className="flex flex-col items-center space-y-0 border-t border-white/20 pt-2 text-sm font-bold">
+      {isEvaluated && reason && (
+        <ReasonCard reason={reason} loading={evaluateLoading}></ReasonCard>
+      )}
       {isEvaluated && reason && (
         <ReasonCard reason={reason} loading={evaluateLoading}></ReasonCard>
       )}
