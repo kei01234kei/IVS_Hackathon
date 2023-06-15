@@ -2360,6 +2360,11 @@
   "resolved" "https://registry.npmjs.org/@types/katex/-/katex-0.11.1.tgz"
   "version" "0.11.1"
 
+"@types/lodash@^4.14.195":
+  "integrity" "sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.195.tgz"
+  "version" "4.14.195"
+
 "@types/mathjax@^0.0.37":
   "integrity" "sha512-y0WSZBtBNQwcYipTU/BhgeFu1EZNlFvUNCmkMXV9kBQZq7/o5z82dNVyH3yy2Xv5zzeNeQoHSL4Xm06+EQiH+g=="
   "resolved" "https://registry.npmjs.org/@types/mathjax/-/mathjax-0.0.37.tgz"
