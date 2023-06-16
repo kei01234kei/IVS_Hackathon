@@ -173,7 +173,7 @@ export const PromptbarSettings: FC<Props> = () => {
         <span id="rewardId" />
       </div>
       <button
-        className="text-white flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-white hover:text-black"
+        className="tour-evaluate-prompt tour-active-evaluation text-white flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-white hover:text-black"
         onClick={handleEvaluate}
         disabled={evaluateLoading}
       >
@@ -192,7 +192,7 @@ export const PromptbarSettings: FC<Props> = () => {
 
       {/* className="text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 hover:bg-gray-500 text-white" */}
       <button
-        className={`text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 ${
+        className={`tour-submission-prompt tour-active-submission text-sidebar flex w-[260px] h-[64px] p-3 flex-shrink-0 cursor-pointer select-none items-center gap-3 transition-colors duration-200 ${
           isEvaluated
             ? 'hover:bg-gray-500 text-white'
             : 'bg-gray text-gray-600 pointer-events-none'

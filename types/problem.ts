@@ -49,6 +49,7 @@ export interface GetProblemResponse {
   output_example: string;
   next_problem_id: number | null;
   prev_problem_id: number | null;
+  example: number | null;
 }
 
 // example CreateProblemRequest

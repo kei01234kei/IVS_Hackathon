@@ -18,7 +18,7 @@ import {
 import { AbstractRepository } from '@/repository/abstractRepository';
 
 let evaluateScore = 0;
-export const problem1 = {
+export const problem1:GetProblemResponse = {
   competition_id: 1,
   id: 1,
   problem_number: 1,
@@ -33,9 +33,10 @@ export const problem1 = {
   output_example: '整数のみ (小数の場合は繰り上げ)',
   next_problem_id: 2,
   prev_problem_id: null,
+  example: null, 
 };
 
-export const problem2 = {
+export const problem2:GetProblemResponse = {
   competition_id: 1,
   id: 2,
   problem_number: 2,
@@ -49,9 +50,10 @@ export const problem2 = {
   output_example: '出⼒例',
   next_problem_id: 3,
   prev_problem_id: 1,
+  example: null, 
 };
 
-export const problem3 = {
+export const problem3:GetProblemResponse = {
   competition_id: 1,
   id: 3,
   problem_number: 3,
@@ -65,6 +67,7 @@ export const problem3 = {
   output_example: '出⼒例',
   next_problem_id: null,
   prev_problem_id: 2,
+  example: null, 
 };
 
 const futureTime = new Date('2023-06-20T12:00:00+09:00').toISOString();
