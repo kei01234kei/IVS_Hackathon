@@ -1,3 +1,4 @@
+import { IconExternalLink } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
@@ -9,7 +10,24 @@ import { ChatHistory } from '@/components/ChatHistory';
 import { PromptHistory } from '@/components/PromptHistory';
 
 import { ClientFactory } from '@/lib/clientFactory';
-import { Container, Flex, Table, Title } from '@mantine/core';
+import { Button, Container, Flex, Table, Title } from '@mantine/core';
+
+const getCorrectAnswerExample = (problemId: number): string => {
+  switch (problemId) {
+    case 1: // チュートリアル
+      return 'https://chat.openai.com/share/e1e11bf3-508d-44be-94d7-977b58cd89f9';
+    case 2: // 簡単な計算
+      return 'https://chat.openai.com/share/cd8b240f-3e8d-40d1-81fc-ba20a2ebd811';
+    case 3: // 算数
+      return 'https://chat.openai.com/share/38121fb2-2463-49e4-99af-b3d1aa947311';
+    case 4: // データ抽出
+      return 'https://chat.openai.com/share/766c237d-2ef0-4e0b-9ef4-9e54d5292e08';
+    case 5: // 大喜利
+      return '';
+    default:
+      return '';
+  }
+};
 
 const Result: React.FC = () => {
   const router = useRouter();
@@ -86,8 +104,6 @@ const Result: React.FC = () => {
             「{problemData.name}」を提出しました。あなたのスコアは
             {problemData.score}pt中{submissionData.score}ptです。
           </p>
-        </div>
-        <div className="space-y-4">
           <Title order={2} c={'gray.8'}>
             提出の詳細
           </Title>
@@ -95,7 +111,31 @@ const Result: React.FC = () => {
             <tbody>{rows}</tbody>
           </Table>
         </div>
-        <PromptHistory prompt={submissionData.content} />
+        <div className="space-y-4">
+          {getCorrectAnswerExample(problemData.id) && (
+            <>
+              <Title order={2} c={'gray.8'}>
+                正当例
+              </Title>
+              <Button
+                component="a"
+                href={getCorrectAnswerExample(problemData.id)}
+                variant="outline"
+                target="_blank"
+                rel="noopener noreferrer"
+                leftIcon={<IconExternalLink size={14} />}
+              >
+                正当例はこちら
+              </Button>
+            </>
+          )}
+        </div>
+        <div className="space-y-4">
+          <Title order={2} c={'gray.8'}>
+            あなたの回答
+          </Title>
+          <PromptHistory prompt={submissionData.content} />
+        </div>
         <ChatHistory conversation={submissionData.content} />
       </div>
 
