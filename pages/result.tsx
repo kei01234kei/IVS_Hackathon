@@ -23,7 +23,7 @@ const getCorrectAnswerExample = (problemId: number): string => {
     case 4: // データ抽出
       return 'https://chat.openai.com/share/766c237d-2ef0-4e0b-9ef4-9e54d5292e08';
     case 5: // 大喜利
-      return '';
+      return 'https://chat.openai.com/share/590e5326-824b-48f9-9f55-8c6665bed09d';
     default:
       return '';
   }
