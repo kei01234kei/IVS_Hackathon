@@ -21,13 +21,11 @@ import {
 import { CreateSubmissionRequest } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
-import {
-  dummyConversation,
-  problem1,
-  problem2,
-  problem3,
-} from '@/repository/memoryRepository';
+import { dummyConversation } from '@/repository/memoryRepository';
 import axios, { AxiosInstance } from 'axios';
+
+const futureTime = new Date('2023-06-20T12:00:00+09:00').toISOString();
+const pastTime = new Date('2023-06-10T12:00:00+09:00').toISOString();
 
 export class MixRepository extends AbstractRepository {
   private apiClient: AxiosInstance;
@@ -86,8 +84,8 @@ export class MixRepository extends AbstractRepository {
       id: competitionId,
       name: 'コンペティションいち',
       description: 'コンペティションいち説明',
-      start_date: '2020-01-01',
-      end_date: '2020-01-02',
+      start_date: pastTime,
+      end_date: futureTime,
     });
   }
   createCompetition(createCompetitionsRequest: CreateCompetitionsRequest) {

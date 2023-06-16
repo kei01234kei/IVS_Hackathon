@@ -19,7 +19,7 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({ problem }) => {
 
   const handleClick = () => {
     window.open(
-      `/chat/?problemId=${problem.id}&competitionId=${problem.competition_id}`,
+      `/chat?problemId=${problem.id}&competitionId=${problem.competition_id}`,
       '_blank',
     );
   };

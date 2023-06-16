@@ -35,10 +35,8 @@ const ReasonCard = ({ reason, loading = false }: ReasonCardProps) => {
             <IconLoader size={16} className="animate-spin" />
           </div>
         ) : (
-          <div
-            className={`relative flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3 pr-12`}
-          >
-            <p className="mb-2">[AI採点コメント]</p>
+          <div className={`relative flex-1 overflow-hidden text-left`}>
+            <p className="mb-2">[AIコメント]</p>
             <p className="font-normal">{reason}</p>
           </div>
         )}
@@ -46,6 +44,9 @@ const ReasonCard = ({ reason, loading = false }: ReasonCardProps) => {
     </>
   );
 };
+
+const randomlyEncourage = () =>
+  ['お見事！', 'やりましたね！', '素晴らしい！'][Math.floor(Math.random() * 3)];
 
 interface Props {}
 
@@ -79,25 +80,15 @@ export const PromptbarSettings: FC<Props> = () => {
     fetchProblem(competitionId, problemId);
   }, [competitionId, problemId]);
 
-  // 特定のreasonを変換する
-  const reasonConverter = (reason: string) => {
-    switch (reason) {
-      case 'error':
-        return '';
-      default:
-        return reason;
-    }
-  };
-
   const handleEvaluate = async () => {
     setEvaluateLoading(true);
     setIsEvaluated(true);
     const selectedConversation = state.selectedConversation;
     if (!selectedConversation) {
-      alert('会話を選択してください');
+      setReason('会話を選択してください');
       setEvaluateLoading(false);
     } else if (selectedConversation.messages.length === 0) {
-      alert('メッセージを1回以上送信してください');
+      setReason('メッセージを1回以上送信してください');
       setEvaluateLoading(false);
       setIsEvaluated(false);
     } else {
@@ -111,6 +102,9 @@ export const PromptbarSettings: FC<Props> = () => {
         })
         .then((evaluateResponse) => {
           setReason(evaluateResponse.reason);
+          if (evaluateResponse.score === problem?.totalScore) {
+            setReason(randomlyEncourage());
+          }
           const newScore = evaluateResponse.score;
           handleUpdateScore(newScore);
           if (newScore > bestScore) {
@@ -131,9 +125,10 @@ export const PromptbarSettings: FC<Props> = () => {
       );
       if (isConfirmed) {
         setSubmitLoading(true);
+        setReason('');
         const selectedConversation = state.selectedConversation;
         if (!selectedConversation) {
-          alert('会話を選択してください');
+          setReason('会話を選択してください');
           setSubmitLoading(false);
           return;
         } else {
@@ -145,8 +140,6 @@ export const PromptbarSettings: FC<Props> = () => {
             content: selectedConversation,
           });
           localStorage.setItem('tmp.submission', JSON.stringify(submission));
-          console.log(submission.score);
-          console.log(submission.content);
           handleClearConversations();
           setSubmitLoading(false);
           router.push({
@@ -165,7 +158,7 @@ export const PromptbarSettings: FC<Props> = () => {
 
   return (
     <div className="flex flex-col items-center space-y-0 border-t border-white/20 pt-2 text-sm font-bold">
-      {isEvaluated && reason && (
+      {reason && (
         <ReasonCard reason={reason} loading={evaluateLoading}></ReasonCard>
       )}
       {problem && <Score maxScore={problem.totalScore} score={score} />}
