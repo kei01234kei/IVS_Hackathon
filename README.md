@@ -6,6 +6,13 @@ PromptMasterは、プロンプトソンのプラットフォームです。プ�
 
 [PromptMaster](https://ivs-hackathon.vercel.app/ja/menu/problems)
 
+## Tech Stacks
+
+- Next.js
+- Vercel
+- GPT API
+- Chatbot-UI
+
 ## ローカル起動
 
 このプロジェクトをローカル環境で動かす前に、次のツールが必要です:
