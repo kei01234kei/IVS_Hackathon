@@ -114,7 +114,7 @@ export const dummyConversation: Conversation = {
 
 export const tips1:GetTipsResponse = {
     content:
-`この例では、カスタマイズしたプロンプトとメッセージ "私はAIロボットです。" を使用して、Chatbot APIに入力されたテキストをそのまま返すエコーサーバーとして機能させることができました。
+`この例では、カスタマイズしたプロンプトとメッセージを使用して、Chatbot APIに入力されたテキストをそのまま返すエコーサーバーとして機能させることができました。
 このテクニックを応用することで、さまざまな機能を持つChatbotを作成することができます。
 `,
     examples:[
