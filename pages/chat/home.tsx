@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { CallBackProps, STATUS } from 'react-joyride';
 import { useQuery } from 'react-query';
 
-
-
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -11,28 +9,30 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-
-
 import { useCreateReducer } from '@/hooks/useCreateReducer';
-
-
 
 import useErrorService from '@/services/errorService';
 import useApiService from '@/services/useApiService';
 
-
-
-import { cleanConversationHistory, cleanSelectedConversation } from '@/utils/app/clean';
+import {
+  cleanConversationHistory,
+  cleanSelectedConversation,
+} from '@/utils/app/clean';
 import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
-import { saveConversation, saveConversations, updateConversation } from '@/utils/app/conversation';
+import {
+  saveConversation,
+  saveConversations,
+  updateConversation,
+} from '@/utils/app/conversation';
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
 import { saveBestScore, saveScore } from '@/utils/app/score';
 import { getSettings } from '@/utils/app/settings';
-import { initialConversations, initialFolders } from '@/utils/data/setIntialPrompt';
+import {
+  initialConversations,
+  initialFolders,
+} from '@/utils/data/setIntialPrompt';
 import { ACTIVE_STEPS, TOUR_STEPS } from '@/utils/data/tour';
-
-
 
 import { Conversation } from '@/types/chat';
 import { KeyValuePair } from '@/types/data';
@@ -40,27 +40,21 @@ import { FolderInterface, FolderType } from '@/types/folder';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
 import { Prompt } from '@/types/prompt';
 
-
-
 import HomeContext from '../../components/Home/home.context';
-import { HomeInitialState, initialState } from '../../components/Home/home.state';
+import {
+  HomeInitialState,
+  initialState,
+} from '../../components/Home/home.state';
 import { Chat } from '@/components/Chat/Chat';
 import { Chatbar } from '@/components/Chatbar/Chatbar';
 import { Navbar } from '@/components/Mobile/Navbar';
 import Promptbar from '@/components/Promptbar';
 
-
-
 import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
 
-
-const JoyrideNoSSR = dynamic(
-  () => import('react-joyride'),
-  { ssr: false }
-);
-
+const JoyrideNoSSR = dynamic(() => import('react-joyride'), { ssr: false });
 
 interface Props {
   serverSideApiKeyIsSet: boolean;
@@ -88,18 +82,18 @@ const Home = ({
   const [tourRun, setTourRun] = useState(false);
   const [tourStep, setTourStep] = useState<any>(TOUR_STEPS);
 
-  const handleJoyrideCallback = (data:CallBackProps) => {
+  const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data;
-    if (STATUS.FINISHED == status ||  STATUS.SKIPPED == status) {
+    if (STATUS.FINISHED == status || STATUS.SKIPPED == status) {
       setTourRun(false);
       // アクティブな説明が終わったらチュートリアル表示を終了する
-      if (tourStep == ACTIVE_STEPS){
-        return
+      if (tourStep == ACTIVE_STEPS) {
+        return;
       }
       // 画面説明後に、アクティブなチュートリアル説明を表示する
       setTimeout(() => {
         setTourRun(true);
-        setTourStep(ACTIVE_STEPS)
+        setTourStep(ACTIVE_STEPS);
       }, 1000);
     }
   };
@@ -117,6 +111,8 @@ const Home = ({
       selectedConversation,
       prompts,
       temperature,
+      showChatbar,
+      showPromptbar,
     },
     dispatch,
   } = contextValue;
@@ -297,6 +293,18 @@ const Home = ({
   // }, [selectedConversation]);
 
   useEffect(() => {
+    if (window.innerWidth < 640 && showPromptbar) {
+      dispatch({ field: 'showChatbar', value: false });
+    }
+  }, [selectedConversation, showPromptbar]);
+
+  useEffect(() => {
+    if (window.innerWidth < 640 && showChatbar) {
+      dispatch({ field: 'showPromptbar', value: false });
+    }
+  }, [selectedConversation, showChatbar]);
+
+  useEffect(() => {
     defaultModelId &&
       dispatch({ field: 'defaultModelId', value: defaultModelId });
     serverSideApiKeyIsSet &&
@@ -410,20 +418,22 @@ const Home = ({
     serverSidePluginKeysSet,
   ]);
   useEffect(() => {
-    prompthonClient.getProblem(competitionId, problemId).then((problem) => {
-      // チュートリアル以外の問題はツアーを開始しない
-      if(!problem.example){
-        return
-      }
-      // 全てのコンポーネントがレンダリングされた後にツアーを開始する
-      if (problem.example > 0) {
-        setTimeout(() => {
-          setTourRun(true);
-        }, 1 * 1000);
-      }
-    }).catch((err) => {
-    });
-  },[]);
+    prompthonClient
+      .getProblem(competitionId, problemId)
+      .then((problem) => {
+        // チュートリアル以外の問題はツアーを開始しない
+        if (!problem.example) {
+          return;
+        }
+        // 全てのコンポーネントがレンダリングされた後にツアーを開始する
+        if (problem.example > 0) {
+          setTimeout(() => {
+            setTourRun(true);
+          }, 1 * 1000);
+        }
+      })
+      .catch((err) => {});
+  }, []);
 
   // コンペIDと問題IDとスコア  --------------------------------------------
 
@@ -477,7 +487,7 @@ const Home = ({
         styles={{
           options: {
             zIndex: 10000,
-          }
+          },
         }}
       />
       <Head>
