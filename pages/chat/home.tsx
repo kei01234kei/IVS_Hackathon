@@ -1,35 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
+import { CallBackProps, STATUS } from 'react-joyride';
 import { useQuery } from 'react-query';
+
+
 
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+
+
 import { useCreateReducer } from '@/hooks/useCreateReducer';
+
+
 
 import useErrorService from '@/services/errorService';
 import useApiService from '@/services/useApiService';
 
-import {
-  cleanConversationHistory,
-  cleanSelectedConversation,
-} from '@/utils/app/clean';
+
+
+import { cleanConversationHistory, cleanSelectedConversation } from '@/utils/app/clean';
 import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
-import {
-  saveConversation,
-  saveConversations,
-  updateConversation,
-} from '@/utils/app/conversation';
+import { saveConversation, saveConversations, updateConversation } from '@/utils/app/conversation';
 import { saveFolders } from '@/utils/app/folders';
 import { savePrompts } from '@/utils/app/prompts';
 import { saveBestScore, saveScore } from '@/utils/app/score';
 import { getSettings } from '@/utils/app/settings';
-import {
-  initialConversations,
-  initialFolders,
-} from '@/utils/data/setIntialPrompt';
+import { initialConversations, initialFolders } from '@/utils/data/setIntialPrompt';
+import { ACTIVE_STEPS, TOUR_STEPS } from '@/utils/data/tour';
+
+
 
 import { Conversation } from '@/types/chat';
 import { KeyValuePair } from '@/types/data';
@@ -37,22 +40,21 @@ import { FolderInterface, FolderType } from '@/types/folder';
 import { OpenAIModelID, OpenAIModels, fallbackModelID } from '@/types/openai';
 import { Prompt } from '@/types/prompt';
 
+
+
 import HomeContext from '../../components/Home/home.context';
-import {
-  HomeInitialState,
-  initialState,
-} from '../../components/Home/home.state';
+import { HomeInitialState, initialState } from '../../components/Home/home.state';
 import { Chat } from '@/components/Chat/Chat';
 import { Chatbar } from '@/components/Chatbar/Chatbar';
 import { Navbar } from '@/components/Mobile/Navbar';
 import Promptbar from '@/components/Promptbar';
 
+
+
 import { ClientFactory } from '@/lib/clientFactory';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { v4 as uuidv4 } from 'uuid';
-import dynamic from 'next/dynamic';
-import { STATUS, CallBackProps } from 'react-joyride';
-import { TOUR_STEPS,ACTIVE_STEPS } from '@/utils/data/tour';
+
 
 const JoyrideNoSSR = dynamic(
   () => import('react-joyride'),
@@ -288,11 +290,11 @@ const Home = ({
 
   // EFFECTS  --------------------------------------------
 
-  useEffect(() => {
-    if (window.innerWidth < 640) {
-      dispatch({ field: 'showChatbar', value: false });
-    }
-  }, [selectedConversation]);
+  // useEffect(() => {
+  //   if (window.innerWidth < 640) {
+  //     dispatch({ field: 'showChatbar', value: false });
+  //   }
+  // }, [selectedConversation]);
 
   useEffect(() => {
     defaultModelId &&
