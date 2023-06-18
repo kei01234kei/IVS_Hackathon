@@ -5,12 +5,13 @@ import { useRouter } from 'next/router';
 
 import { GetProblemResponse } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
+import { GetTipsRequest, GetTipsResponse } from '@/types/tips';
 
 import { ChatHistory } from '@/components/ChatHistory';
 import { PromptHistory } from '@/components/PromptHistory';
 
 import { ClientFactory } from '@/lib/clientFactory';
-import { Button, Container, Flex, Table, Title } from '@mantine/core';
+import { Button, Container, Flex, Table, Title, Paper } from '@mantine/core';
 
 const getCorrectAnswerExample = (problemId: number): string => {
   switch (problemId) {
@@ -39,6 +40,9 @@ const Result: React.FC = () => {
     null,
   );
 
+  const [tips, setTips] = useState<GetTipsResponse | null>(
+    null,
+  );
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -72,6 +76,16 @@ const Result: React.FC = () => {
       setProblemData(res);
     };
     fetchProblemData();
+
+    const fetchTips = async () => {
+      const res = await prompthonClient.getTips({
+        competition_id: Number(competitionId),
+        problem_id: Number(problemId),
+      }
+      );
+      setTips(res);
+    };
+    fetchTips();
   }, [userId, competitionId, problemId]);
 
   // Ensure data is loaded before rendering
@@ -129,6 +143,39 @@ const Result: React.FC = () => {
               </Button>
             </>
           )}
+        </div>
+        <div className="space-y-4">
+          {/* todo: create component */}
+          <Title order={2} c={'gray.8'}>
+            プロンプトの応用例
+          </Title>
+      <Paper
+        withBorder
+        radius="md"
+        mb="sm"
+        p="md"
+        style={{
+          backgroundColor: '#FFFFFF',
+        }}
+      >
+        <div className="space-y-4">
+          <div className="space-y-1 whitespace-pre-wrap">
+            <p className="text-gray-800">{tips?.content}<br /></p>
+          </div>
+        </div>
+      {tips && tips?.examples.length > 0 ? (
+        tips?.examples.map((example, index) => {
+          return(
+        <div className="space-y-4" key={index}>
+          <div className="space-y-1 whitespace-pre-wrap">
+            <p className="text-gray-400">{example.title}</p>
+            <p className="text-gray-800">{example.content}</p>
+          </div>
+        </div>
+          )
+        })
+      ) : null}
+      </Paper>
         </div>
         <div className="space-y-4">
           <Title order={2} c={'gray.8'}>

@@ -43,6 +43,10 @@ import {
   GetUserResponse,
   UpdateUerResponse,
 } from '@/types/user';
+import {
+  GetTipsRequest,
+  GetTipsResponse,
+} from '@/types/tips';
 
 export abstract class AbstractRepository {
   abstract createUser(userName: string): Promise<CreateUserResponse>;
@@ -119,4 +123,7 @@ export abstract class AbstractRepository {
     competitionId: number,
     participantId: number,
   ): Promise<DeleteParticipantResponse>;
+  abstract getTips(
+    getTipsRequest: GetTipsRequest
+    ): Promise<GetTipsResponse>;
 }

@@ -21,7 +21,8 @@ import {
 import { CreateSubmissionRequest } from '@/types/submission';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
-import { dummyConversation } from '@/repository/memoryRepository';
+import { dummyConversation,GetDummyTips } from '@/repository/memoryRepository';
+import { GetTipsRequest, GetTipsResponse, } from '@/types/tips';
 import axios, { AxiosInstance } from 'axios';
 
 const futureTime = new Date('2023-06-20T12:00:00+09:00').toISOString();
@@ -372,5 +373,8 @@ export class MixRepository extends AbstractRepository {
     return Promise.resolve({
       code: 0,
     });
+  }
+  getTips( getTipsRequest: GetTipsRequest){
+    return GetDummyTips(getTipsRequest)
   }
 }
