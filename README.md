@@ -1,15 +1,19 @@
-# [Prompthon](https://ivs-hackathon.vercel.app/ja/menu/problems)
+# [PromptMaster](https://ivs-hackathon.vercel.app/ja/menu/problems)
 
-Prompthon (プロンプトソン) は OpenAI の GPT モデルを活用した高度なチャットアプリケーションです。次世代の自然言語処理機能を体験できるプラットフォームとして、OpenAI の GPT モデルを活用して人間と同等の対話能力を提供します。
+PromptMasterは、プロンプトソンのプラットフォームです。プロンプトソンは、ChatGPTへより適切なプロンプトを作る能力の向上を早く、正確に、クリエイティブにタスクをクリアするためにプロンプトをハックする競技です。
 
-## 主な特徴
+## URL
 
-- **対話的な AI**: OpenAI の GPT を活用した対話的な人工知能が、あなたの質問に答えたり、自由な対話を楽しんだりします。
-- **カスタム会話**: 会話の途中でモデル、プロンプト、そして温度などのパラメータを変更することで、よりカスタマイズされた体験が可能です。
-- **スコアリング**: ユーザーの回答をスコアリングし、進行度や達成度をトラッキングできます。
-- **テーマモード**: ユーザーは自分の好みに合わせてライトモードとダークモードを切り替えることができます。
+[PromptMaster](https://ivs-hackathon.vercel.app/ja/menu/problems)
 
-## 開始する前に
+## Tech Stacks
+
+- Next.js
+- Vercel
+- ChatGPT API
+- Chatbot-UI
+
+## ローカル起動
 
 このプロジェクトをローカル環境で動かす前に、次のツールが必要です:
 
@@ -19,7 +23,7 @@ Prompthon (プロンプトソン) は OpenAI の GPT モデルを活用した高
 
 また、`.env.local.templete` をコピーして `.env.local` にリネームして、適切な内容を記入してください。
 
-## インストール
+### インストール
 
 プロジェクトのクローンを作成後、次のコマンドを実行します:
 
@@ -27,7 +31,7 @@ Prompthon (プロンプトソン) は OpenAI の GPT モデルを活用した高
 yarn install
 ```
 
-## 実行
+### 実行
 
 以下のコマンドでアプリケーションを起動します:
 
