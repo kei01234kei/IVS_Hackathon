@@ -10,7 +10,7 @@ PromptMasterは、プロンプトソンのプラットフォームです。プ�
 
 - Next.js
 - Vercel
-- GPT API
+- ChatGPT API
 - Chatbot-UI
 
 ## ローカル起動
