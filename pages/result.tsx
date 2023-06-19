@@ -9,9 +9,10 @@ import { GetTipsResponse } from '@/types/tips';
 
 import { ChatHistory } from '@/components/ChatHistory';
 import { PromptHistory } from '@/components/PromptHistory';
+import { TipsCard } from '@/components/Result/TipsCard';
 
 import { ClientFactory } from '@/lib/clientFactory';
-import { Button, Container, Flex, Paper, Table, Title } from '@mantine/core';
+import { Button, Container, Flex, Table, Title } from '@mantine/core';
 
 const getCorrectAnswerExample = (problemId: number): string => {
   switch (problemId) {
@@ -115,6 +116,8 @@ const Result: React.FC = () => {
             「{problemData.name}」を提出しました。あなたのスコアは
             {problemData.score}pt中{submissionData.score}ptです。
           </p>
+        </div>
+        <div className="space-y-4">
           <Title order={2} c={'gray.8'}>
             提出の詳細
           </Title>
@@ -146,36 +149,7 @@ const Result: React.FC = () => {
           <Title order={2} c={'gray.8'}>
             プロンプトの応用例
           </Title>
-          <Paper
-            withBorder
-            radius="md"
-            mb="sm"
-            p="md"
-            style={{
-              backgroundColor: '#FFFFFF',
-            }}
-          >
-            <div className="space-y-4">
-              <div className="space-y-1 whitespace-pre-wrap">
-                <p className="text-gray-800">
-                  {tips?.content}
-                  <br />
-                </p>
-              </div>
-            </div>
-            {tips && tips?.examples.length > 0
-              ? tips?.examples.map((example, index) => {
-                  return (
-                    <div className="space-y-4" key={index}>
-                      <div className="space-y-1 whitespace-pre-wrap">
-                        <p className="text-gray-400">{example.title}</p>
-                        <p className="text-gray-800">{example.content}</p>
-                      </div>
-                    </div>
-                  );
-                })
-              : null}
-          </Paper>
+          <TipsCard tips={tips!} />
         </div>
         <div className="space-y-4">
           <Title order={2} c={'gray.8'}>
