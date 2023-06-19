@@ -15,6 +15,11 @@ import {
   EvaluationResponse,
 } from '@/types/submission';
 
+import {
+  GetTipsRequest,
+  GetTipsResponse,
+} from '@/types/tips';
+
 import { AbstractRepository } from '@/repository/abstractRepository';
 
 let evaluateScore = 0;
@@ -106,6 +111,161 @@ export const dummyConversation: Conversation = {
   temperature: 0.5,
   folderId: null,
 };
+
+export const tips1:GetTipsResponse = {
+    content:
+`この例では、カスタマイズしたプロンプトとメッセージを使用して、Chatbot APIに入力されたテキストをそのまま返すエコーサーバーとして機能させることができました。
+このテクニックを応用することで、さまざまな機能を持つChatbotを作成することができます。
+`,
+    examples:[
+    {
+      "title": "ユーザーの入力を繰り返す",
+      "content": 
+`ユーザーの入力を繰り返す:
+システムプロンプト: you are Parrot.you echo text
+メッセージ: こんにちは、元気ですか？
+出力: こんにちは、元気ですか？
+`
+    },
+    {
+      "title": "ユーザーの入力を反転させる",
+      "content": 
+`システムプロンプト: あなたは反転テキストマシンです
+メッセージ: おはようございます
+出力: すまいざごようはお
+`
+    },
+    {
+      "title": "ユーザーの入力をシャッフルする",
+      "content": 
+`システムプロンプト: あなたはテキストシャッフルマシンです
+メッセージ: これはテストです
+出力: トステこですはれ (出力はシャッフルされるため、毎回異なる結果が得られます)
+`
+    }
+  ]
+};
+
+export const tips2:GetTipsResponse = {
+    content:
+`この例では、カスタマイズしたプロンプトとメッセージを使用して、Chatbot APIに計算を実行させることができました。
+このテクニックを応用することで、さまざまな機能を持つChatbotを作成することができます。`,
+    examples:[
+    {
+      "title": "数学的な問題を解決する",
+      "content": "システムプロンプト: あなたは数学の先生です\nメッセージ: √16\n出力: 4"
+    },
+    {
+      "title": "単語の意味を説明する",
+      "content": `システムプロンプト: あなたは辞書です
+メッセージ: 自由の意味は？
+出力: 自由とは、制約や束縛から解放され、自分の意志で行動できる状態を指します。
+`
+    },
+    {
+      "title": "簡単な質問に答える:",
+      "content": `カスタマイズプロンプト: あなたは一般知識の達人です
+メッセージ: 日本の首都はどこですか？
+出力: 日本の首都は東京です
+`
+    }
+  ]
+};
+export const tips3:GetTipsResponse = {
+    content:
+`この例では、システムプロンプトに指定された問題を解決し、ユーザーが求める形式で答えを提供するようにChatbot APIを誘導しています。`,
+    examples:[
+    {
+      "title": "数学的な問題を解決し、答えだけを提供する",
+      "content": 
+`システムプロンプト: "A君が16日、B君が20日で終わらせられる仕事がある。この仕事を2人で行ったとき、終わるのは何日後？答えだけを提供してください。"
+メッセージ: ありがとうございます。計算過程も教えてください。
+出力: 9日
+`
+    },
+    {
+      "title": "質問に答え、答えだけを提供する",
+      "content": 
+`システムプロンプト: "日本の首都はどこですか？答えだけを提供してください。"
+メッセージ: ありがとうございます。他の国の首都も教えてください。
+出力: 東京
+`
+    },
+    {
+      "title": "単語の意味を説明し、答えだけを提供する",
+      "content": 
+`システムプロンプト: "自由の意味は何ですか？答えだけを提供してください。"
+メッセージ: ありがとうございます。他の単語の意味も教えてください。
+出力: 制約や束縛から解放され、自分の意志で行動できる状態
+`
+    }
+  ]
+};
+export const tips4:GetTipsResponse = {
+    content:
+`この例では、システムプロンプトに指定された要求に従って、ユーザーからのドキュメントからメタデータを抽出し、JSON形式で返すようにChatbot APIを誘導しています。`,
+    examples:[
+    {
+      "title": "ドキュメントから特定の情報を抽出し、JSON形式で返す",
+      "content": 
+`システムプロンプト: "ユーザーからのドキュメントを受け取り、次のメタデータを抽出してください: - 会社名: 文字列またはnull - 住所: 文字列またはnull。抽出されたメタデータをキー・バリューペアのJSONで返してください。メタデータフィールドが見つからない場合は、指定しないでください。レスポンスとしてJSONのみが受け入れられます。"
+メッセージ: "株式会社ABC、東京都渋谷区1-2-3"
+出力: {"会社名": "株式会社ABC", "住所": "東京都渋谷区1-2-3"}
+`
+    },
+    {
+      "title": "ドキュメントから複数の情報を抽出し、JSON形式で返す",
+      "content": 
+`システムプロンプト: "日本の首都はどこですか？答えだけを提供してください。"
+メッセージ: ありがとうございます。他の国の首都も教えてください。
+出力: 東京
+`
+    },
+    {
+      "title": "単語の意味を説明し、答えだけを提供する",
+      "content": 
+`システムプロンプト: "ユーザーからのドキュメントを受け取り、次のメタデータを抽出してください: - 商品名: 文字列またはnull - 価格: 数値またはnull。抽出されたメタデータをキー・バリューペアのJSONで返してください。メタデータフィールドが見つからない場合は、指定しないでください。レスポンスとしてJSONのみが受け入れられます。"
+メッセージ: "商品名：スマートフォン、価格：50000円"
+出力: {"商品名": "スマートフォン", "価格": 50000}
+`
+    }
+  ]
+};
+
+export const tips5:GetTipsResponse = {
+    content:
+`この例では、 カスタマイズしたプロンプトを使用して、ユーザーが特定の目的や制約に基づいてクリエイティブなアイデアを生成するのを助けることができます。
+例えば、新しい商品名や広告キャンペーンのアイデアを考える際に、指定された要素やワードを使って提案を作成することができます。
+`,
+    examples:[
+    {
+      "title": "商品名のアイデア生成",
+      "content": 
+`システムプロンプト:
+あなたは、新しいスマートフォンアクセサリーの商品名を考えるAIです。このアクセサリーは、スマートフォンを充電しながら同時にスタンドとして使用できるものです。以下の要素を考慮して、5つの商品名のアイデアを提案してください。
+
+1. スマートフォン充電機能
+2. スタンド機能
+3. 便利さ
+4. シンプルなデザイン
+5. ユニバーサルな互換性
+
+メッセージ: 
+ステップ1: 上記の要素を考慮して、5つのキーワードを生成してください。
+ステップ2: 生成されたキーワードを使用して、5つの商品名のアイデアを提案してください。
+
+出力:
+ChargeStand - 充電とスタンドの機能を兼ね備えた製品
+PowerLounge - スマートフォンを充電しながらリラックスできるスペース
+UniChargeDock - どんなスマートフォンにも対応する充電スタンド
+SimpleChargeStand - シンプルなデザインの充電スタンド
+FlexiCharger - 柔軟な充電とスタンド機能を持つアクセサリー力:
+`
+    },
+  ]
+};
+
+
 
 export class MemoryRepository extends AbstractRepository {
   createUser(userName: string) {
@@ -369,5 +529,26 @@ export class MemoryRepository extends AbstractRepository {
     return Promise.resolve({
       code: 0,
     });
+  }
+  getTips(
+    getTipsRequest: GetTipsRequest
+    ){
+      return GetDummyTips( getTipsRequest)
+  };
+}
+
+export const GetDummyTips = (getTipsRequest: GetTipsRequest): Promise<GetTipsResponse> =>{
+  if(getTipsRequest.problem_id === 1){
+    return Promise.resolve(tips1);
+  }else if(getTipsRequest.problem_id === 2){
+    return Promise.resolve(tips2);
+  }else if(getTipsRequest.problem_id === 3){
+    return Promise.resolve(tips3);
+  }else if(getTipsRequest.problem_id === 4){
+    return Promise.resolve(tips4);
+  }else if(getTipsRequest.problem_id === 5){
+    return Promise.resolve(tips5);
+  }else{
+    return Promise.resolve(tips1);
   }
 }

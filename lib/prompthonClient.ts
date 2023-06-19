@@ -42,6 +42,7 @@ import {
   GetUserResponse,
   UpdateUerResponse,
 } from '@/types/user';
+import { GetTipsRequest, GetTipsResponse, } from '@/types/tips';
 
 import { AbstractRepository } from '@/repository/abstractRepository';
 
@@ -181,5 +182,10 @@ export class PrompthonClient {
   }
   async getBestScore(): Promise<Number> {
     return Promise.resolve(0);
+  }
+
+
+  async getTips( getTipsRequest: GetTipsRequest): Promise<GetTipsResponse> {
+    return this.repo.getTips(getTipsRequest);
   }
 }

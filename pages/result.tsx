@@ -5,9 +5,11 @@ import { useRouter } from 'next/router';
 
 import { GetProblemResponse } from '@/types/problem';
 import { GetSubmissionResponse } from '@/types/submission';
+import { GetTipsResponse } from '@/types/tips';
 
 import { ChatHistory } from '@/components/ChatHistory';
 import { PromptHistory } from '@/components/PromptHistory';
+import { TipsCard } from '@/components/Result/TipsCard';
 
 import { ClientFactory } from '@/lib/clientFactory';
 import { Button, Container, Flex, Table, Title } from '@mantine/core';
@@ -39,6 +41,7 @@ const Result: React.FC = () => {
     null,
   );
 
+  const [tips, setTips] = useState<GetTipsResponse | null>(null);
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -72,6 +75,15 @@ const Result: React.FC = () => {
       setProblemData(res);
     };
     fetchProblemData();
+
+    const fetchTips = async () => {
+      const res = await prompthonClient.getTips({
+        competition_id: Number(competitionId),
+        problem_id: Number(problemId),
+      });
+      setTips(res);
+    };
+    fetchTips();
   }, [userId, competitionId, problemId]);
 
   // Ensure data is loaded before rendering
@@ -104,6 +116,8 @@ const Result: React.FC = () => {
             「{problemData.name}」を提出しました。あなたのスコアは
             {problemData.score}pt中{submissionData.score}ptです。
           </p>
+        </div>
+        <div className="space-y-4">
           <Title order={2} c={'gray.8'}>
             提出の詳細
           </Title>
@@ -129,6 +143,13 @@ const Result: React.FC = () => {
               </Button>
             </>
           )}
+        </div>
+        <div className="space-y-4">
+          {/* todo: create component */}
+          <Title order={2} c={'gray.8'}>
+            プロンプトの応用例
+          </Title>
+          <TipsCard tips={tips!} />
         </div>
         <div className="space-y-4">
           <Title order={2} c={'gray.8'}>
