@@ -2,9 +2,13 @@
 
 PromptMasterは、プロンプトソンのプラットフォームです。プロンプトソンは、ChatGPTへより適切なプロンプトを作る能力の向上を早く、正確に、クリエイティブにタスクをクリアするためにプロンプトをハックする競技です。
 
-## URL
+## Live Demo
 
 [PromptMaster](https://ivs-hackathon.vercel.app/ja/menu/problems)
+
+## Slide
+
+[Google Slide](https://docs.google.com/presentation/d/e/2PACX-1vSjDzxsqLnniwkmwCUcDib1G0mIciSHr4vDzbIjxIPhCbdwmiXOmiA0pdL6gpva_iDxoGF9AhQcz3VP/pub?start=false&loop=false&delayms=3000)
 
 ## Tech Stacks
 
